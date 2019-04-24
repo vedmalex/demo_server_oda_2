@@ -1,0 +1,26 @@
+# fragments for single unique keys
+fragment EmbedStudentWithId on Student {
+  id
+}
+
+# fragments on entity
+fragment ViewStudent on Student {
+  id
+}
+
+fragment ViewStudentFull on Student {
+  id
+  person {
+    ...EmbedPersonWithId
+  }
+  group {
+    ...EmbedGroupWithId
+  }
+  meetings @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...EmbedMeetingWithId
+      }
+    }
+  }
+}

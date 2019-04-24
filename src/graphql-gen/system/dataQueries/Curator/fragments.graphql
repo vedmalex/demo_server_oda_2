@@ -1,0 +1,27 @@
+# fragments for single unique keys
+fragment EmbedCuratorWithId on Curator {
+  id
+}
+
+# fragments on entity
+fragment ViewCurator on Curator {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+}
+
+fragment ViewCuratorFull on Curator {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  createdBy {
+    ...EmbedUserWithId
+  }
+  updateBy {
+    ...EmbedUserWithId
+  }
+}

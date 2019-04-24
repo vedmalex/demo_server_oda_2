@@ -1,0 +1,10 @@
+# List of Meetings
+query Meetings {
+  Meeting: meetings @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewMeetingFull
+      }
+    }
+  }
+}

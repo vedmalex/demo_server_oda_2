@@ -1,0 +1,27 @@
+# fragments for single unique keys
+fragment EmbedMeetingWithId on Meeting {
+  id
+}
+
+# fragments on entity
+fragment ViewMeeting on Meeting {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+}
+
+fragment ViewMeetingFull on Meeting {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  createdBy {
+    ...EmbedUserWithId
+  }
+  updateBy {
+    ...EmbedUserWithId
+  }
+}

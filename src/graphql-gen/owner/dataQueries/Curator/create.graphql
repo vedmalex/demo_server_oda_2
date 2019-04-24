@@ -1,0 +1,10 @@
+# Create Curator
+mutation createCurator($curator: createCuratorInput!) {
+  createCurator(input: $curator) {
+    curator {
+      node {
+        id
+      }
+    }
+  }
+}

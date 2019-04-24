@@ -1,0 +1,8 @@
+# Update Person
+mutation updatePerson($person: updatePersonInput!) {
+  updatePerson(input: $person) {
+    person {
+      id
+    }
+  }
+}

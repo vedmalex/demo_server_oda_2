@@ -1,0 +1,10 @@
+# Create Meeting
+mutation createMeeting($meeting: createMeetingInput!) {
+  createMeeting(input: $meeting) {
+    meeting {
+      node {
+        id
+      }
+    }
+  }
+}

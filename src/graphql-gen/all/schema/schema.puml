@@ -1,0 +1,140 @@
+@startuml all
+
+  Student "asStudents" -- "1 person" Person
+
+  Student "students" -- "1 group" Group
+
+  Student "students" -- "* meetings" Meeting
+  (Student, Meeting) . StudentAttendance
+
+  Curator "asCurator" -- "1 person" Person
+
+  Curator "curator" -- "* groups" Group
+
+  Group "groups" -- "1 course" Course
+
+  Person --> "1 user" User
+
+  SocialNetwork "socialNetworks" -- "1 person" Person
+
+  Phone "phones" -- "1 person" Person
+
+  Email "emails" -- "1 person" Person
+
+  StudentAttendance --> "1 meetingLink" Meeting
+
+  StudentAttendance --> "1 studentLink" Student
+
+  Meeting --> "1 curator" Curator
+
+  Meeting --> "1 group" Group
+
+  Subject "subjects" -- "* course" Course
+  (Subject, Course) . SubjectCourse
+
+  SubjectCourse --> "1 subjectLink" Subject
+
+  SubjectCourse --> "1 courseLink" Course
+
+
+  class Student {
+    person: Person#id
+    group: Group#id
+    id: ID
+  }
+
+  class Curator {
+    person: Person#id
+    id: ID
+    String spiritualName()
+    String fullName()
+  }
+
+  class Group {
+    name: String
+    course: Course#id
+    curator: Curator#id
+    id: ID
+  }
+
+  class Person {
+    spiritualName: String
+    fullName: String
+    dateOfBirth: Date
+    user: User#id
+    specialNotes: String
+    id: ID
+    Float ages()
+  }
+
+  class User {
+    userName: String
+    password: String
+    isAdmin: Boolean
+    isSystem: Boolean
+    enabled: Boolean
+    id: ID
+  }
+
+  class SocialNetwork {
+    account: String
+    url: String
+    type: SocialNetworkType
+    person: Person#id
+    id: ID
+  }
+
+  class Phone {
+    phoneNumber: String
+    type: CommunicationType
+    person: Person#id
+    id: ID
+  }
+
+  class Email {
+    email: String
+    type: CommunicationType
+    person: Person#id
+    id: ID
+  }
+
+  class StudentAttendance {
+    meeting: String
+    student: String
+    meetingLink: meeting@Meeting#id
+    studentLink: student@Student#id
+    present: Boolean
+    specialNotes: String
+    id: ID
+    superpuper: String
+  }
+
+  class Meeting {
+    date: Date
+    curator: Curator#id
+    group: Group#id
+    id: ID
+  }
+
+  class Subject {
+    name: String
+    id: ID
+  }
+
+  class Course {
+    name: String
+    id: ID
+  }
+
+  class SubjectCourse {
+    description: String
+    subject: String
+    course: String
+    subjectLink: subject@Subject#id
+    courseLink: course@Course#id
+    hours: Float
+    level: String
+    id: ID
+  }
+
+@enduml

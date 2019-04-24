@@ -1,0 +1,29 @@
+# fragments for single unique keys
+fragment EmbedStudentAttendanceWithId on StudentAttendance {
+  id
+}
+
+# fragments on entity
+fragment ViewStudentAttendance on StudentAttendance {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  superpuper
+}
+
+fragment ViewStudentAttendanceFull on StudentAttendance {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  superpuper
+  createdBy {
+    ...EmbedUserWithId
+  }
+  updateBy {
+    ...EmbedUserWithId
+  }
+}

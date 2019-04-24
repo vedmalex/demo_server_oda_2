@@ -1,0 +1,10 @@
+# Create Student
+mutation createStudent($student: createStudentInput!) {
+  createStudent(input: $student) {
+    student {
+      node {
+        id
+      }
+    }
+  }
+}

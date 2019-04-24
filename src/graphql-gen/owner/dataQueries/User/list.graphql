@@ -1,0 +1,10 @@
+# List of Users
+query Users {
+  User: users @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewUserFull
+      }
+    }
+  }
+}

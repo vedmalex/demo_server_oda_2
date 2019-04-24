@@ -1,0 +1,8 @@
+# Update SubjectCourse
+mutation updateSubjectCourse($subjectCourse: updateSubjectCourseInput!) {
+  updateSubjectCourse(input: $subjectCourse) {
+    subjectCourse {
+      id
+    }
+  }
+}

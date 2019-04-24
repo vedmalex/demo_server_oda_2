@@ -1,0 +1,10 @@
+# List of Students
+query Students {
+  Student: students @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewStudentFull
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+# List of SubjectCourses
+query SubjectCourses {
+  SubjectCourse: subjectCourses @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewSubjectCourseFull
+      }
+    }
+  }
+}

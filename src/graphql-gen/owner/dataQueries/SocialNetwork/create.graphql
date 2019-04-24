@@ -1,0 +1,10 @@
+# Create SocialNetwork
+mutation createSocialNetwork($socialNetwork: createSocialNetworkInput!) {
+  createSocialNetwork(input: $socialNetwork) {
+    socialNetwork {
+      node {
+        id
+      }
+    }
+  }
+}

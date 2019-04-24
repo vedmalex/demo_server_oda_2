@@ -1,0 +1,5 @@
+query findPhoneById($id: ID) {
+  phone(id: $id) {
+    ...ViewPhoneFull
+  }
+}

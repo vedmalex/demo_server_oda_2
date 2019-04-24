@@ -1,0 +1,10 @@
+# List of Groups
+query Groups {
+  Group: groups @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewGroupFull
+      }
+    }
+  }
+}

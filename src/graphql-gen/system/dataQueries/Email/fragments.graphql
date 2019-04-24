@@ -1,0 +1,27 @@
+# fragments for single unique keys
+fragment EmbedEmailWithId on Email {
+  id
+}
+
+# fragments on entity
+fragment ViewEmail on Email {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+}
+
+fragment ViewEmailFull on Email {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  createdBy {
+    ...EmbedUserWithId
+  }
+  updateBy {
+    ...EmbedUserWithId
+  }
+}

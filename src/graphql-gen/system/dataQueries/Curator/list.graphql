@@ -1,0 +1,10 @@
+# List of Curators
+query Curators {
+  Curator: curators @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewCuratorFull
+      }
+    }
+  }
+}

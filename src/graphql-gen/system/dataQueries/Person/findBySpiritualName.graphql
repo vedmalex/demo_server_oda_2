@@ -1,0 +1,5 @@
+query findPersonBySpiritualName($spiritualName: String) {
+  person(spiritualName: $spiritualName) {
+    ...ViewPersonFull
+  }
+}

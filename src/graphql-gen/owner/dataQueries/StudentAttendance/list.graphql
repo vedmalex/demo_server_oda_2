@@ -1,0 +1,10 @@
+# List of StudentAttendances
+query StudentAttendances {
+  StudentAttendance: studentAttendances @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewStudentAttendanceFull
+      }
+    }
+  }
+}

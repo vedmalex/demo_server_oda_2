@@ -1,0 +1,27 @@
+# fragments for single unique keys
+fragment EmbedPersonWithId on Person {
+  id
+}
+
+# fragments on entity
+fragment ViewPerson on Person {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+}
+
+fragment ViewPersonFull on Person {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  createdBy {
+    ...EmbedUserWithId
+  }
+  updateBy {
+    ...EmbedUserWithId
+  }
+}

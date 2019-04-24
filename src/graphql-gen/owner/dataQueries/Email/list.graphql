@@ -1,0 +1,10 @@
+# List of Emails
+query Emails {
+  Email: emails @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewEmailFull
+      }
+    }
+  }
+}

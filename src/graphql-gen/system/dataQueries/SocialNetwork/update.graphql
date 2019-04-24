@@ -1,0 +1,8 @@
+# Update SocialNetwork
+mutation updateSocialNetwork($socialNetwork: updateSocialNetworkInput!) {
+  updateSocialNetwork(input: $socialNetwork) {
+    socialNetwork {
+      id
+    }
+  }
+}

@@ -1,0 +1,5 @@
+query findCourseByName($name: String) {
+  course(name: $name) {
+    ...ViewCourseFull
+  }
+}

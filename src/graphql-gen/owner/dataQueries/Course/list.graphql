@@ -1,0 +1,10 @@
+# List of Courses
+query Courses {
+  Course: courses @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewCourseFull
+      }
+    }
+  }
+}

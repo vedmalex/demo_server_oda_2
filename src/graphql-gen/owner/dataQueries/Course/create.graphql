@@ -1,0 +1,10 @@
+# Create Course
+mutation createCourse($course: createCourseInput!) {
+  createCourse(input: $course) {
+    course {
+      node {
+        id
+      }
+    }
+  }
+}

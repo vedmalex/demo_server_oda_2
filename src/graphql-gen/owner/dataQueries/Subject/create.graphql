@@ -1,0 +1,10 @@
+# Create Subject
+mutation createSubject($subject: createSubjectInput!) {
+  createSubject(input: $subject) {
+    subject {
+      node {
+        id
+      }
+    }
+  }
+}

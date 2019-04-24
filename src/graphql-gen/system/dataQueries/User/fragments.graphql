@@ -1,0 +1,19 @@
+# fragments for single unique keys
+fragment EmbedUserWithId on User {
+  id
+}
+
+# fragments on entity
+fragment ViewUser on User {
+  id
+  isAdmin
+  isSystem
+  enabled
+}
+
+fragment ViewUserFull on User {
+  id
+  isAdmin
+  isSystem
+  enabled
+}

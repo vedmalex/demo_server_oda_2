@@ -1,0 +1,27 @@
+# fragments for single unique keys
+fragment EmbedSocialNetworkWithId on SocialNetwork {
+  id
+}
+
+# fragments on entity
+fragment ViewSocialNetwork on SocialNetwork {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+}
+
+fragment ViewSocialNetworkFull on SocialNetwork {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  createdBy {
+    ...EmbedUserWithId
+  }
+  updateBy {
+    ...EmbedUserWithId
+  }
+}

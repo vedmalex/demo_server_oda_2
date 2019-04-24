@@ -1,0 +1,23 @@
+# fragments for single unique keys
+fragment EmbedPhoneWithId on Phone {
+  id
+}
+fragment EmbedPhoneWithPhoneNumber on Phone {
+  phoneNumber
+}
+
+# fragments on entity
+fragment ViewPhone on Phone {
+  id
+  phoneNumber
+  type
+}
+
+fragment ViewPhoneFull on Phone {
+  id
+  phoneNumber
+  type
+  person {
+    ...EmbedPersonWithId
+  }
+}

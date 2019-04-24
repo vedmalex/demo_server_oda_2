@@ -1,0 +1,27 @@
+# fragments for single unique keys
+fragment EmbedGroupWithId on Group {
+  id
+}
+
+# fragments on entity
+fragment ViewGroup on Group {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+}
+
+fragment ViewGroupFull on Group {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  createdBy {
+    ...EmbedUserWithId
+  }
+  updateBy {
+    ...EmbedUserWithId
+  }
+}

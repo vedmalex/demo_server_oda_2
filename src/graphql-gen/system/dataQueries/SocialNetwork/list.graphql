@@ -1,0 +1,10 @@
+# List of SocialNetworks
+query SocialNetworks {
+  SocialNetwork: socialNetworks @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewSocialNetworkFull
+      }
+    }
+  }
+}

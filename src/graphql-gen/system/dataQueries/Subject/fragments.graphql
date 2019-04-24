@@ -1,0 +1,27 @@
+# fragments for single unique keys
+fragment EmbedSubjectWithId on Subject {
+  id
+}
+
+# fragments on entity
+fragment ViewSubject on Subject {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+}
+
+fragment ViewSubjectFull on Subject {
+  id
+  createdAt
+  updatedAt
+  removed
+  owner
+  createdBy {
+    ...EmbedUserWithId
+  }
+  updateBy {
+    ...EmbedUserWithId
+  }
+}

@@ -1,0 +1,10 @@
+# Create Person
+mutation createPerson($person: createPersonInput!) {
+  createPerson(input: $person) {
+    person {
+      node {
+        id
+      }
+    }
+  }
+}

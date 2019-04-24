@@ -1,0 +1,32 @@
+# fragments for single unique keys
+fragment EmbedCourseWithId on Course {
+  id
+}
+fragment EmbedCourseWithName on Course {
+  name
+}
+
+# fragments on entity
+fragment ViewCourse on Course {
+  id
+  name
+}
+
+fragment ViewCourseFull on Course {
+  id
+  name
+  subjects @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...EmbedSubjectWithId
+      }
+    }
+  }
+  groups @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...EmbedGroupWithId
+      }
+    }
+  }
+}

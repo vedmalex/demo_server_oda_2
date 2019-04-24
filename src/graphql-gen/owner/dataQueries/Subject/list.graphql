@@ -1,0 +1,10 @@
+# List of Subjects
+query Subjects {
+  Subject: subjects @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewSubjectFull
+      }
+    }
+  }
+}

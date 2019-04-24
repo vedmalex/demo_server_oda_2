@@ -1,0 +1,10 @@
+# List of Phones
+query Phones {
+  Phone: phones @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...ViewPhoneFull
+      }
+    }
+  }
+}

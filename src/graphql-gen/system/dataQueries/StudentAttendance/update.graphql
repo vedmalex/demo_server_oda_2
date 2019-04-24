@@ -1,0 +1,10 @@
+# Update StudentAttendance
+mutation updateStudentAttendance(
+  $studentAttendance: updateStudentAttendanceInput!
+) {
+  updateStudentAttendance(input: $studentAttendance) {
+    studentAttendance {
+      id
+    }
+  }
+}

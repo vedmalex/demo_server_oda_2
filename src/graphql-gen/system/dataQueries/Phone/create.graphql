@@ -1,0 +1,10 @@
+# Create Phone
+mutation createPhone($phone: createPhoneInput!) {
+  createPhone(input: $phone) {
+    phone {
+      node {
+        id
+      }
+    }
+  }
+}

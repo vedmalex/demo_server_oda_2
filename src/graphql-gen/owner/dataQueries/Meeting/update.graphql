@@ -1,0 +1,8 @@
+# Update Meeting
+mutation updateMeeting($meeting: updateMeetingInput!) {
+  updateMeeting(input: $meeting) {
+    meeting {
+      id
+    }
+  }
+}

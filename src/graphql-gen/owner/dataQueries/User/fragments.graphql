@@ -1,0 +1,20 @@
+# fragments for single unique keys
+fragment EmbedUserWithId on User {
+  id
+}
+fragment EmbedUserWithUserName on User {
+  userName
+}
+
+# fragments on entity
+fragment ViewUser on User {
+  id
+  userName
+  password
+}
+
+fragment ViewUserFull on User {
+  id
+  userName
+  password
+}

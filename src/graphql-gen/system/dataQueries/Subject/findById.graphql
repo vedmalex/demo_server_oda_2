@@ -1,0 +1,5 @@
+query findSubjectById($id: ID) {
+  subject(id: $id) {
+    ...ViewSubjectFull
+  }
+}
