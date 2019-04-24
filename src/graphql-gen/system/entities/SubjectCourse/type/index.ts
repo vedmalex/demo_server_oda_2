@@ -8,27 +8,31 @@ import gql from 'graphql-tag';
 export default new Type({
   schema: gql`
     type SubjectCourse {
-      # # Created At
-      createdAt: Date
-      # # Updated At
-      updatedAt: Date
-      # # Removed
-      removed: Boolean
-      # # Owner
-      owner: String
-      # # Created By
+      # # Description
+      description: String
+      # # Subject
+      subject: String
+      # # Course
+      course: String
+      # # Hours
+      hours: Float
+      # # The Level Of Depth
+      level: String
+      # # Id
+      id: ID!
+      # # Subject Link
 
-      createdBy: User
+      subjectLink: Subject
 
-      # # Update By
+      # # Course Link
 
-      updateBy: User
+      courseLink: Course
     }
   `,
   resolver: {
     id: ({ id }) => id,
 
-    createdBy: async (
+    subjectLink: async (
       { id }, // owner id
       args: {
         limit?: number;
@@ -52,15 +56,15 @@ export default new Type({
         id,
       );
       //BelongsTo
-      if (subjectCourse && subjectCourse.createdBy) {
-        result = await context.connectors.User.findOneById(
-          subjectCourse.createdBy,
+      if (subjectCourse && subjectCourse.subject) {
+        result = await context.connectors.Subject.findOneById(
+          subjectCourse.subject,
         );
       }
 
       return result;
     },
-    updateBy: async (
+    courseLink: async (
       { id }, // owner id
       args: {
         limit?: number;
@@ -84,9 +88,9 @@ export default new Type({
         id,
       );
       //BelongsTo
-      if (subjectCourse && subjectCourse.updateBy) {
-        result = await context.connectors.User.findOneById(
-          subjectCourse.updateBy,
+      if (subjectCourse && subjectCourse.course) {
+        result = await context.connectors.Course.findOneById(
+          subjectCourse.course,
         );
       }
 

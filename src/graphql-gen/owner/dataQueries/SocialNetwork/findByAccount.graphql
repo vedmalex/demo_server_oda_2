@@ -1,5 +1,0 @@
-query findSocialNetworkByAccount($account: String) {
-  socialNetwork(account: $account) {
-    ...ViewSocialNetworkFull
-  }
-}

@@ -6,25 +6,19 @@ export default new Type({
   schema: gql`
     union CourseSubscriptionPayload =
         UpdateCourseSubscriptionPayload
-      | CourseBelongsToCreatedBySubscriptionPayload
-      | CourseBelongsToUpdateBySubscriptionPayload
+      | CourseBelongsToManySubjectsSubscriptionPayload
+      | CourseHasManyGroupsSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
-      if (
-        obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner
-      ) {
+      if (obj.id || obj.name) {
         return 'UpdateCourseSubscriptionPayload';
       }
-      if (obj.args && obj.args.course && obj.args.user) {
-        return 'CourseBelongsToCreatedBySubscriptionPayload';
+      if (obj.args && obj.args.course && obj.args.subject) {
+        return 'CourseBelongsToManySubjectsSubscriptionPayload';
       }
-      if (obj.args && obj.args.course && obj.args.user) {
-        return 'CourseBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.course && obj.args.group) {
+        return 'CourseHasManyGroupsSubscriptionPayload';
       }
       return null;
     },

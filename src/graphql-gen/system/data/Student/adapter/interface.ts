@@ -20,10 +20,4 @@ export interface StudentConnector extends Connector<PartialStudent> {
     student?: string;
     meeting?: string;
   }): Promise<void>;
-
-  addToCreatedBy(args: { student?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { student?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { student?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { student?: string; user?: string }): Promise<void>;
 }

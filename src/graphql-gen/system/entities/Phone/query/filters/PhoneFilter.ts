@@ -6,12 +6,10 @@ export default new Input({
     input PhoneFilter {
       or: [PhoneFilterItem]
       and: [PhoneFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      phoneNumber: WhereString
+      type: WhereCommunicationType
+      person: WhereID
+      id: WhereID
     }
   `,
 });

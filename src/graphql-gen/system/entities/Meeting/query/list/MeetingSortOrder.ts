@@ -4,14 +4,10 @@ import gql from 'graphql-tag';
 export default new Input({
   schema: gql`
     enum MeetingSortOrder {
-      createdAtAsc
-      createdAtDesc
-      updatedAtAsc
-      updatedAtDesc
-      removedAsc
-      removedDesc
-      ownerAsc
-      ownerDesc
+      dateAsc
+      dateDesc
+      idAsc
+      idDesc
     }
   `,
 });

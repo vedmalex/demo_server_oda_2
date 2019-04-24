@@ -1,5 +1,0 @@
-query findSubjectByName($name: String) {
-  subject(name: $name) {
-    ...ViewSubjectFull
-  }
-}

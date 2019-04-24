@@ -27,19 +27,4 @@ export interface SubjectCourseConnector
     subjectCourse?: string;
     course?: string;
   }): Promise<void>;
-
-  addToCreatedBy(args: {
-    subjectCourse?: string;
-    user?: string;
-  }): Promise<void>;
-  removeFromCreatedBy(args: {
-    subjectCourse?: string;
-    user?: string;
-  }): Promise<void>;
-
-  addToUpdateBy(args: { subjectCourse?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: {
-    subjectCourse?: string;
-    user?: string;
-  }): Promise<void>;
 }

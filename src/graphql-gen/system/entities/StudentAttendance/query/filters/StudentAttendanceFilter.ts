@@ -6,12 +6,13 @@ export default new Input({
     input StudentAttendanceFilter {
       or: [StudentAttendanceFilterItem]
       and: [StudentAttendanceFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      meeting: WhereString
+      student: WhereString
+      meetingLink: WhereID
+      studentLink: WhereID
+      present: WhereBoolean
+      specialNotes: WhereString
+      id: WhereID
       superpuper: WhereString
     }
   `,

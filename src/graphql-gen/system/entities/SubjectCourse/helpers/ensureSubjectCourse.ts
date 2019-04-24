@@ -46,12 +46,14 @@ export default async function ensureSubjectCourse({ args, context, create }) {
           `,
           variables: {
             subjectCourse: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              description: args.description,
+              subject: args.subject,
+              course: args.course,
+              subjectLink: args.subjectLink,
+              courseLink: args.courseLink,
+              hours: args.hours,
+              level: args.level,
+              id: args.id,
             },
           },
         })
@@ -74,12 +76,14 @@ export default async function ensureSubjectCourse({ args, context, create }) {
         `,
         variables: {
           subjectCourse: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            description: args.description,
+            subject: args.subject,
+            course: args.course,
+            subjectLink: args.subjectLink,
+            courseLink: args.courseLink,
+            hours: args.hours,
+            level: args.level,
+            id: args.id,
           },
         },
       })

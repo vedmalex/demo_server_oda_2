@@ -4,19 +4,21 @@ export default {
       SocialNetwork: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          account
+          url
+          type`,
         uploader: {
           findQuery: {
             id: 'SocialNetwork/findById.graphql',
+            account: 'SocialNetwork/findByAccount.graphql',
           },
           // createQuery: 'SocialNetwork/create.graphql',
           // updateQuery: 'SocialNetwork/update.graphql',
           // dataPropName: 'socialNetwork',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            account: f =>
+              f.hasOwnProperty('account') ? { account: f.account } : null,
           },
         },
       },
@@ -25,17 +27,19 @@ export default {
       SocialNetwork: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          person`,
         uploader: {
           findQuery: {
             id: 'SocialNetwork/findById.graphql',
+            account: 'SocialNetwork/findByAccount.graphql',
           },
           // createQuery: 'SocialNetwork/create.graphql',
           // updateQuery: 'SocialNetwork/update.graphql',
           // dataPropName: 'socialNetwork',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            account: f =>
+              f.hasOwnProperty('account') ? { account: f.account } : null,
           },
         },
       },

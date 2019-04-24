@@ -4,13 +4,14 @@ import gql from 'graphql-tag';
 export default new Query({
   schema: gql`
     extend type RootQuery {
-      user(id: ID): User
+      user(id: ID, userName: String): User
     }
   `,
   resolver: async (
     owner,
     args: {
       id?: string;
+      userName?: string;
     },
     context: { connectors: RegisterConnectors },
     info,
@@ -19,6 +20,8 @@ export default new Query({
     let result;
     if (args.id) {
       result = await context.connectors.User.findOneById(args.id);
+    } else if (args.userName) {
+      result = await context.connectors.User.findOneByUserName(args.userName);
     }
     return result;
   },

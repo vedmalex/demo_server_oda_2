@@ -4,9 +4,10 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkSubjectCourseToCreatedBy,
-  linkSubjectCourseToUpdateBy,
+  ensureSubject,
+  linkSubjectCourseToSubjectLink,
+  ensureCourse,
+  linkSubjectCourseToCourseLink,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -22,12 +23,13 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        description?: string;
+        subject?: string;
+        course?: string;
+        hours?: number;
+        level?: string;
+        subjectLink?: object /*Subject*/;
+        courseLink?: object /*Course*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -54,33 +56,33 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.subjectLink) {
+        let $item = args.subjectLink as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let subjectLink = await ensureSubject({
             args: $item,
             context,
             create: true,
           });
-          await linkSubjectCourseToCreatedBy({
+          await linkSubjectCourseToSubjectLink({
             context,
-            createdBy,
+            subjectLink,
             subjectCourse: result,
           });
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
+      if (args.courseLink) {
+        let $item = args.courseLink as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let courseLink = await ensureCourse({
             args: $item,
             context,
             create: true,
           });
-          await linkSubjectCourseToUpdateBy({
+          await linkSubjectCourseToCourseLink({
             context,
-            updateBy,
+            courseLink,
             subjectCourse: result,
           });
         }

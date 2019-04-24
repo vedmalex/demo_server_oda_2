@@ -1,5 +1,0 @@
-query findStudentAttendanceById($id: ID) {
-  studentAttendance(id: $id) {
-    ...ViewStudentAttendanceFull
-  }
-}

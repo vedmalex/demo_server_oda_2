@@ -6,12 +6,13 @@ export default new Input({
     input PersonFilter {
       or: [PersonFilterItem]
       and: [PersonFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      spiritualName: WhereString
+      fullName: WhereString
+      dateOfBirth: WhereDate
+      ages: WhereFloat
+      user: WhereID
+      specialNotes: WhereString
+      id: WhereID
     }
   `,
 });

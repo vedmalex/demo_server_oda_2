@@ -4,11 +4,9 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  unlinkSocialNetworkFromCreatedBy,
-  linkSocialNetworkToCreatedBy,
-  unlinkSocialNetworkFromUpdateBy,
-  linkSocialNetworkToUpdateBy,
+  ensurePerson,
+  unlinkSocialNetworkFromPerson,
+  linkSocialNetworkToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -25,16 +23,12 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        createdByUnlink?: object /*User*/;
-        createdByCreate?: object /*User*/;
-        updateBy?: object /*User*/;
-        updateByUnlink?: object /*User*/;
-        updateByCreate?: object /*User*/;
+        account?: string;
+        url?: string;
+        type?: string;
+        person?: object /*Person*/;
+        personUnlink?: object /*Person*/;
+        personCreate?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -49,6 +43,15 @@ export default new Mutation({
         previous = await context.connectors.SocialNetwork.findOneById(args.id);
         result = await context.connectors.SocialNetwork.findOneByIdAndUpdate(
           args.id,
+          merge({}, previous, payload),
+        );
+      } else if (args.account) {
+        delete payload.account;
+        previous = await context.connectors.SocialNetwork.findOneByAccount(
+          args.account,
+        );
+        result = await context.connectors.SocialNetwork.findOneByAccountAndUpdate(
+          args.account,
           merge({}, previous, payload),
         );
       }
@@ -71,101 +74,51 @@ export default new Mutation({
         });
       }
 
-      if (args.createdByUnlink) {
-        let $item = args.createdByUnlink;
+      if (args.personUnlink) {
+        let $item = args.personUnlink;
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: false,
           });
-          await unlinkSocialNetworkFromCreatedBy({
+          await unlinkSocialNetworkFromPerson({
             context,
-            createdBy,
+            person,
             socialNetwork: result,
           });
         }
       }
 
-      if (args.createdByCreate) {
-        let $item = args.createdByCreate as { id };
+      if (args.personCreate) {
+        let $item = args.personCreate as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: true,
           });
 
-          await linkSocialNetworkToCreatedBy({
+          await linkSocialNetworkToPerson({
             context,
-            createdBy,
+            person,
             socialNetwork: result,
           });
         }
       }
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.person) {
+        let $item = args.person as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: false,
           });
 
-          await linkSocialNetworkToCreatedBy({
+          await linkSocialNetworkToPerson({
             context,
-            createdBy,
-            socialNetwork: result,
-          });
-        }
-      }
-
-      if (args.updateByUnlink) {
-        let $item = args.updateByUnlink;
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkSocialNetworkFromUpdateBy({
-            context,
-            updateBy,
-            socialNetwork: result,
-          });
-        }
-      }
-
-      if (args.updateByCreate) {
-        let $item = args.updateByCreate as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-
-          await linkSocialNetworkToUpdateBy({
-            context,
-            updateBy,
-            socialNetwork: result,
-          });
-        }
-      }
-
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-
-          await linkSocialNetworkToUpdateBy({
-            context,
-            updateBy,
+            person,
             socialNetwork: result,
           });
         }

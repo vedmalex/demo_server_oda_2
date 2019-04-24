@@ -21,32 +21,10 @@ export default (args?: {
     type: {
       type: String,
     },
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
   });
 
   $Phone.add({
     person: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Phone.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Phone.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -63,60 +41,6 @@ export default (args?: {
   $Phone.index(
     {
       person: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Phone.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Phone.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Phone.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Phone.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Phone.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Phone.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

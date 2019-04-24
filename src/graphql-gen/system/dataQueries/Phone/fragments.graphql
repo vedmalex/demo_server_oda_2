@@ -2,26 +2,22 @@
 fragment EmbedPhoneWithId on Phone {
   id
 }
+fragment EmbedPhoneWithPhoneNumber on Phone {
+  phoneNumber
+}
 
 # fragments on entity
 fragment ViewPhone on Phone {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
+  phoneNumber
+  type
 }
 
 fragment ViewPhoneFull on Phone {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
-  createdBy {
-    ...EmbedUserWithId
-  }
-  updateBy {
-    ...EmbedUserWithId
+  phoneNumber
+  type
+  person {
+    ...EmbedPersonWithId
   }
 }

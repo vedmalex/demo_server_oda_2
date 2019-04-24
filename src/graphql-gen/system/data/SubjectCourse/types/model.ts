@@ -7,12 +7,6 @@ export interface ISubjectCourse {
   courseLink?: string;
   hours?: number;
   level?: string;
-  createdBy?: string;
-  updateBy?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  removed?: boolean;
-  owner?: string;
 }
 
 export class SubjectCourse implements ISubjectCourse {
@@ -25,12 +19,6 @@ export class SubjectCourse implements ISubjectCourse {
   public courseLink?: string;
   public hours?: number;
   public level?: string;
-  public createdBy?: string;
-  public updateBy?: string;
-  public createdAt?: Date;
-  public updatedAt?: Date;
-  public removed?: boolean;
-  public owner?: string;
   constructor(init: PartialSubjectCourse) {
     this.id = init.id;
     this.description = init.description;
@@ -40,12 +28,6 @@ export class SubjectCourse implements ISubjectCourse {
     this.courseLink = init.courseLink;
     this.hours = init.hours;
     this.level = init.level;
-    this.createdBy = init.createdBy;
-    this.updateBy = init.updateBy;
-    this.createdAt = init.createdAt;
-    this.updatedAt = init.updatedAt;
-    this.removed = init.removed;
-    this.owner = init.owner;
   }
 }
 
@@ -60,13 +42,7 @@ export function isSubjectCourse(obj): obj is ISubjectCourse {
       obj.subjectLink ||
       obj.courseLink ||
       obj.hours ||
-      obj.level ||
-      obj.createdBy ||
-      obj.updateBy ||
-      obj.createdAt ||
-      obj.updatedAt ||
-      obj.removed ||
-      obj.owner)
+      obj.level)
   );
 }
 

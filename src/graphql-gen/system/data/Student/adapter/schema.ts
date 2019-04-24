@@ -13,20 +13,7 @@ export default (args?: {
     },
   );
 
-  $Student.add({
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
-  });
+  $Student.add({});
 
   $Student.add({
     person: {
@@ -35,16 +22,6 @@ export default (args?: {
   });
   $Student.add({
     group: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Student.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Student.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -61,60 +38,6 @@ export default (args?: {
   $Student.index(
     {
       group: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Student.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Student.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Student.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Student.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Student.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Student.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

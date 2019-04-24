@@ -6,12 +6,14 @@ export default new Input({
     input SubjectCourseFilter {
       or: [SubjectCourseFilterItem]
       and: [SubjectCourseFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      description: WhereString
+      subject: WhereString
+      course: WhereString
+      subjectLink: WhereID
+      courseLink: WhereID
+      hours: WhereFloat
+      level: WhereString
+      id: WhereID
     }
   `,
 });

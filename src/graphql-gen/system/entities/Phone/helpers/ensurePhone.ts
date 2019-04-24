@@ -11,6 +11,12 @@ export default async function ensurePhone({ args, context, create }) {
     variables = {
       id: args.id,
     };
+  } else if (args.phoneNumber) {
+    fArgs = '$phoneNumber: String';
+    filter = 'phoneNumber: $phoneNumber';
+    variables = {
+      phoneNumber: args.phoneNumber,
+    };
   }
   let phone;
   if (filter) {
@@ -44,12 +50,10 @@ export default async function ensurePhone({ args, context, create }) {
           `,
           variables: {
             phone: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              phoneNumber: args.phoneNumber,
+              type: args.type,
+              person: args.person,
+              id: args.id,
             },
           },
         })
@@ -70,12 +74,10 @@ export default async function ensurePhone({ args, context, create }) {
         `,
         variables: {
           phone: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            phoneNumber: args.phoneNumber,
+            type: args.type,
+            person: args.person,
+            id: args.id,
           },
         },
       })

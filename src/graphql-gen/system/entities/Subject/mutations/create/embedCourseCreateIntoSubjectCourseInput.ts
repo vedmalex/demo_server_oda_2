@@ -6,16 +6,10 @@ export default new Input({
     input embedCourseCreateIntoSubjectCourseInput {
       id: ID
       name: String!
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
       hours: Float
       level: String
       subjects: [embedSubjectInput]
       groups: [embedGroupInput]
-      createdBy: embedUserInput
-      updateBy: embedUserInput
     }
   `,
 });

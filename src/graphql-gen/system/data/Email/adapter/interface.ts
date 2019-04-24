@@ -18,10 +18,4 @@ export interface EmailConnector extends Connector<PartialEmail> {
 
   addToPerson(args: { email?: string; person?: string }): Promise<void>;
   removeFromPerson(args: { email?: string; person?: string }): Promise<void>;
-
-  addToCreatedBy(args: { email?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { email?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { email?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { email?: string; user?: string }): Promise<void>;
 }

@@ -6,25 +6,15 @@ export default new Type({
   schema: gql`
     union SubjectSubscriptionPayload =
         UpdateSubjectSubscriptionPayload
-      | SubjectBelongsToCreatedBySubscriptionPayload
-      | SubjectBelongsToUpdateBySubscriptionPayload
+      | SubjectBelongsToManyCoursesSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
-      if (
-        obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner
-      ) {
+      if (obj.id || obj.name) {
         return 'UpdateSubjectSubscriptionPayload';
       }
-      if (obj.args && obj.args.subject && obj.args.user) {
-        return 'SubjectBelongsToCreatedBySubscriptionPayload';
-      }
-      if (obj.args && obj.args.subject && obj.args.user) {
-        return 'SubjectBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.subject && obj.args.course) {
+        return 'SubjectBelongsToManyCoursesSubscriptionPayload';
       }
       return null;
     },

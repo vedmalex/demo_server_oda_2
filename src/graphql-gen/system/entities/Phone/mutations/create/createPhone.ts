@@ -4,9 +4,8 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkPhoneToCreatedBy,
-  linkPhoneToUpdateBy,
+  ensurePerson,
+  linkPhoneToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -20,12 +19,9 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        phoneNumber?: string;
+        type?: string;
+        person?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -52,33 +48,17 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.person) {
+        let $item = args.person as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: true,
           });
-          await linkPhoneToCreatedBy({
+          await linkPhoneToPerson({
             context,
-            createdBy,
-            phone: result,
-          });
-        }
-      }
-
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkPhoneToUpdateBy({
-            context,
-            updateBy,
+            person,
             phone: result,
           });
         }

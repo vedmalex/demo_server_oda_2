@@ -22,19 +22,4 @@ export interface SocialNetworkConnector
     socialNetwork?: string;
     person?: string;
   }): Promise<void>;
-
-  addToCreatedBy(args: {
-    socialNetwork?: string;
-    user?: string;
-  }): Promise<void>;
-  removeFromCreatedBy(args: {
-    socialNetwork?: string;
-    user?: string;
-  }): Promise<void>;
-
-  addToUpdateBy(args: { socialNetwork?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: {
-    socialNetwork?: string;
-    user?: string;
-  }): Promise<void>;
 }

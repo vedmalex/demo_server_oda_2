@@ -6,12 +6,6 @@ export interface IStudentAttendance {
   studentLink?: string;
   present: boolean;
   specialNotes?: string;
-  createdBy?: string;
-  updateBy?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  removed?: boolean;
-  owner?: string;
   superpuper?: string;
 }
 
@@ -24,12 +18,6 @@ export class StudentAttendance implements IStudentAttendance {
   public studentLink?: string;
   public present: boolean;
   public specialNotes?: string;
-  public createdBy?: string;
-  public updateBy?: string;
-  public createdAt?: Date;
-  public updatedAt?: Date;
-  public removed?: boolean;
-  public owner?: string;
   public superpuper?: string;
   constructor(init: PartialStudentAttendance) {
     this.id = init.id;
@@ -39,12 +27,6 @@ export class StudentAttendance implements IStudentAttendance {
     this.studentLink = init.studentLink;
     this.present = init.present;
     this.specialNotes = init.specialNotes;
-    this.createdBy = init.createdBy;
-    this.updateBy = init.updateBy;
-    this.createdAt = init.createdAt;
-    this.updatedAt = init.updatedAt;
-    this.removed = init.removed;
-    this.owner = init.owner;
     this.superpuper = init.superpuper;
   }
 }
@@ -60,12 +42,6 @@ export function isStudentAttendance(obj): obj is IStudentAttendance {
       obj.studentLink ||
       obj.present ||
       obj.specialNotes ||
-      obj.createdBy ||
-      obj.updateBy ||
-      obj.createdAt ||
-      obj.updatedAt ||
-      obj.removed ||
-      obj.owner ||
       obj.superpuper)
   );
 }

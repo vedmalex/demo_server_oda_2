@@ -48,8 +48,8 @@ export default new Query({
 
     let idMap = {
       id: '_id',
-      createdBy: 'createdBy',
-      updateBy: 'updateBy',
+      subjectLink: 'subjectLink',
+      courseLink: 'courseLink',
     };
 
     let list = get(selectionSet, 'edges.node')

@@ -1,5 +1,7 @@
 import CuratorsEdge from './CuratorsEdge';
 import CuratorsConnection from './CuratorsConnection';
+import CuratorHasManyGroupsConnection from './CuratorHasManyGroupsConnection';
+import CuratorHasManyGroupsEdge from './CuratorHasManyGroupsEdge';
 import curatorItems from './curatorItems';
 import curators from './curators';
 import CuratorSortOrder from './CuratorSortOrder';
@@ -10,6 +12,8 @@ export default new Schema({
   items: [
     CuratorsEdge,
     CuratorsConnection,
+    CuratorHasManyGroupsConnection,
+    CuratorHasManyGroupsEdge,
     curatorItems,
     curators,
     CuratorSortOrder,

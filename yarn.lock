@@ -476,7 +476,7 @@ apollo-server-plugin-base@0.3.7:
   resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-0.3.7.tgz#bfa4932fc9481bb36221545578d311db464af5a6"
   integrity sha512-hW1jaLKf9qNOxMTwRq2CSqz3eqXsZuEiCc8/mmEtOciiVBq1GMtxFf19oIYM9HQuPvQU2RWpns1VrYN59L3vbg==
 
-apollo-server@^2.0.7:
+apollo-server@^2.4.8:
   version "2.4.8"
   resolved "https://registry.yarnpkg.com/apollo-server/-/apollo-server-2.4.8.tgz#b18ec24e6356dd2a191a6fa0f1429b07ef7c89e3"
   integrity sha512-IU6RekO2dqrDdC+5hU6aeVvGg/2t/f01inBMjDhAn1a7hoITUXEh8Sa57TgmYEZ5uAtDuWW7cdiZN2j0cMI3/w==
@@ -3322,7 +3322,7 @@ type-is@^1.6.16, type-is@~1.6.16:
     media-typer "0.3.0"
     mime-types "~2.1.18"
 
-typescript@^3.0.3:
+typescript@^3.4.5:
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
   integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==

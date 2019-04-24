@@ -6,6 +6,8 @@ export default new Type({
   schema: gql`
     type UserSubscriptionPayload {
       id: ID
+      userName: String
+      password: String
       isAdmin: Boolean
       isSystem: Boolean
       enabled: Boolean

@@ -4,9 +4,10 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkStudentAttendanceToCreatedBy,
-  linkStudentAttendanceToUpdateBy,
+  ensureMeeting,
+  linkStudentAttendanceToMeetingLink,
+  ensureStudent,
+  linkStudentAttendanceToStudentLink,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -22,13 +23,13 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
+        meeting?: string;
+        student?: string;
+        present?: boolean;
+        specialNotes?: string;
         superpuper?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        meetingLink?: object /*Meeting*/;
+        studentLink?: object /*Student*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -55,33 +56,33 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.meetingLink) {
+        let $item = args.meetingLink as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let meetingLink = await ensureMeeting({
             args: $item,
             context,
             create: true,
           });
-          await linkStudentAttendanceToCreatedBy({
+          await linkStudentAttendanceToMeetingLink({
             context,
-            createdBy,
+            meetingLink,
             studentAttendance: result,
           });
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
+      if (args.studentLink) {
+        let $item = args.studentLink as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let studentLink = await ensureStudent({
             args: $item,
             context,
             create: true,
           });
-          await linkStudentAttendanceToUpdateBy({
+          await linkStudentAttendanceToStudentLink({
             context,
-            updateBy,
+            studentLink,
             studentAttendance: result,
           });
         }

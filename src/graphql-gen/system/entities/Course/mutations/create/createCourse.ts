@@ -4,9 +4,10 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkCourseToCreatedBy,
-  linkCourseToUpdateBy,
+  ensureSubject,
+  linkCourseToSubjects,
+  ensureGroup,
+  linkCourseToGroups,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -20,12 +21,9 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        name?: string;
+        subjects?: object /*Subject*/[];
+        groups?: object /*Group*/[];
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -52,35 +50,43 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
-        if ($item) {
-          let createdBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkCourseToCreatedBy({
-            context,
-            createdBy,
-            course: result,
-          });
+      if (
+        args.subjects &&
+        Array.isArray(args.subjects) &&
+        args.subjects.length > 0
+      ) {
+        for (let i = 0, len = args.subjects.length; i < len; i++) {
+          let $item = args.subjects[i] as { id };
+          if ($item) {
+            let subjects = await ensureSubject({
+              args: $item,
+              context,
+              create: true,
+            });
+            await linkCourseToSubjects({
+              context,
+              subjects,
+              course: result,
+            });
+          }
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkCourseToUpdateBy({
-            context,
-            updateBy,
-            course: result,
-          });
+      if (args.groups && Array.isArray(args.groups) && args.groups.length > 0) {
+        for (let i = 0, len = args.groups.length; i < len; i++) {
+          let $item = args.groups[i] as { id };
+          if ($item) {
+            let groups = await ensureGroup({
+              args: $item,
+              context,
+              create: true,
+            });
+            await linkCourseToGroups({
+              context,
+              groups,
+              course: result,
+            });
+          }
         }
       }
 

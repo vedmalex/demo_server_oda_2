@@ -31,10 +31,7 @@ export default async function unlinkEmailFromAll(
     const unlinkFragment = gql`
       fragment UnlinkEmail on Email {
         id
-        createdByUnlink: createdBy {
-          id
-        }
-        updateByUnlink: updateBy {
+        personUnlink: person {
           id
         }
       }

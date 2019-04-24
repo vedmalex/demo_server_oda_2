@@ -4,9 +4,10 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkCuratorToCreatedBy,
-  linkCuratorToUpdateBy,
+  ensurePerson,
+  linkCuratorToPerson,
+  ensureGroup,
+  linkCuratorToGroups,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -20,12 +21,8 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        person?: object /*Person*/;
+        groups?: object /*Group*/[];
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -52,35 +49,37 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.person) {
+        let $item = args.person as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: true,
           });
-          await linkCuratorToCreatedBy({
+          await linkCuratorToPerson({
             context,
-            createdBy,
+            person,
             curator: result,
           });
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkCuratorToUpdateBy({
-            context,
-            updateBy,
-            curator: result,
-          });
+      if (args.groups && Array.isArray(args.groups) && args.groups.length > 0) {
+        for (let i = 0, len = args.groups.length; i < len; i++) {
+          let $item = args.groups[i] as { id };
+          if ($item) {
+            let groups = await ensureGroup({
+              args: $item,
+              context,
+              create: true,
+            });
+            await linkCuratorToGroups({
+              context,
+              groups,
+              curator: result,
+            });
+          }
         }
       }
 

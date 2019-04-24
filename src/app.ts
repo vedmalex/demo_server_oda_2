@@ -1,8 +1,13 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server';
+import schema from './model/schema'
+const sys = schema.owner;
+
+debugger;
+sys.build();
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  typeDefs: sys.schema as any,
+  resolvers: sys.resolvers as any,
   tracing: true,
   introspection: true,
   playground: true,

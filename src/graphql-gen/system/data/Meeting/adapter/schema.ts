@@ -17,18 +17,6 @@ export default (args?: {
     date: {
       type: Date,
     },
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
   });
 
   $Meeting.add({
@@ -38,16 +26,6 @@ export default (args?: {
   });
   $Meeting.add({
     group: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Meeting.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Meeting.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -64,60 +42,6 @@ export default (args?: {
   $Meeting.index(
     {
       group: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Meeting.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Meeting.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Meeting.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Meeting.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Meeting.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Meeting.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

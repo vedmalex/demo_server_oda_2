@@ -4,19 +4,19 @@ export default {
       Email: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          email
+          type`,
         uploader: {
           findQuery: {
             id: 'Email/findById.graphql',
+            email: 'Email/findByEmail.graphql',
           },
           // createQuery: 'Email/create.graphql',
           // updateQuery: 'Email/update.graphql',
           // dataPropName: 'email',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            email: f => (f.hasOwnProperty('email') ? { email: f.email } : null),
           },
         },
       },
@@ -25,17 +25,18 @@ export default {
       Email: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          person`,
         uploader: {
           findQuery: {
             id: 'Email/findById.graphql',
+            email: 'Email/findByEmail.graphql',
           },
           // createQuery: 'Email/create.graphql',
           // updateQuery: 'Email/update.graphql',
           // dataPropName: 'email',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            email: f => (f.hasOwnProperty('email') ? { email: f.email } : null),
           },
         },
       },

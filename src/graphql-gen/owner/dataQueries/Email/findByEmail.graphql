@@ -1,5 +1,0 @@
-query findEmailByEmail($email: String) {
-  email(email: $email) {
-    ...ViewEmailFull
-  }
-}

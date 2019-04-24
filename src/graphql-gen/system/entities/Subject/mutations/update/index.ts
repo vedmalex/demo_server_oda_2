@@ -3,7 +3,14 @@ import updateSubject from './updateSubject';
 import updateSubjectInput from './updateSubjectInput';
 import updateSubjectPayload from './updateSubjectPayload';
 
+import embedCourseUpdateIntoSubjectCourseInput from './embedCourseUpdateIntoSubjectCourseInput';
+
 export default new Schema({
   name: 'Subject.mutation.update',
-  items: [updateSubject, updateSubjectInput, updateSubjectPayload],
+  items: [
+    embedCourseUpdateIntoSubjectCourseInput,
+    updateSubject,
+    updateSubjectInput,
+    updateSubjectPayload,
+  ],
 });

@@ -6,22 +6,24 @@ fragment EmbedSubjectCourseWithId on SubjectCourse {
 # fragments on entity
 fragment ViewSubjectCourse on SubjectCourse {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
+  description
+  subject
+  course
+  hours
+  level
 }
 
 fragment ViewSubjectCourseFull on SubjectCourse {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
-  createdBy {
-    ...EmbedUserWithId
+  description
+  subject
+  course
+  hours
+  level
+  subjectLink {
+    ...EmbedSubjectWithId
   }
-  updateBy {
-    ...EmbedUserWithId
+  courseLink {
+    ...EmbedCourseWithId
   }
 }

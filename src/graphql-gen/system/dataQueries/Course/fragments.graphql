@@ -2,26 +2,31 @@
 fragment EmbedCourseWithId on Course {
   id
 }
+fragment EmbedCourseWithName on Course {
+  name
+}
 
 # fragments on entity
 fragment ViewCourse on Course {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
+  name
 }
 
 fragment ViewCourseFull on Course {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
-  createdBy {
-    ...EmbedUserWithId
+  name
+  subjects @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...EmbedSubjectWithId
+      }
+    }
   }
-  updateBy {
-    ...EmbedUserWithId
+  groups @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...EmbedGroupWithId
+      }
+    }
   }
 }

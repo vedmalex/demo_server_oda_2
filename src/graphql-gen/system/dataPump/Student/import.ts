@@ -3,11 +3,7 @@ export default {
     queries: {
       Student: {
         filter: `
-          id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          id`,
         uploader: {
           findQuery: {
             id: 'Student/findById.graphql',
@@ -25,8 +21,9 @@ export default {
       Student: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          person
+          group
+          meetings`,
         uploader: {
           findQuery: {
             id: 'Student/findById.graphql',

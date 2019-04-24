@@ -1,8 +1,0 @@
-# Update Subject
-mutation updateSubject($subject: updateSubjectInput!) {
-  updateSubject(input: $subject) {
-    subject {
-      id
-    }
-  }
-}

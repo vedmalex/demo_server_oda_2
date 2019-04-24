@@ -31,11 +31,18 @@ export default async function unlinkStudentFromAll(
     const unlinkFragment = gql`
       fragment UnlinkStudent on Student {
         id
-        createdByUnlink: createdBy {
+        personUnlink: person {
           id
         }
-        updateByUnlink: updateBy {
+        groupUnlink: group {
           id
+        }
+        meetingsUnlink: meetings @_(get: "edges") {
+          edges @_(map: "node") {
+            node {
+              id
+            }
+          }
         }
       }
     `;

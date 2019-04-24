@@ -5,12 +5,9 @@ export default new Input({
     input StudentComplexFilter {
       or: [StudentComplexFilter]
       and: [StudentComplexFilter]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      person: WhereID
+      group: WhereID
+      id: WhereID
     }
   `,
 });

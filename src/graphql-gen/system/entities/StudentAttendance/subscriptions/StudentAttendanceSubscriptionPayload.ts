@@ -6,26 +6,26 @@ export default new Type({
   schema: gql`
     union StudentAttendanceSubscriptionPayload =
         UpdateStudentAttendanceSubscriptionPayload
-      | StudentAttendanceBelongsToCreatedBySubscriptionPayload
-      | StudentAttendanceBelongsToUpdateBySubscriptionPayload
+      | StudentAttendanceBelongsToMeetingLinkSubscriptionPayload
+      | StudentAttendanceBelongsToStudentLinkSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
       if (
         obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner ||
+        obj.meeting ||
+        obj.student ||
+        obj.present ||
+        obj.specialNotes ||
         obj.superpuper
       ) {
         return 'UpdateStudentAttendanceSubscriptionPayload';
       }
-      if (obj.args && obj.args.studentAttendance && obj.args.user) {
-        return 'StudentAttendanceBelongsToCreatedBySubscriptionPayload';
+      if (obj.args && obj.args.studentAttendance && obj.args.meeting) {
+        return 'StudentAttendanceBelongsToMeetingLinkSubscriptionPayload';
       }
-      if (obj.args && obj.args.studentAttendance && obj.args.user) {
-        return 'StudentAttendanceBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.studentAttendance && obj.args.student) {
+        return 'StudentAttendanceBelongsToStudentLinkSubscriptionPayload';
       }
       return null;
     },

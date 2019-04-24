@@ -28,32 +28,10 @@ export default (args?: {
     specialNotes: {
       type: String,
     },
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
   });
 
   $Person.add({
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Person.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Person.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -80,60 +58,6 @@ export default (args?: {
   $Person.index(
     {
       specialNotes: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Person.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Person.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Person.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Person.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Person.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Person.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

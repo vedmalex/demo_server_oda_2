@@ -24,10 +24,4 @@ export interface CourseConnector extends Connector<PartialCourse> {
 
   addToGroups(args: { course?: string; group?: string }): Promise<void>;
   removeFromGroups(args: { course?: string; group?: string }): Promise<void>;
-
-  addToCreatedBy(args: { course?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { course?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { course?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { course?: string; user?: string }): Promise<void>;
 }

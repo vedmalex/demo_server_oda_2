@@ -27,18 +27,6 @@ export default (args?: {
     specialNotes: {
       type: String,
     },
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
     superpuper: {
       type: String,
     },
@@ -51,16 +39,6 @@ export default (args?: {
   });
   $StudentAttendance.add({
     studentLink: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $StudentAttendance.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $StudentAttendance.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -77,60 +55,6 @@ export default (args?: {
   $StudentAttendance.index(
     {
       student: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $StudentAttendance.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $StudentAttendance.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $StudentAttendance.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $StudentAttendance.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $StudentAttendance.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $StudentAttendance.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

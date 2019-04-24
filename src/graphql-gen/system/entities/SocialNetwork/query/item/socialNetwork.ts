@@ -4,13 +4,14 @@ import gql from 'graphql-tag';
 export default new Query({
   schema: gql`
     extend type RootQuery {
-      socialNetwork(id: ID): SocialNetwork
+      socialNetwork(id: ID, account: String): SocialNetwork
     }
   `,
   resolver: async (
     owner,
     args: {
       id?: string;
+      account?: string;
     },
     context: { connectors: RegisterConnectors },
     info,
@@ -19,6 +20,10 @@ export default new Query({
     let result;
     if (args.id) {
       result = await context.connectors.SocialNetwork.findOneById(args.id);
+    } else if (args.account) {
+      result = await context.connectors.SocialNetwork.findOneByAccount(
+        args.account,
+      );
     }
     return result;
   },

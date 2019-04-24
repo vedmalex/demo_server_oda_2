@@ -1,32 +1,44 @@
 import { Schema } from '../../../common';
 
-import addToStudentBelongsToCreatedBy from './addToStudentBelongsToCreatedBy';
-import removeFromStudentBelongsToCreatedBy from './removeFromStudentBelongsToCreatedBy';
-import addToStudentBelongsToUpdateBy from './addToStudentBelongsToUpdateBy';
-import removeFromStudentBelongsToUpdateBy from './removeFromStudentBelongsToUpdateBy';
-import addToStudentBelongsToCreatedByInput from './addToStudentBelongsToCreatedByInput';
-import addToStudentBelongsToCreatedByPayload from './addToStudentBelongsToCreatedByPayload';
-import removeFromStudentBelongsToCreatedByInput from './removeFromStudentBelongsToCreatedByInput';
-import removeFromStudentBelongsToCreatedByPayload from './removeFromStudentBelongsToCreatedByPayload';
-import addToStudentBelongsToUpdateByInput from './addToStudentBelongsToUpdateByInput';
-import addToStudentBelongsToUpdateByPayload from './addToStudentBelongsToUpdateByPayload';
-import removeFromStudentBelongsToUpdateByInput from './removeFromStudentBelongsToUpdateByInput';
-import removeFromStudentBelongsToUpdateByPayload from './removeFromStudentBelongsToUpdateByPayload';
+import addToStudentBelongsToPerson from './addToStudentBelongsToPerson';
+import removeFromStudentBelongsToPerson from './removeFromStudentBelongsToPerson';
+import addToStudentBelongsToGroup from './addToStudentBelongsToGroup';
+import removeFromStudentBelongsToGroup from './removeFromStudentBelongsToGroup';
+import addToStudentBelongsToManyMeetings from './addToStudentBelongsToManyMeetings';
+import removeFromStudentBelongsToManyMeetings from './removeFromStudentBelongsToManyMeetings';
+import addToStudentBelongsToPersonInput from './addToStudentBelongsToPersonInput';
+import addToStudentBelongsToPersonPayload from './addToStudentBelongsToPersonPayload';
+import removeFromStudentBelongsToPersonInput from './removeFromStudentBelongsToPersonInput';
+import removeFromStudentBelongsToPersonPayload from './removeFromStudentBelongsToPersonPayload';
+import addToStudentBelongsToGroupInput from './addToStudentBelongsToGroupInput';
+import addToStudentBelongsToGroupPayload from './addToStudentBelongsToGroupPayload';
+import removeFromStudentBelongsToGroupInput from './removeFromStudentBelongsToGroupInput';
+import removeFromStudentBelongsToGroupPayload from './removeFromStudentBelongsToGroupPayload';
+import addToStudentBelongsToManyMeetingsInput from './addToStudentBelongsToManyMeetingsInput';
+import addToStudentBelongsToManyMeetingsPayload from './addToStudentBelongsToManyMeetingsPayload';
+import removeFromStudentBelongsToManyMeetingsInput from './removeFromStudentBelongsToManyMeetingsInput';
+import removeFromStudentBelongsToManyMeetingsPayload from './removeFromStudentBelongsToManyMeetingsPayload';
 
 export default new Schema({
   name: 'Student.connections',
   items: [
-    addToStudentBelongsToCreatedBy,
-    removeFromStudentBelongsToCreatedBy,
-    addToStudentBelongsToUpdateBy,
-    removeFromStudentBelongsToUpdateBy,
-    addToStudentBelongsToCreatedByInput,
-    addToStudentBelongsToCreatedByPayload,
-    removeFromStudentBelongsToCreatedByInput,
-    removeFromStudentBelongsToCreatedByPayload,
-    addToStudentBelongsToUpdateByInput,
-    addToStudentBelongsToUpdateByPayload,
-    removeFromStudentBelongsToUpdateByInput,
-    removeFromStudentBelongsToUpdateByPayload,
+    addToStudentBelongsToPerson,
+    removeFromStudentBelongsToPerson,
+    addToStudentBelongsToGroup,
+    removeFromStudentBelongsToGroup,
+    addToStudentBelongsToManyMeetings,
+    removeFromStudentBelongsToManyMeetings,
+    addToStudentBelongsToPersonInput,
+    addToStudentBelongsToPersonPayload,
+    removeFromStudentBelongsToPersonInput,
+    removeFromStudentBelongsToPersonPayload,
+    addToStudentBelongsToGroupInput,
+    addToStudentBelongsToGroupPayload,
+    removeFromStudentBelongsToGroupInput,
+    removeFromStudentBelongsToGroupPayload,
+    addToStudentBelongsToManyMeetingsInput,
+    addToStudentBelongsToManyMeetingsPayload,
+    removeFromStudentBelongsToManyMeetingsInput,
+    removeFromStudentBelongsToManyMeetingsPayload,
   ],
 });

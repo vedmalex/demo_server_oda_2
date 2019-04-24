@@ -4,12 +4,11 @@ import gql from 'graphql-tag';
 export default new Input({
   schema: gql`
     input SocialNetworkFilterSubscriptionsItem {
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      account: WhereString
+      url: WhereString
+      type: WhereSocialNetworkType
+      person: WhereID
+      id: WhereID
     }
   `,
 });

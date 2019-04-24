@@ -1,5 +1,0 @@
-query findGroupByName($name: String) {
-  group(name: $name) {
-    ...ViewGroupFull
-  }
-}

@@ -4,19 +4,22 @@ export default {
       Phone: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          phoneNumber
+          type`,
         uploader: {
           findQuery: {
             id: 'Phone/findById.graphql',
+            phoneNumber: 'Phone/findByPhoneNumber.graphql',
           },
           // createQuery: 'Phone/create.graphql',
           // updateQuery: 'Phone/update.graphql',
           // dataPropName: 'phone',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            phoneNumber: f =>
+              f.hasOwnProperty('phoneNumber')
+                ? { phoneNumber: f.phoneNumber }
+                : null,
           },
         },
       },
@@ -25,17 +28,21 @@ export default {
       Phone: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          person`,
         uploader: {
           findQuery: {
             id: 'Phone/findById.graphql',
+            phoneNumber: 'Phone/findByPhoneNumber.graphql',
           },
           // createQuery: 'Phone/create.graphql',
           // updateQuery: 'Phone/update.graphql',
           // dataPropName: 'phone',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            phoneNumber: f =>
+              f.hasOwnProperty('phoneNumber')
+                ? { phoneNumber: f.phoneNumber }
+                : null,
           },
         },
       },

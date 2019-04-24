@@ -1,32 +1,20 @@
 import { Schema } from '../../../common';
 
-import addToEmailBelongsToCreatedBy from './addToEmailBelongsToCreatedBy';
-import removeFromEmailBelongsToCreatedBy from './removeFromEmailBelongsToCreatedBy';
-import addToEmailBelongsToUpdateBy from './addToEmailBelongsToUpdateBy';
-import removeFromEmailBelongsToUpdateBy from './removeFromEmailBelongsToUpdateBy';
-import addToEmailBelongsToCreatedByInput from './addToEmailBelongsToCreatedByInput';
-import addToEmailBelongsToCreatedByPayload from './addToEmailBelongsToCreatedByPayload';
-import removeFromEmailBelongsToCreatedByInput from './removeFromEmailBelongsToCreatedByInput';
-import removeFromEmailBelongsToCreatedByPayload from './removeFromEmailBelongsToCreatedByPayload';
-import addToEmailBelongsToUpdateByInput from './addToEmailBelongsToUpdateByInput';
-import addToEmailBelongsToUpdateByPayload from './addToEmailBelongsToUpdateByPayload';
-import removeFromEmailBelongsToUpdateByInput from './removeFromEmailBelongsToUpdateByInput';
-import removeFromEmailBelongsToUpdateByPayload from './removeFromEmailBelongsToUpdateByPayload';
+import addToEmailBelongsToPerson from './addToEmailBelongsToPerson';
+import removeFromEmailBelongsToPerson from './removeFromEmailBelongsToPerson';
+import addToEmailBelongsToPersonInput from './addToEmailBelongsToPersonInput';
+import addToEmailBelongsToPersonPayload from './addToEmailBelongsToPersonPayload';
+import removeFromEmailBelongsToPersonInput from './removeFromEmailBelongsToPersonInput';
+import removeFromEmailBelongsToPersonPayload from './removeFromEmailBelongsToPersonPayload';
 
 export default new Schema({
   name: 'Email.connections',
   items: [
-    addToEmailBelongsToCreatedBy,
-    removeFromEmailBelongsToCreatedBy,
-    addToEmailBelongsToUpdateBy,
-    removeFromEmailBelongsToUpdateBy,
-    addToEmailBelongsToCreatedByInput,
-    addToEmailBelongsToCreatedByPayload,
-    removeFromEmailBelongsToCreatedByInput,
-    removeFromEmailBelongsToCreatedByPayload,
-    addToEmailBelongsToUpdateByInput,
-    addToEmailBelongsToUpdateByPayload,
-    removeFromEmailBelongsToUpdateByInput,
-    removeFromEmailBelongsToUpdateByPayload,
+    addToEmailBelongsToPerson,
+    removeFromEmailBelongsToPerson,
+    addToEmailBelongsToPersonInput,
+    addToEmailBelongsToPersonPayload,
+    removeFromEmailBelongsToPersonInput,
+    removeFromEmailBelongsToPersonPayload,
   ],
 });

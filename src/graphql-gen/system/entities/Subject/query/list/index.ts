@@ -1,5 +1,7 @@
 import SubjectsEdge from './SubjectsEdge';
 import SubjectsConnection from './SubjectsConnection';
+import SubjectBelongsToManyCoursesConnection from './SubjectBelongsToManyCoursesConnection';
+import SubjectBelongsToManyCoursesEdge from './SubjectBelongsToManyCoursesEdge';
 import subjectItems from './subjectItems';
 import subjects from './subjects';
 import SubjectSortOrder from './SubjectSortOrder';
@@ -10,6 +12,8 @@ export default new Schema({
   items: [
     SubjectsEdge,
     SubjectsConnection,
+    SubjectBelongsToManyCoursesConnection,
+    SubjectBelongsToManyCoursesEdge,
     subjectItems,
     subjects,
     SubjectSortOrder,

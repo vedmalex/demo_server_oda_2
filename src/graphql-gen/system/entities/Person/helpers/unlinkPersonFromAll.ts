@@ -31,10 +31,38 @@ export default async function unlinkPersonFromAll(
     const unlinkFragment = gql`
       fragment UnlinkPerson on Person {
         id
-        createdByUnlink: createdBy {
+        userUnlink: user {
           id
         }
-        updateByUnlink: updateBy {
+        socialNetworksUnlink: socialNetworks @_(get: "edges") {
+          edges @_(map: "node") {
+            node {
+              id
+            }
+          }
+        }
+        phonesUnlink: phones @_(get: "edges") {
+          edges @_(map: "node") {
+            node {
+              id
+            }
+          }
+        }
+        emailsUnlink: emails @_(get: "edges") {
+          edges @_(map: "node") {
+            node {
+              id
+            }
+          }
+        }
+        asStudentsUnlink: asStudents @_(get: "edges") {
+          edges @_(map: "node") {
+            node {
+              id
+            }
+          }
+        }
+        asCuratorUnlink: asCurator {
           id
         }
       }

@@ -5,12 +5,8 @@ export default new Input({
     input CourseComplexFilter {
       or: [CourseComplexFilter]
       and: [CourseComplexFilter]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      name: WhereString
+      id: WhereID
     }
   `,
 });

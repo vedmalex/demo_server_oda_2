@@ -1,5 +1,0 @@
-query findCourseById($id: ID) {
-  course(id: $id) {
-    ...ViewCourseFull
-  }
-}

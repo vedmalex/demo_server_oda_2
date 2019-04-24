@@ -6,12 +6,10 @@ export default new Input({
     input MeetingFilter {
       or: [MeetingFilterItem]
       and: [MeetingFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      date: WhereDate
+      curator: WhereID
+      group: WhereID
+      id: WhereID
     }
   `,
 });

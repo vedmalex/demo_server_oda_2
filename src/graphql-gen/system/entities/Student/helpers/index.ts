@@ -1,15 +1,19 @@
 import ensureStudent from './ensureStudent';
-import linkStudentToCreatedBy from './linkStudentToCreatedBy';
-import unlinkStudentFromCreatedBy from './unlinkStudentFromCreatedBy';
-import linkStudentToUpdateBy from './linkStudentToUpdateBy';
-import unlinkStudentFromUpdateBy from './unlinkStudentFromUpdateBy';
+import linkStudentToPerson from './linkStudentToPerson';
+import unlinkStudentFromPerson from './unlinkStudentFromPerson';
+import linkStudentToGroup from './linkStudentToGroup';
+import unlinkStudentFromGroup from './unlinkStudentFromGroup';
+import linkStudentToMeetings from './linkStudentToMeetings';
+import unlinkStudentFromMeetings from './unlinkStudentFromMeetings';
 import unlinkStudentFromAll from './unlinkStudentFromAll';
 
 export {
   ensureStudent,
-  linkStudentToCreatedBy,
-  unlinkStudentFromCreatedBy,
-  linkStudentToUpdateBy,
-  unlinkStudentFromUpdateBy,
+  linkStudentToPerson,
+  unlinkStudentFromPerson,
+  linkStudentToGroup,
+  unlinkStudentFromGroup,
+  linkStudentToMeetings,
+  unlinkStudentFromMeetings,
   unlinkStudentFromAll,
 };

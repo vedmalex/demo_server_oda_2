@@ -6,12 +6,9 @@ export default new Input({
     input StudentFilter {
       or: [StudentFilterItem]
       and: [StudentFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      person: WhereID
+      group: WhereID
+      id: WhereID
     }
   `,
 });

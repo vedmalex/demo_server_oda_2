@@ -1,5 +1,7 @@
 import MeetingsEdge from './MeetingsEdge';
 import MeetingsConnection from './MeetingsConnection';
+import MeetingBelongsToManyStudentsConnection from './MeetingBelongsToManyStudentsConnection';
+import MeetingBelongsToManyStudentsEdge from './MeetingBelongsToManyStudentsEdge';
 import meetingItems from './meetingItems';
 import meetings from './meetings';
 import MeetingSortOrder from './MeetingSortOrder';
@@ -10,6 +12,8 @@ export default new Schema({
   items: [
     MeetingsEdge,
     MeetingsConnection,
+    MeetingBelongsToManyStudentsConnection,
+    MeetingBelongsToManyStudentsEdge,
     meetingItems,
     meetings,
     MeetingSortOrder,

@@ -24,10 +24,4 @@ export interface GroupConnector extends Connector<PartialGroup> {
 
   addToCurator(args: { group?: string; curator?: string }): Promise<void>;
   removeFromCurator(args: { group?: string; curator?: string }): Promise<void>;
-
-  addToCreatedBy(args: { group?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { group?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { group?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { group?: string; user?: string }): Promise<void>;
 }

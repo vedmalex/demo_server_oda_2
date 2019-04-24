@@ -1,32 +1,20 @@
 import { Schema } from '../../../common';
 
-import addToPhoneBelongsToCreatedBy from './addToPhoneBelongsToCreatedBy';
-import removeFromPhoneBelongsToCreatedBy from './removeFromPhoneBelongsToCreatedBy';
-import addToPhoneBelongsToUpdateBy from './addToPhoneBelongsToUpdateBy';
-import removeFromPhoneBelongsToUpdateBy from './removeFromPhoneBelongsToUpdateBy';
-import addToPhoneBelongsToCreatedByInput from './addToPhoneBelongsToCreatedByInput';
-import addToPhoneBelongsToCreatedByPayload from './addToPhoneBelongsToCreatedByPayload';
-import removeFromPhoneBelongsToCreatedByInput from './removeFromPhoneBelongsToCreatedByInput';
-import removeFromPhoneBelongsToCreatedByPayload from './removeFromPhoneBelongsToCreatedByPayload';
-import addToPhoneBelongsToUpdateByInput from './addToPhoneBelongsToUpdateByInput';
-import addToPhoneBelongsToUpdateByPayload from './addToPhoneBelongsToUpdateByPayload';
-import removeFromPhoneBelongsToUpdateByInput from './removeFromPhoneBelongsToUpdateByInput';
-import removeFromPhoneBelongsToUpdateByPayload from './removeFromPhoneBelongsToUpdateByPayload';
+import addToPhoneBelongsToPerson from './addToPhoneBelongsToPerson';
+import removeFromPhoneBelongsToPerson from './removeFromPhoneBelongsToPerson';
+import addToPhoneBelongsToPersonInput from './addToPhoneBelongsToPersonInput';
+import addToPhoneBelongsToPersonPayload from './addToPhoneBelongsToPersonPayload';
+import removeFromPhoneBelongsToPersonInput from './removeFromPhoneBelongsToPersonInput';
+import removeFromPhoneBelongsToPersonPayload from './removeFromPhoneBelongsToPersonPayload';
 
 export default new Schema({
   name: 'Phone.connections',
   items: [
-    addToPhoneBelongsToCreatedBy,
-    removeFromPhoneBelongsToCreatedBy,
-    addToPhoneBelongsToUpdateBy,
-    removeFromPhoneBelongsToUpdateBy,
-    addToPhoneBelongsToCreatedByInput,
-    addToPhoneBelongsToCreatedByPayload,
-    removeFromPhoneBelongsToCreatedByInput,
-    removeFromPhoneBelongsToCreatedByPayload,
-    addToPhoneBelongsToUpdateByInput,
-    addToPhoneBelongsToUpdateByPayload,
-    removeFromPhoneBelongsToUpdateByInput,
-    removeFromPhoneBelongsToUpdateByPayload,
+    addToPhoneBelongsToPerson,
+    removeFromPhoneBelongsToPerson,
+    addToPhoneBelongsToPersonInput,
+    addToPhoneBelongsToPersonPayload,
+    removeFromPhoneBelongsToPersonInput,
+    removeFromPhoneBelongsToPersonPayload,
   ],
 });

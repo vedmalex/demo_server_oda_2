@@ -1,32 +1,32 @@
 import { Schema } from '../../../common';
 
-import addToStudentAttendanceBelongsToCreatedBy from './addToStudentAttendanceBelongsToCreatedBy';
-import removeFromStudentAttendanceBelongsToCreatedBy from './removeFromStudentAttendanceBelongsToCreatedBy';
-import addToStudentAttendanceBelongsToUpdateBy from './addToStudentAttendanceBelongsToUpdateBy';
-import removeFromStudentAttendanceBelongsToUpdateBy from './removeFromStudentAttendanceBelongsToUpdateBy';
-import addToStudentAttendanceBelongsToCreatedByInput from './addToStudentAttendanceBelongsToCreatedByInput';
-import addToStudentAttendanceBelongsToCreatedByPayload from './addToStudentAttendanceBelongsToCreatedByPayload';
-import removeFromStudentAttendanceBelongsToCreatedByInput from './removeFromStudentAttendanceBelongsToCreatedByInput';
-import removeFromStudentAttendanceBelongsToCreatedByPayload from './removeFromStudentAttendanceBelongsToCreatedByPayload';
-import addToStudentAttendanceBelongsToUpdateByInput from './addToStudentAttendanceBelongsToUpdateByInput';
-import addToStudentAttendanceBelongsToUpdateByPayload from './addToStudentAttendanceBelongsToUpdateByPayload';
-import removeFromStudentAttendanceBelongsToUpdateByInput from './removeFromStudentAttendanceBelongsToUpdateByInput';
-import removeFromStudentAttendanceBelongsToUpdateByPayload from './removeFromStudentAttendanceBelongsToUpdateByPayload';
+import addToStudentAttendanceBelongsToMeetingLink from './addToStudentAttendanceBelongsToMeetingLink';
+import removeFromStudentAttendanceBelongsToMeetingLink from './removeFromStudentAttendanceBelongsToMeetingLink';
+import addToStudentAttendanceBelongsToStudentLink from './addToStudentAttendanceBelongsToStudentLink';
+import removeFromStudentAttendanceBelongsToStudentLink from './removeFromStudentAttendanceBelongsToStudentLink';
+import addToStudentAttendanceBelongsToMeetingLinkInput from './addToStudentAttendanceBelongsToMeetingLinkInput';
+import addToStudentAttendanceBelongsToMeetingLinkPayload from './addToStudentAttendanceBelongsToMeetingLinkPayload';
+import removeFromStudentAttendanceBelongsToMeetingLinkInput from './removeFromStudentAttendanceBelongsToMeetingLinkInput';
+import removeFromStudentAttendanceBelongsToMeetingLinkPayload from './removeFromStudentAttendanceBelongsToMeetingLinkPayload';
+import addToStudentAttendanceBelongsToStudentLinkInput from './addToStudentAttendanceBelongsToStudentLinkInput';
+import addToStudentAttendanceBelongsToStudentLinkPayload from './addToStudentAttendanceBelongsToStudentLinkPayload';
+import removeFromStudentAttendanceBelongsToStudentLinkInput from './removeFromStudentAttendanceBelongsToStudentLinkInput';
+import removeFromStudentAttendanceBelongsToStudentLinkPayload from './removeFromStudentAttendanceBelongsToStudentLinkPayload';
 
 export default new Schema({
   name: 'StudentAttendance.connections',
   items: [
-    addToStudentAttendanceBelongsToCreatedBy,
-    removeFromStudentAttendanceBelongsToCreatedBy,
-    addToStudentAttendanceBelongsToUpdateBy,
-    removeFromStudentAttendanceBelongsToUpdateBy,
-    addToStudentAttendanceBelongsToCreatedByInput,
-    addToStudentAttendanceBelongsToCreatedByPayload,
-    removeFromStudentAttendanceBelongsToCreatedByInput,
-    removeFromStudentAttendanceBelongsToCreatedByPayload,
-    addToStudentAttendanceBelongsToUpdateByInput,
-    addToStudentAttendanceBelongsToUpdateByPayload,
-    removeFromStudentAttendanceBelongsToUpdateByInput,
-    removeFromStudentAttendanceBelongsToUpdateByPayload,
+    addToStudentAttendanceBelongsToMeetingLink,
+    removeFromStudentAttendanceBelongsToMeetingLink,
+    addToStudentAttendanceBelongsToStudentLink,
+    removeFromStudentAttendanceBelongsToStudentLink,
+    addToStudentAttendanceBelongsToMeetingLinkInput,
+    addToStudentAttendanceBelongsToMeetingLinkPayload,
+    removeFromStudentAttendanceBelongsToMeetingLinkInput,
+    removeFromStudentAttendanceBelongsToMeetingLinkPayload,
+    addToStudentAttendanceBelongsToStudentLinkInput,
+    addToStudentAttendanceBelongsToStudentLinkPayload,
+    removeFromStudentAttendanceBelongsToStudentLinkInput,
+    removeFromStudentAttendanceBelongsToStudentLinkPayload,
   ],
 });

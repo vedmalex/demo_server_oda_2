@@ -6,12 +6,10 @@ export default new Input({
     input CuratorFilter {
       or: [CuratorFilterItem]
       and: [CuratorFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      spiritualName: WhereString
+      fullName: WhereString
+      person: WhereID
+      id: WhereID
     }
   `,
 });

@@ -4,14 +4,16 @@ import gql from 'graphql-tag';
 export default new Input({
   schema: gql`
     enum PersonSortOrder {
-      createdAtAsc
-      createdAtDesc
-      updatedAtAsc
-      updatedAtDesc
-      removedAsc
-      removedDesc
-      ownerAsc
-      ownerDesc
+      spiritualNameAsc
+      spiritualNameDesc
+      fullNameAsc
+      fullNameDesc
+      dateOfBirthAsc
+      dateOfBirthDesc
+      specialNotesAsc
+      specialNotesDesc
+      idAsc
+      idDesc
     }
   `,
 });

@@ -5,6 +5,7 @@ export default new Input({
   schema: gql`
     input SocialNetworkUniqueKeys {
       id: ID
+      account: String
     }
   `,
 });

@@ -11,6 +11,12 @@ export default async function ensureCourse({ args, context, create }) {
     variables = {
       id: args.id,
     };
+  } else if (args.name) {
+    fArgs = '$name: String';
+    filter = 'name: $name';
+    variables = {
+      name: args.name,
+    };
   }
   let course;
   if (filter) {
@@ -44,12 +50,10 @@ export default async function ensureCourse({ args, context, create }) {
           `,
           variables: {
             course: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              name: args.name,
+              subjects: args.subjects,
+              groups: args.groups,
+              id: args.id,
             },
           },
         })
@@ -70,12 +74,10 @@ export default async function ensureCourse({ args, context, create }) {
         `,
         variables: {
           course: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            name: args.name,
+            subjects: args.subjects,
+            groups: args.groups,
+            id: args.id,
           },
         },
       })

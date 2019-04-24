@@ -6,10 +6,9 @@ export default new Type({
   schema: gql`
     type UpdateSocialNetworkSubscriptionPayload {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
+      account: String
+      url: String
+      type: SocialNetworkType
     }
   `,
 });

@@ -4,12 +4,6 @@ export interface IGroup {
   course?: string;
   students?: string[];
   curator?: string;
-  createdBy?: string;
-  updateBy?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  removed?: boolean;
-  owner?: string;
 }
 
 export class Group implements IGroup {
@@ -19,24 +13,12 @@ export class Group implements IGroup {
   public course?: string;
   public students?: string[];
   public curator?: string;
-  public createdBy?: string;
-  public updateBy?: string;
-  public createdAt?: Date;
-  public updatedAt?: Date;
-  public removed?: boolean;
-  public owner?: string;
   constructor(init: PartialGroup) {
     this.id = init.id;
     this.name = init.name;
     this.course = init.course;
     this.students = init.students;
     this.curator = init.curator;
-    this.createdBy = init.createdBy;
-    this.updateBy = init.updateBy;
-    this.createdAt = init.createdAt;
-    this.updatedAt = init.updatedAt;
-    this.removed = init.removed;
-    this.owner = init.owner;
   }
 }
 
@@ -44,17 +26,7 @@ export function isGroup(obj): obj is IGroup {
   return (
     obj instanceof Group ||
     obj.__type === 'Group' ||
-    (obj.id ||
-      obj.name ||
-      obj.course ||
-      obj.students ||
-      obj.curator ||
-      obj.createdBy ||
-      obj.updateBy ||
-      obj.createdAt ||
-      obj.updatedAt ||
-      obj.removed ||
-      obj.owner)
+    (obj.id || obj.name || obj.course || obj.students || obj.curator)
   );
 }
 

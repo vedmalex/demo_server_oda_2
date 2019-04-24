@@ -4,12 +4,10 @@ import gql from 'graphql-tag';
 export default new Input({
   schema: gql`
     input GroupFilterSubscriptionsItem {
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      name: WhereString
+      course: WhereID
+      curator: WhereID
+      id: WhereID
     }
   `,
 });

@@ -54,10 +54,4 @@ export interface PersonConnector extends Connector<PartialPerson> {
     person?: string;
     curator?: string;
   }): Promise<void>;
-
-  addToCreatedBy(args: { person?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { person?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { person?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { person?: string; user?: string }): Promise<void>;
 }

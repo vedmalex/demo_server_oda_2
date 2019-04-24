@@ -1,15 +1,11 @@
 import ensurePhone from './ensurePhone';
-import linkPhoneToCreatedBy from './linkPhoneToCreatedBy';
-import unlinkPhoneFromCreatedBy from './unlinkPhoneFromCreatedBy';
-import linkPhoneToUpdateBy from './linkPhoneToUpdateBy';
-import unlinkPhoneFromUpdateBy from './unlinkPhoneFromUpdateBy';
+import linkPhoneToPerson from './linkPhoneToPerson';
+import unlinkPhoneFromPerson from './unlinkPhoneFromPerson';
 import unlinkPhoneFromAll from './unlinkPhoneFromAll';
 
 export {
   ensurePhone,
-  linkPhoneToCreatedBy,
-  unlinkPhoneFromCreatedBy,
-  linkPhoneToUpdateBy,
-  unlinkPhoneFromUpdateBy,
+  linkPhoneToPerson,
+  unlinkPhoneFromPerson,
   unlinkPhoneFromAll,
 };

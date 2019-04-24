@@ -2,10 +2,15 @@
 fragment EmbedUserWithId on User {
   id
 }
+fragment EmbedUserWithUserName on User {
+  userName
+}
 
 # fragments on entity
 fragment ViewUser on User {
   id
+  userName
+  password
   isAdmin
   isSystem
   enabled
@@ -13,6 +18,8 @@ fragment ViewUser on User {
 
 fragment ViewUserFull on User {
   id
+  userName
+  password
   isAdmin
   isSystem
   enabled

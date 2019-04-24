@@ -5,9 +5,12 @@ export default new Input({
     input UserComplexFilter {
       or: [UserComplexFilter]
       and: [UserComplexFilter]
+      userName: WhereString
+      password: WhereString
       isAdmin: WhereBoolean
       isSystem: WhereBoolean
       enabled: WhereBoolean
+      id: WhereID
     }
   `,
 });

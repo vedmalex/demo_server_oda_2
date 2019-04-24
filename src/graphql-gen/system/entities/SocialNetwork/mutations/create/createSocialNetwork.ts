@@ -4,9 +4,8 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkSocialNetworkToCreatedBy,
-  linkSocialNetworkToUpdateBy,
+  ensurePerson,
+  linkSocialNetworkToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -22,12 +21,10 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        account?: string;
+        url?: string;
+        type?: string;
+        person?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -54,33 +51,17 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.person) {
+        let $item = args.person as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: true,
           });
-          await linkSocialNetworkToCreatedBy({
+          await linkSocialNetworkToPerson({
             context,
-            createdBy,
-            socialNetwork: result,
-          });
-        }
-      }
-
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkSocialNetworkToUpdateBy({
-            context,
-            updateBy,
+            person,
             socialNetwork: result,
           });
         }

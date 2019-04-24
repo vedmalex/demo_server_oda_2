@@ -1,15 +1,19 @@
 import ensureMeeting from './ensureMeeting';
-import linkMeetingToCreatedBy from './linkMeetingToCreatedBy';
-import unlinkMeetingFromCreatedBy from './unlinkMeetingFromCreatedBy';
-import linkMeetingToUpdateBy from './linkMeetingToUpdateBy';
-import unlinkMeetingFromUpdateBy from './unlinkMeetingFromUpdateBy';
+import linkMeetingToCurator from './linkMeetingToCurator';
+import unlinkMeetingFromCurator from './unlinkMeetingFromCurator';
+import linkMeetingToGroup from './linkMeetingToGroup';
+import unlinkMeetingFromGroup from './unlinkMeetingFromGroup';
+import linkMeetingToStudents from './linkMeetingToStudents';
+import unlinkMeetingFromStudents from './unlinkMeetingFromStudents';
 import unlinkMeetingFromAll from './unlinkMeetingFromAll';
 
 export {
   ensureMeeting,
-  linkMeetingToCreatedBy,
-  unlinkMeetingFromCreatedBy,
-  linkMeetingToUpdateBy,
-  unlinkMeetingFromUpdateBy,
+  linkMeetingToCurator,
+  unlinkMeetingFromCurator,
+  linkMeetingToGroup,
+  unlinkMeetingFromGroup,
+  linkMeetingToStudents,
+  unlinkMeetingFromStudents,
   unlinkMeetingFromAll,
 };

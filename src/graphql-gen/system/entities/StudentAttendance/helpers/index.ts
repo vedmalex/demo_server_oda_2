@@ -1,15 +1,15 @@
 import ensureStudentAttendance from './ensureStudentAttendance';
-import linkStudentAttendanceToCreatedBy from './linkStudentAttendanceToCreatedBy';
-import unlinkStudentAttendanceFromCreatedBy from './unlinkStudentAttendanceFromCreatedBy';
-import linkStudentAttendanceToUpdateBy from './linkStudentAttendanceToUpdateBy';
-import unlinkStudentAttendanceFromUpdateBy from './unlinkStudentAttendanceFromUpdateBy';
+import linkStudentAttendanceToMeetingLink from './linkStudentAttendanceToMeetingLink';
+import unlinkStudentAttendanceFromMeetingLink from './unlinkStudentAttendanceFromMeetingLink';
+import linkStudentAttendanceToStudentLink from './linkStudentAttendanceToStudentLink';
+import unlinkStudentAttendanceFromStudentLink from './unlinkStudentAttendanceFromStudentLink';
 import unlinkStudentAttendanceFromAll from './unlinkStudentAttendanceFromAll';
 
 export {
   ensureStudentAttendance,
-  linkStudentAttendanceToCreatedBy,
-  unlinkStudentAttendanceFromCreatedBy,
-  linkStudentAttendanceToUpdateBy,
-  unlinkStudentAttendanceFromUpdateBy,
+  linkStudentAttendanceToMeetingLink,
+  unlinkStudentAttendanceFromMeetingLink,
+  linkStudentAttendanceToStudentLink,
+  unlinkStudentAttendanceFromStudentLink,
   unlinkStudentAttendanceFromAll,
 };

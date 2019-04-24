@@ -4,18 +4,23 @@ export default {
       User: {
         filter: `
           id
+          userName
+          password
           isAdmin
           isSystem
           enabled`,
         uploader: {
           findQuery: {
             id: 'User/findById.graphql',
+            userName: 'User/findByUserName.graphql',
           },
           // createQuery: 'User/create.graphql',
           // updateQuery: 'User/update.graphql',
           // dataPropName: 'user',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            userName: f =>
+              f.hasOwnProperty('userName') ? { userName: f.userName } : null,
           },
         },
       },
@@ -27,12 +32,15 @@ export default {
         uploader: {
           findQuery: {
             id: 'User/findById.graphql',
+            userName: 'User/findByUserName.graphql',
           },
           // createQuery: 'User/create.graphql',
           // updateQuery: 'User/update.graphql',
           // dataPropName: 'user',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            userName: f =>
+              f.hasOwnProperty('userName') ? { userName: f.userName } : null,
           },
         },
       },

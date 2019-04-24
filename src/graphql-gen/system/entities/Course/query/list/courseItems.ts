@@ -34,8 +34,6 @@ export default new Query({
     logger.trace('courses');
     let idMap = {
       id: '_id',
-      createdBy: 'createdBy',
-      updateBy: 'updateBy',
     };
     return await context.connectors.Course.getList({
       ...args,

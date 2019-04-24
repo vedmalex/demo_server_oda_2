@@ -4,10 +4,7 @@ export default {
       Meeting: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          date`,
         uploader: {
           findQuery: {
             id: 'Meeting/findById.graphql',
@@ -25,8 +22,9 @@ export default {
       Meeting: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          curator
+          group
+          students`,
         uploader: {
           findQuery: {
             id: 'Meeting/findById.graphql',

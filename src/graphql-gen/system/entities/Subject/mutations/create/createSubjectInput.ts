@@ -5,12 +5,8 @@ export default new Input({
   schema: gql`
     input createSubjectInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
-      createdBy: embedUserInput
-      updateBy: embedUserInput
+      name: String!
+      course: [embedCourseCreateIntoSubjectCourseInput]
     }
   `,
 });

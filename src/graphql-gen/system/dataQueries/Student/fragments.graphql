@@ -6,22 +6,21 @@ fragment EmbedStudentWithId on Student {
 # fragments on entity
 fragment ViewStudent on Student {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
 }
 
 fragment ViewStudentFull on Student {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
-  createdBy {
-    ...EmbedUserWithId
+  person {
+    ...EmbedPersonWithId
   }
-  updateBy {
-    ...EmbedUserWithId
+  group {
+    ...EmbedGroupWithId
+  }
+  meetings @_(get: "edges") {
+    edges @_(map: "node") {
+      node {
+        ...EmbedMeetingWithId
+      }
+    }
   }
 }

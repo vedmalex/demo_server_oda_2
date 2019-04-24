@@ -1,5 +1,0 @@
-query findMeetingById($id: ID) {
-  meeting(id: $id) {
-    ...ViewMeetingFull
-  }
-}

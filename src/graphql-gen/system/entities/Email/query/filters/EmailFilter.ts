@@ -6,12 +6,10 @@ export default new Input({
     input EmailFilter {
       or: [EmailFilterItem]
       and: [EmailFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      email: WhereString
+      type: WhereCommunicationType
+      person: WhereID
+      id: WhereID
     }
   `,
 });

@@ -1,15 +1,19 @@
 import ensureGroup from './ensureGroup';
-import linkGroupToCreatedBy from './linkGroupToCreatedBy';
-import unlinkGroupFromCreatedBy from './unlinkGroupFromCreatedBy';
-import linkGroupToUpdateBy from './linkGroupToUpdateBy';
-import unlinkGroupFromUpdateBy from './unlinkGroupFromUpdateBy';
+import linkGroupToCourse from './linkGroupToCourse';
+import unlinkGroupFromCourse from './unlinkGroupFromCourse';
+import linkGroupToStudents from './linkGroupToStudents';
+import unlinkGroupFromStudents from './unlinkGroupFromStudents';
+import linkGroupToCurator from './linkGroupToCurator';
+import unlinkGroupFromCurator from './unlinkGroupFromCurator';
 import unlinkGroupFromAll from './unlinkGroupFromAll';
 
 export {
   ensureGroup,
-  linkGroupToCreatedBy,
-  unlinkGroupFromCreatedBy,
-  linkGroupToUpdateBy,
-  unlinkGroupFromUpdateBy,
+  linkGroupToCourse,
+  unlinkGroupFromCourse,
+  linkGroupToStudents,
+  unlinkGroupFromStudents,
+  linkGroupToCurator,
+  unlinkGroupFromCurator,
   unlinkGroupFromAll,
 };

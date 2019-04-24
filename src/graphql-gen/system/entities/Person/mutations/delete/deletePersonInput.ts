@@ -5,6 +5,8 @@ export default new Input({
   schema: gql`
     input deletePersonInput {
       id: ID
+      spiritualName: String
+      fullName: String
     }
   `,
 });

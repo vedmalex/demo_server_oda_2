@@ -10,12 +10,6 @@ export interface IPerson {
   asStudents?: string[];
   asCurator?: string;
   specialNotes?: string;
-  createdBy?: string;
-  updateBy?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  removed?: boolean;
-  owner?: string;
 }
 
 export class Person implements IPerson {
@@ -31,12 +25,6 @@ export class Person implements IPerson {
   public asStudents?: string[];
   public asCurator?: string;
   public specialNotes?: string;
-  public createdBy?: string;
-  public updateBy?: string;
-  public createdAt?: Date;
-  public updatedAt?: Date;
-  public removed?: boolean;
-  public owner?: string;
   constructor(init: PartialPerson) {
     this.id = init.id;
     this.spiritualName = init.spiritualName;
@@ -49,12 +37,6 @@ export class Person implements IPerson {
     this.asStudents = init.asStudents;
     this.asCurator = init.asCurator;
     this.specialNotes = init.specialNotes;
-    this.createdBy = init.createdBy;
-    this.updateBy = init.updateBy;
-    this.createdAt = init.createdAt;
-    this.updatedAt = init.updatedAt;
-    this.removed = init.removed;
-    this.owner = init.owner;
   }
 }
 
@@ -72,13 +54,7 @@ export function isPerson(obj): obj is IPerson {
       obj.emails ||
       obj.asStudents ||
       obj.asCurator ||
-      obj.specialNotes ||
-      obj.createdBy ||
-      obj.updateBy ||
-      obj.createdAt ||
-      obj.updatedAt ||
-      obj.removed ||
-      obj.owner)
+      obj.specialNotes)
   );
 }
 

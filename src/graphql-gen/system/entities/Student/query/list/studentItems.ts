@@ -34,8 +34,8 @@ export default new Query({
     logger.trace('students');
     let idMap = {
       id: '_id',
-      createdBy: 'createdBy',
-      updateBy: 'updateBy',
+      person: 'person',
+      group: 'group',
     };
     return await context.connectors.Student.getList({
       ...args,

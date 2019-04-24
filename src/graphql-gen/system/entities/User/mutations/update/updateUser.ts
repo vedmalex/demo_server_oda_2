@@ -18,6 +18,8 @@ export default new Mutation({
     async (
       args: {
         id?: string;
+        userName?: string;
+        password?: string;
         isAdmin?: boolean;
         isSystem?: boolean;
         enabled?: boolean;
@@ -35,6 +37,15 @@ export default new Mutation({
         previous = await context.connectors.User.findOneById(args.id);
         result = await context.connectors.User.findOneByIdAndUpdate(
           args.id,
+          merge({}, previous, payload),
+        );
+      } else if (args.userName) {
+        delete payload.userName;
+        previous = await context.connectors.User.findOneByUserName(
+          args.userName,
+        );
+        result = await context.connectors.User.findOneByUserNameAndUpdate(
+          args.userName,
           merge({}, previous, payload),
         );
       }

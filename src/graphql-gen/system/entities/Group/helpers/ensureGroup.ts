@@ -11,6 +11,12 @@ export default async function ensureGroup({ args, context, create }) {
     variables = {
       id: args.id,
     };
+  } else if (args.name) {
+    fArgs = '$name: String';
+    filter = 'name: $name';
+    variables = {
+      name: args.name,
+    };
   }
   let group;
   if (filter) {
@@ -44,12 +50,11 @@ export default async function ensureGroup({ args, context, create }) {
           `,
           variables: {
             group: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              name: args.name,
+              course: args.course,
+              students: args.students,
+              curator: args.curator,
+              id: args.id,
             },
           },
         })
@@ -70,12 +75,11 @@ export default async function ensureGroup({ args, context, create }) {
         `,
         variables: {
           group: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            name: args.name,
+            course: args.course,
+            students: args.students,
+            curator: args.curator,
+            id: args.id,
           },
         },
       })

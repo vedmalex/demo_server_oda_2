@@ -11,6 +11,12 @@ export default async function ensureUser({ args, context, create }) {
     variables = {
       id: args.id,
     };
+  } else if (args.userName) {
+    fArgs = '$userName: String';
+    filter = 'userName: $userName';
+    variables = {
+      userName: args.userName,
+    };
   }
   let user;
   if (filter) {
@@ -44,9 +50,12 @@ export default async function ensureUser({ args, context, create }) {
           `,
           variables: {
             user: {
+              userName: args.userName,
+              password: args.password,
               isAdmin: args.isAdmin,
               isSystem: args.isSystem,
               enabled: args.enabled,
+              id: args.id,
             },
           },
         })
@@ -67,9 +76,12 @@ export default async function ensureUser({ args, context, create }) {
         `,
         variables: {
           user: {
+            userName: args.userName,
+            password: args.password,
             isAdmin: args.isAdmin,
             isSystem: args.isSystem,
             enabled: args.enabled,
+            id: args.id,
           },
         },
       })

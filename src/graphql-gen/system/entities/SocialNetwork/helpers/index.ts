@@ -1,15 +1,11 @@
 import ensureSocialNetwork from './ensureSocialNetwork';
-import linkSocialNetworkToCreatedBy from './linkSocialNetworkToCreatedBy';
-import unlinkSocialNetworkFromCreatedBy from './unlinkSocialNetworkFromCreatedBy';
-import linkSocialNetworkToUpdateBy from './linkSocialNetworkToUpdateBy';
-import unlinkSocialNetworkFromUpdateBy from './unlinkSocialNetworkFromUpdateBy';
+import linkSocialNetworkToPerson from './linkSocialNetworkToPerson';
+import unlinkSocialNetworkFromPerson from './unlinkSocialNetworkFromPerson';
 import unlinkSocialNetworkFromAll from './unlinkSocialNetworkFromAll';
 
 export {
   ensureSocialNetwork,
-  linkSocialNetworkToCreatedBy,
-  unlinkSocialNetworkFromCreatedBy,
-  linkSocialNetworkToUpdateBy,
-  unlinkSocialNetworkFromUpdateBy,
+  linkSocialNetworkToPerson,
+  unlinkSocialNetworkFromPerson,
   unlinkSocialNetworkFromAll,
 };

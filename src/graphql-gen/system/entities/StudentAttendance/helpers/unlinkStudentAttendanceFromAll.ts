@@ -31,10 +31,10 @@ export default async function unlinkStudentAttendanceFromAll(
     const unlinkFragment = gql`
       fragment UnlinkStudentAttendance on StudentAttendance {
         id
-        createdByUnlink: createdBy {
+        meetingLinkUnlink: meetingLink {
           id
         }
-        updateByUnlink: updateBy {
+        studentLinkUnlink: studentLink {
           id
         }
       }

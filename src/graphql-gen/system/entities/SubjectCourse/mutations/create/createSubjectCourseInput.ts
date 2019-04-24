@@ -5,12 +5,13 @@ export default new Input({
   schema: gql`
     input createSubjectCourseInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
-      createdBy: embedUserInput
-      updateBy: embedUserInput
+      description: String
+      subject: String
+      course: String
+      hours: Float
+      level: String
+      subjectLink: embedSubjectInput
+      courseLink: embedCourseInput
     }
   `,
 });

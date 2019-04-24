@@ -44,12 +44,10 @@ export default async function ensureStudent({ args, context, create }) {
           `,
           variables: {
             student: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              person: args.person,
+              group: args.group,
+              meetings: args.meetings,
+              id: args.id,
             },
           },
         })
@@ -70,12 +68,10 @@ export default async function ensureStudent({ args, context, create }) {
         `,
         variables: {
           student: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            person: args.person,
+            group: args.group,
+            meetings: args.meetings,
+            id: args.id,
           },
         },
       })

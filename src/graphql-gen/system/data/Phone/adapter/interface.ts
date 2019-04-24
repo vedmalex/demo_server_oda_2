@@ -18,10 +18,4 @@ export interface PhoneConnector extends Connector<PartialPhone> {
 
   addToPerson(args: { phone?: string; person?: string }): Promise<void>;
   removeFromPerson(args: { phone?: string; person?: string }): Promise<void>;
-
-  addToCreatedBy(args: { phone?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { phone?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { phone?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { phone?: string; user?: string }): Promise<void>;
 }

@@ -4,11 +4,12 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  unlinkSubjectCourseFromCreatedBy,
-  linkSubjectCourseToCreatedBy,
-  unlinkSubjectCourseFromUpdateBy,
-  linkSubjectCourseToUpdateBy,
+  ensureSubject,
+  unlinkSubjectCourseFromSubjectLink,
+  linkSubjectCourseToSubjectLink,
+  ensureCourse,
+  unlinkSubjectCourseFromCourseLink,
+  linkSubjectCourseToCourseLink,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -25,16 +26,17 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        createdByUnlink?: object /*User*/;
-        createdByCreate?: object /*User*/;
-        updateBy?: object /*User*/;
-        updateByUnlink?: object /*User*/;
-        updateByCreate?: object /*User*/;
+        description?: string;
+        subject?: string;
+        course?: string;
+        hours?: number;
+        level?: string;
+        subjectLink?: object /*Subject*/;
+        subjectLinkUnlink?: object /*Subject*/;
+        subjectLinkCreate?: object /*Subject*/;
+        courseLink?: object /*Course*/;
+        courseLinkUnlink?: object /*Course*/;
+        courseLinkCreate?: object /*Course*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -71,101 +73,101 @@ export default new Mutation({
         });
       }
 
-      if (args.createdByUnlink) {
-        let $item = args.createdByUnlink;
+      if (args.subjectLinkUnlink) {
+        let $item = args.subjectLinkUnlink;
         if ($item) {
-          let createdBy = await ensureUser({
+          let subjectLink = await ensureSubject({
             args: $item,
             context,
             create: false,
           });
-          await unlinkSubjectCourseFromCreatedBy({
+          await unlinkSubjectCourseFromSubjectLink({
             context,
-            createdBy,
+            subjectLink,
             subjectCourse: result,
           });
         }
       }
 
-      if (args.createdByCreate) {
-        let $item = args.createdByCreate as { id };
+      if (args.subjectLinkCreate) {
+        let $item = args.subjectLinkCreate as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let subjectLink = await ensureSubject({
             args: $item,
             context,
             create: true,
           });
 
-          await linkSubjectCourseToCreatedBy({
+          await linkSubjectCourseToSubjectLink({
             context,
-            createdBy,
+            subjectLink,
             subjectCourse: result,
           });
         }
       }
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.subjectLink) {
+        let $item = args.subjectLink as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let subjectLink = await ensureSubject({
             args: $item,
             context,
             create: false,
           });
 
-          await linkSubjectCourseToCreatedBy({
+          await linkSubjectCourseToSubjectLink({
             context,
-            createdBy,
+            subjectLink,
             subjectCourse: result,
           });
         }
       }
 
-      if (args.updateByUnlink) {
-        let $item = args.updateByUnlink;
+      if (args.courseLinkUnlink) {
+        let $item = args.courseLinkUnlink;
         if ($item) {
-          let updateBy = await ensureUser({
+          let courseLink = await ensureCourse({
             args: $item,
             context,
             create: false,
           });
-          await unlinkSubjectCourseFromUpdateBy({
+          await unlinkSubjectCourseFromCourseLink({
             context,
-            updateBy,
+            courseLink,
             subjectCourse: result,
           });
         }
       }
 
-      if (args.updateByCreate) {
-        let $item = args.updateByCreate as { id };
+      if (args.courseLinkCreate) {
+        let $item = args.courseLinkCreate as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let courseLink = await ensureCourse({
             args: $item,
             context,
             create: true,
           });
 
-          await linkSubjectCourseToUpdateBy({
+          await linkSubjectCourseToCourseLink({
             context,
-            updateBy,
+            courseLink,
             subjectCourse: result,
           });
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
+      if (args.courseLink) {
+        let $item = args.courseLink as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let courseLink = await ensureCourse({
             args: $item,
             context,
             create: false,
           });
 
-          await linkSubjectCourseToUpdateBy({
+          await linkSubjectCourseToCourseLink({
             context,
-            updateBy,
+            courseLink,
             subjectCourse: result,
           });
         }

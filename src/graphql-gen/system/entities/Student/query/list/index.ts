@@ -1,5 +1,7 @@
 import StudentsEdge from './StudentsEdge';
 import StudentsConnection from './StudentsConnection';
+import StudentBelongsToManyMeetingsConnection from './StudentBelongsToManyMeetingsConnection';
+import StudentBelongsToManyMeetingsEdge from './StudentBelongsToManyMeetingsEdge';
 import studentItems from './studentItems';
 import students from './students';
 import StudentSortOrder from './StudentSortOrder';
@@ -10,6 +12,8 @@ export default new Schema({
   items: [
     StudentsEdge,
     StudentsConnection,
+    StudentBelongsToManyMeetingsConnection,
+    StudentBelongsToManyMeetingsEdge,
     studentItems,
     students,
     StudentSortOrder,

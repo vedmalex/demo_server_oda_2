@@ -6,25 +6,19 @@ export default new Type({
   schema: gql`
     union CuratorSubscriptionPayload =
         UpdateCuratorSubscriptionPayload
-      | CuratorBelongsToCreatedBySubscriptionPayload
-      | CuratorBelongsToUpdateBySubscriptionPayload
+      | CuratorBelongsToPersonSubscriptionPayload
+      | CuratorHasManyGroupsSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
-      if (
-        obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner
-      ) {
+      if (obj.id) {
         return 'UpdateCuratorSubscriptionPayload';
       }
-      if (obj.args && obj.args.curator && obj.args.user) {
-        return 'CuratorBelongsToCreatedBySubscriptionPayload';
+      if (obj.args && obj.args.curator && obj.args.person) {
+        return 'CuratorBelongsToPersonSubscriptionPayload';
       }
-      if (obj.args && obj.args.curator && obj.args.user) {
-        return 'CuratorBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.curator && obj.args.group) {
+        return 'CuratorHasManyGroupsSubscriptionPayload';
       }
       return null;
     },

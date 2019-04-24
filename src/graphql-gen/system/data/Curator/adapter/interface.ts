@@ -14,10 +14,4 @@ export interface CuratorConnector extends Connector<PartialCurator> {
 
   addToGroups(args: { curator?: string; group?: string }): Promise<void>;
   removeFromGroups(args: { curator?: string; group?: string }): Promise<void>;
-
-  addToCreatedBy(args: { curator?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { curator?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { curator?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { curator?: string; user?: string }): Promise<void>;
 }

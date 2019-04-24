@@ -44,12 +44,9 @@ export default async function ensureCurator({ args, context, create }) {
           `,
           variables: {
             curator: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              person: args.person,
+              groups: args.groups,
+              id: args.id,
             },
           },
         })
@@ -70,12 +67,9 @@ export default async function ensureCurator({ args, context, create }) {
         `,
         variables: {
           curator: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            person: args.person,
+            groups: args.groups,
+            id: args.id,
           },
         },
       })

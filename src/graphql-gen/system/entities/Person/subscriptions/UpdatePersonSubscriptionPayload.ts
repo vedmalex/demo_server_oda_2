@@ -6,10 +6,10 @@ export default new Type({
   schema: gql`
     type UpdatePersonSubscriptionPayload {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
+      spiritualName: String
+      fullName: String
+      dateOfBirth: Date
+      specialNotes: String
     }
   `,
 });

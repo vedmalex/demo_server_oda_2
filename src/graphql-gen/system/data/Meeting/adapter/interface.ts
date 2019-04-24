@@ -32,10 +32,4 @@ export interface MeetingConnector extends Connector<PartialMeeting> {
     specialNotes?: string;
     superpuper?: string;
   }): Promise<void>;
-
-  addToCreatedBy(args: { meeting?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { meeting?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { meeting?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { meeting?: string; user?: string }): Promise<void>;
 }

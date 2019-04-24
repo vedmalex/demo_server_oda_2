@@ -4,9 +4,12 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkGroupToCreatedBy,
-  linkGroupToUpdateBy,
+  ensureCourse,
+  linkGroupToCourse,
+  ensureStudent,
+  linkGroupToStudents,
+  ensureCurator,
+  linkGroupToCurator,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -20,12 +23,10 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        name?: string;
+        course?: object /*Course*/;
+        students?: object /*Student*/[];
+        curator?: object /*Curator*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -52,33 +53,55 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.course) {
+        let $item = args.course as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let course = await ensureCourse({
             args: $item,
             context,
             create: true,
           });
-          await linkGroupToCreatedBy({
+          await linkGroupToCourse({
             context,
-            createdBy,
+            course,
             group: result,
           });
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
+      if (
+        args.students &&
+        Array.isArray(args.students) &&
+        args.students.length > 0
+      ) {
+        for (let i = 0, len = args.students.length; i < len; i++) {
+          let $item = args.students[i] as { id };
+          if ($item) {
+            let students = await ensureStudent({
+              args: $item,
+              context,
+              create: true,
+            });
+            await linkGroupToStudents({
+              context,
+              students,
+              group: result,
+            });
+          }
+        }
+      }
+
+      if (args.curator) {
+        let $item = args.curator as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let curator = await ensureCurator({
             args: $item,
             context,
             create: true,
           });
-          await linkGroupToUpdateBy({
+          await linkGroupToCurator({
             context,
-            updateBy,
+            curator,
             group: result,
           });
         }

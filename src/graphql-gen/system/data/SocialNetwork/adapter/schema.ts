@@ -24,32 +24,10 @@ export default (args?: {
     type: {
       type: String,
     },
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
   });
 
   $SocialNetwork.add({
     person: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $SocialNetwork.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $SocialNetwork.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -75,60 +53,6 @@ export default (args?: {
   $SocialNetwork.index(
     {
       person: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SocialNetwork.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SocialNetwork.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SocialNetwork.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SocialNetwork.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SocialNetwork.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SocialNetwork.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

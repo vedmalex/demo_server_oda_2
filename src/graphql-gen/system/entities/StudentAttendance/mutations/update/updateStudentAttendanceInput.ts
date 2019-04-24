@@ -5,17 +5,17 @@ export default new Input({
   schema: gql`
     input updateStudentAttendanceInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
+      meeting: String
+      student: String
+      present: Boolean
+      specialNotes: String
       superpuper: String
-      createdBy: embedUserInput
-      createdByUnlink: embedUserInput
-      createdByCreate: createUserInput
-      updateBy: embedUserInput
-      updateByUnlink: embedUserInput
-      updateByCreate: createUserInput
+      meetingLink: embedMeetingInput
+      meetingLinkUnlink: embedMeetingInput
+      meetingLinkCreate: createMeetingInput
+      studentLink: embedStudentInput
+      studentLinkUnlink: embedStudentInput
+      studentLinkCreate: createStudentInput
     }
   `,
 });

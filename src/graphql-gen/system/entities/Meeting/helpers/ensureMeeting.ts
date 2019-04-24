@@ -44,12 +44,11 @@ export default async function ensureMeeting({ args, context, create }) {
           `,
           variables: {
             meeting: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              date: args.date,
+              curator: args.curator,
+              group: args.group,
+              students: args.students,
+              id: args.id,
             },
           },
         })
@@ -70,12 +69,11 @@ export default async function ensureMeeting({ args, context, create }) {
         `,
         variables: {
           meeting: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            date: args.date,
+            curator: args.curator,
+            group: args.group,
+            students: args.students,
+            id: args.id,
           },
         },
       })

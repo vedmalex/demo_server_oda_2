@@ -29,18 +29,6 @@ export default (args?: {
     level: {
       type: String,
     },
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
   });
 
   $SubjectCourse.add({
@@ -50,16 +38,6 @@ export default (args?: {
   });
   $SubjectCourse.add({
     courseLink: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $SubjectCourse.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $SubjectCourse.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -85,60 +63,6 @@ export default (args?: {
   $SubjectCourse.index(
     {
       course: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SubjectCourse.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SubjectCourse.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SubjectCourse.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SubjectCourse.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SubjectCourse.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SubjectCourse.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

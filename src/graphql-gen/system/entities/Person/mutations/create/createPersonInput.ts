@@ -5,12 +5,16 @@ export default new Input({
   schema: gql`
     input createPersonInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
-      createdBy: embedUserInput
-      updateBy: embedUserInput
+      spiritualName: String!
+      fullName: String!
+      dateOfBirth: Date
+      specialNotes: String
+      user: embedUserInput
+      socialNetworks: [embedSocialNetworkInput]
+      phones: [embedPhoneInput]
+      emails: [embedEmailInput]
+      asStudents: [embedStudentInput]
+      asCurator: embedCuratorInput
     }
   `,
 });

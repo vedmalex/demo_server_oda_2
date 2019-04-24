@@ -17,6 +17,8 @@ export default new Mutation({
     async (
       args: {
         id?: string;
+        userName?: string;
+        password?: string;
         isAdmin?: boolean;
         isSystem?: boolean;
         enabled?: boolean;

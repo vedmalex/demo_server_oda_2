@@ -1,10 +1,10 @@
 import Curator from './Curator';
 import UpdateCuratorSubscriptionPayload from './UpdateCuratorSubscriptionPayload';
 import CuratorSubscription from './CuratorSubscription';
-import CuratorBelongsToCreatedByArgsSubscriptionPayload from './CuratorBelongsToCreatedByArgsSubscriptionPayload';
-import CuratorBelongsToCreatedBySubscriptionPayload from './CuratorBelongsToCreatedBySubscriptionPayload';
-import CuratorBelongsToUpdateByArgsSubscriptionPayload from './CuratorBelongsToUpdateByArgsSubscriptionPayload';
-import CuratorBelongsToUpdateBySubscriptionPayload from './CuratorBelongsToUpdateBySubscriptionPayload';
+import CuratorBelongsToPersonArgsSubscriptionPayload from './CuratorBelongsToPersonArgsSubscriptionPayload';
+import CuratorBelongsToPersonSubscriptionPayload from './CuratorBelongsToPersonSubscriptionPayload';
+import CuratorHasManyGroupsArgsSubscriptionPayload from './CuratorHasManyGroupsArgsSubscriptionPayload';
+import CuratorHasManyGroupsSubscriptionPayload from './CuratorHasManyGroupsSubscriptionPayload';
 import CuratorSubscriptionPayload from './CuratorSubscriptionPayload';
 import { Schema } from '../../../common';
 
@@ -14,10 +14,10 @@ export default new Schema({
     Curator,
     UpdateCuratorSubscriptionPayload,
     CuratorSubscription,
-    CuratorBelongsToCreatedByArgsSubscriptionPayload,
-    CuratorBelongsToCreatedBySubscriptionPayload,
-    CuratorBelongsToUpdateByArgsSubscriptionPayload,
-    CuratorBelongsToUpdateBySubscriptionPayload,
+    CuratorBelongsToPersonArgsSubscriptionPayload,
+    CuratorBelongsToPersonSubscriptionPayload,
+    CuratorHasManyGroupsArgsSubscriptionPayload,
+    CuratorHasManyGroupsSubscriptionPayload,
     CuratorSubscriptionPayload,
   ],
 });

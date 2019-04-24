@@ -6,25 +6,41 @@ export default new Type({
   schema: gql`
     union PersonSubscriptionPayload =
         UpdatePersonSubscriptionPayload
-      | PersonBelongsToCreatedBySubscriptionPayload
-      | PersonBelongsToUpdateBySubscriptionPayload
+      | PersonBelongsToUserSubscriptionPayload
+      | PersonHasManySocialNetworksSubscriptionPayload
+      | PersonHasManyPhonesSubscriptionPayload
+      | PersonHasManyEmailsSubscriptionPayload
+      | PersonHasManyAsStudentsSubscriptionPayload
+      | PersonHasOneAsCuratorSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
       if (
         obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner
+        obj.spiritualName ||
+        obj.fullName ||
+        obj.dateOfBirth ||
+        obj.specialNotes
       ) {
         return 'UpdatePersonSubscriptionPayload';
       }
       if (obj.args && obj.args.person && obj.args.user) {
-        return 'PersonBelongsToCreatedBySubscriptionPayload';
+        return 'PersonBelongsToUserSubscriptionPayload';
       }
-      if (obj.args && obj.args.person && obj.args.user) {
-        return 'PersonBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.person && obj.args.socialNetwork) {
+        return 'PersonHasManySocialNetworksSubscriptionPayload';
+      }
+      if (obj.args && obj.args.person && obj.args.phone) {
+        return 'PersonHasManyPhonesSubscriptionPayload';
+      }
+      if (obj.args && obj.args.person && obj.args.email) {
+        return 'PersonHasManyEmailsSubscriptionPayload';
+      }
+      if (obj.args && obj.args.person && obj.args.student) {
+        return 'PersonHasManyAsStudentsSubscriptionPayload';
+      }
+      if (obj.args && obj.args.person && obj.args.curator) {
+        return 'PersonHasOneAsCuratorSubscriptionPayload';
       }
       return null;
     },

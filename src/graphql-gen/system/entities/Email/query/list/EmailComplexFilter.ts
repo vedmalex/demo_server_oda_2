@@ -5,12 +5,10 @@ export default new Input({
     input EmailComplexFilter {
       or: [EmailComplexFilter]
       and: [EmailComplexFilter]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      email: WhereString
+      type: WhereCommunicationType
+      person: WhereID
+      id: WhereID
     }
   `,
 });

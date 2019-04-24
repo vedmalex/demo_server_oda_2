@@ -5,6 +5,8 @@ export default new Input({
   schema: gql`
     input updateUserInput {
       id: ID
+      userName: String
+      password: String
       isAdmin: Boolean
       isSystem: Boolean
       enabled: Boolean

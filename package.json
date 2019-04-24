@@ -5,12 +5,12 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node dist/app.js",
-    "watch": "tsc -w -p ./",
+    "watch": "tsc --build tsconfig.json --watch",
     "postinstall": "npm run compile",
     "generate": "node dist/generate.js",
     "validate": "node dist/validate.js",
     "genUml": "node dist/genUml.js",
-    "debug": "node --inspect-brk bin/www",
+    "debug": "node --inspect-brk dist/app.js",
     "updateSchema": "node updateSchema.js",
     "compile": "./compile.sh 2> /dev/null",
     "clean": "./clean.sh",
@@ -25,7 +25,7 @@
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.1",
     "apollo-link-batch-http": "^1.2.2",
-    "apollo-server": "^2.0.7",
+    "apollo-server": "^2.4.8",
     "dataloader": "^1.4.0",
     "debug": "^3.1.0",
     "dotenv": "^6.0.0",
@@ -50,6 +50,6 @@
     "@types/node": "^10.9.2",
     "@types/passport": "^0.4.6",
     "graphql-document-collector": "^0.2.1",
-    "typescript": "^3.0.3"
+    "typescript": "^3.4.5"
   }
 }

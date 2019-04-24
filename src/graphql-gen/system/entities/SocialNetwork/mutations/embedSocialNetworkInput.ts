@@ -5,12 +5,10 @@ export default new Input({
   schema: gql`
     input embedSocialNetworkInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
-      createdBy: embedUserInput
-      updateBy: embedUserInput
+      account: String
+      url: String
+      type: SocialNetworkType
+      person: embedPersonInput
     }
   `,
 });

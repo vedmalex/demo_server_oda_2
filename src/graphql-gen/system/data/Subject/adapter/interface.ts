@@ -28,10 +28,4 @@ export interface SubjectConnector extends Connector<PartialSubject> {
     hours?: number;
     level?: string;
   }): Promise<void>;
-
-  addToCreatedBy(args: { subject?: string; user?: string }): Promise<void>;
-  removeFromCreatedBy(args: { subject?: string; user?: string }): Promise<void>;
-
-  addToUpdateBy(args: { subject?: string; user?: string }): Promise<void>;
-  removeFromUpdateBy(args: { subject?: string; user?: string }): Promise<void>;
 }

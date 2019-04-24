@@ -34,8 +34,8 @@ export default new Query({
     logger.trace('groups');
     let idMap = {
       id: '_id',
-      createdBy: 'createdBy',
-      updateBy: 'updateBy',
+      course: 'course',
+      curator: 'curator',
     };
     return await context.connectors.Group.getList({
       ...args,

@@ -4,19 +4,18 @@ export default {
       Subject: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          name`,
         uploader: {
           findQuery: {
             id: 'Subject/findById.graphql',
+            name: 'Subject/findByName.graphql',
           },
           // createQuery: 'Subject/create.graphql',
           // updateQuery: 'Subject/update.graphql',
           // dataPropName: 'subject',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            name: f => (f.hasOwnProperty('name') ? { name: f.name } : null),
           },
         },
       },
@@ -25,17 +24,18 @@ export default {
       Subject: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          course`,
         uploader: {
           findQuery: {
             id: 'Subject/findById.graphql',
+            name: 'Subject/findByName.graphql',
           },
           // createQuery: 'Subject/create.graphql',
           // updateQuery: 'Subject/update.graphql',
           // dataPropName: 'subject',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            name: f => (f.hasOwnProperty('name') ? { name: f.name } : null),
           },
         },
       },

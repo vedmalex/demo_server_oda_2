@@ -4,12 +4,10 @@ import gql from 'graphql-tag';
 export default new Input({
   schema: gql`
     input MeetingFilterItem {
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      date: WhereDate
+      curator: WhereID
+      group: WhereID
+      id: WhereID
     }
   `,
 });

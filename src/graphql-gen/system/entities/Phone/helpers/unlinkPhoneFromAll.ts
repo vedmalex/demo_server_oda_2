@@ -31,10 +31,7 @@ export default async function unlinkPhoneFromAll(
     const unlinkFragment = gql`
       fragment UnlinkPhone on Phone {
         id
-        createdByUnlink: createdBy {
-          id
-        }
-        updateByUnlink: updateBy {
+        personUnlink: person {
           id
         }
       }

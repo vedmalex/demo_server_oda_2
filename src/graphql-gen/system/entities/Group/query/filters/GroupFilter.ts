@@ -6,12 +6,10 @@ export default new Input({
     input GroupFilter {
       or: [GroupFilterItem]
       and: [GroupFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      name: WhereString
+      course: WhereID
+      curator: WhereID
+      id: WhereID
     }
   `,
 });

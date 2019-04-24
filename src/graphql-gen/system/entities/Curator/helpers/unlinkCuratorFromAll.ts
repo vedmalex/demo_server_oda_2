@@ -31,11 +31,15 @@ export default async function unlinkCuratorFromAll(
     const unlinkFragment = gql`
       fragment UnlinkCurator on Curator {
         id
-        createdByUnlink: createdBy {
+        personUnlink: person {
           id
         }
-        updateByUnlink: updateBy {
-          id
+        groupsUnlink: groups @_(get: "edges") {
+          edges @_(map: "node") {
+            node {
+              id
+            }
+          }
         }
       }
     `;

@@ -6,10 +6,8 @@ export default new Type({
   schema: gql`
     type UpdateEmailSubscriptionPayload {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
+      email: String
+      type: CommunicationType
     }
   `,
 });

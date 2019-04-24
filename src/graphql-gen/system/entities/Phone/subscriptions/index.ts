@@ -1,10 +1,8 @@
 import Phone from './Phone';
 import UpdatePhoneSubscriptionPayload from './UpdatePhoneSubscriptionPayload';
 import PhoneSubscription from './PhoneSubscription';
-import PhoneBelongsToCreatedByArgsSubscriptionPayload from './PhoneBelongsToCreatedByArgsSubscriptionPayload';
-import PhoneBelongsToCreatedBySubscriptionPayload from './PhoneBelongsToCreatedBySubscriptionPayload';
-import PhoneBelongsToUpdateByArgsSubscriptionPayload from './PhoneBelongsToUpdateByArgsSubscriptionPayload';
-import PhoneBelongsToUpdateBySubscriptionPayload from './PhoneBelongsToUpdateBySubscriptionPayload';
+import PhoneBelongsToPersonArgsSubscriptionPayload from './PhoneBelongsToPersonArgsSubscriptionPayload';
+import PhoneBelongsToPersonSubscriptionPayload from './PhoneBelongsToPersonSubscriptionPayload';
 import PhoneSubscriptionPayload from './PhoneSubscriptionPayload';
 import { Schema } from '../../../common';
 
@@ -14,10 +12,8 @@ export default new Schema({
     Phone,
     UpdatePhoneSubscriptionPayload,
     PhoneSubscription,
-    PhoneBelongsToCreatedByArgsSubscriptionPayload,
-    PhoneBelongsToCreatedBySubscriptionPayload,
-    PhoneBelongsToUpdateByArgsSubscriptionPayload,
-    PhoneBelongsToUpdateBySubscriptionPayload,
+    PhoneBelongsToPersonArgsSubscriptionPayload,
+    PhoneBelongsToPersonSubscriptionPayload,
     PhoneSubscriptionPayload,
   ],
 });

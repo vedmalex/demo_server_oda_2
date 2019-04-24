@@ -1,5 +1,0 @@
-query findSocialNetworkById($id: ID) {
-  socialNetwork(id: $id) {
-    ...ViewSocialNetworkFull
-  }
-}

@@ -1,10 +1,10 @@
 import StudentAttendance from './StudentAttendance';
 import UpdateStudentAttendanceSubscriptionPayload from './UpdateStudentAttendanceSubscriptionPayload';
 import StudentAttendanceSubscription from './StudentAttendanceSubscription';
-import StudentAttendanceBelongsToCreatedByArgsSubscriptionPayload from './StudentAttendanceBelongsToCreatedByArgsSubscriptionPayload';
-import StudentAttendanceBelongsToCreatedBySubscriptionPayload from './StudentAttendanceBelongsToCreatedBySubscriptionPayload';
-import StudentAttendanceBelongsToUpdateByArgsSubscriptionPayload from './StudentAttendanceBelongsToUpdateByArgsSubscriptionPayload';
-import StudentAttendanceBelongsToUpdateBySubscriptionPayload from './StudentAttendanceBelongsToUpdateBySubscriptionPayload';
+import StudentAttendanceBelongsToMeetingLinkArgsSubscriptionPayload from './StudentAttendanceBelongsToMeetingLinkArgsSubscriptionPayload';
+import StudentAttendanceBelongsToMeetingLinkSubscriptionPayload from './StudentAttendanceBelongsToMeetingLinkSubscriptionPayload';
+import StudentAttendanceBelongsToStudentLinkArgsSubscriptionPayload from './StudentAttendanceBelongsToStudentLinkArgsSubscriptionPayload';
+import StudentAttendanceBelongsToStudentLinkSubscriptionPayload from './StudentAttendanceBelongsToStudentLinkSubscriptionPayload';
 import StudentAttendanceSubscriptionPayload from './StudentAttendanceSubscriptionPayload';
 import { Schema } from '../../../common';
 
@@ -14,10 +14,10 @@ export default new Schema({
     StudentAttendance,
     UpdateStudentAttendanceSubscriptionPayload,
     StudentAttendanceSubscription,
-    StudentAttendanceBelongsToCreatedByArgsSubscriptionPayload,
-    StudentAttendanceBelongsToCreatedBySubscriptionPayload,
-    StudentAttendanceBelongsToUpdateByArgsSubscriptionPayload,
-    StudentAttendanceBelongsToUpdateBySubscriptionPayload,
+    StudentAttendanceBelongsToMeetingLinkArgsSubscriptionPayload,
+    StudentAttendanceBelongsToMeetingLinkSubscriptionPayload,
+    StudentAttendanceBelongsToStudentLinkArgsSubscriptionPayload,
+    StudentAttendanceBelongsToStudentLinkSubscriptionPayload,
     StudentAttendanceSubscriptionPayload,
   ],
 });

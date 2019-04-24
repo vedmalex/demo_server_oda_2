@@ -5,16 +5,16 @@ export default new Input({
   schema: gql`
     input updateGroupInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
-      createdBy: embedUserInput
-      createdByUnlink: embedUserInput
-      createdByCreate: createUserInput
-      updateBy: embedUserInput
-      updateByUnlink: embedUserInput
-      updateByCreate: createUserInput
+      name: String
+      course: embedCourseInput
+      courseUnlink: embedCourseInput
+      courseCreate: createCourseInput
+      students: [embedStudentInput]
+      studentsUnlink: [embedStudentInput]
+      studentsCreate: [createStudentInput]
+      curator: embedCuratorInput
+      curatorUnlink: embedCuratorInput
+      curatorCreate: createCuratorInput
     }
   `,
 });

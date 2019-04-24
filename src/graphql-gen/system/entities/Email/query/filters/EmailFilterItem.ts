@@ -4,12 +4,10 @@ import gql from 'graphql-tag';
 export default new Input({
   schema: gql`
     input EmailFilterItem {
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      email: WhereString
+      type: WhereCommunicationType
+      person: WhereID
+      id: WhereID
     }
   `,
 });

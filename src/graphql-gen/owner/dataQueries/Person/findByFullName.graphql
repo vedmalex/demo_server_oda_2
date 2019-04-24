@@ -1,5 +1,0 @@
-query findPersonByFullName($fullName: String) {
-  person(fullName: $fullName) {
-    ...ViewPersonFull
-  }
-}

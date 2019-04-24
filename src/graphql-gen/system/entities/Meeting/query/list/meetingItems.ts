@@ -34,8 +34,8 @@ export default new Query({
     logger.trace('meetings');
     let idMap = {
       id: '_id',
-      createdBy: 'createdBy',
-      updateBy: 'updateBy',
+      curator: 'curator',
+      group: 'group',
     };
     return await context.connectors.Meeting.getList({
       ...args,

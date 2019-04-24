@@ -4,19 +4,27 @@ export default {
       Person: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          spiritualName
+          fullName
+          dateOfBirth
+          specialNotes`,
         uploader: {
           findQuery: {
             id: 'Person/findById.graphql',
+            spiritualName: 'Person/findBySpiritualName.graphql',
+            fullName: 'Person/findByFullName.graphql',
           },
           // createQuery: 'Person/create.graphql',
           // updateQuery: 'Person/update.graphql',
           // dataPropName: 'person',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            spiritualName: f =>
+              f.hasOwnProperty('spiritualName')
+                ? { spiritualName: f.spiritualName }
+                : null,
+            fullName: f =>
+              f.hasOwnProperty('fullName') ? { fullName: f.fullName } : null,
           },
         },
       },
@@ -25,17 +33,29 @@ export default {
       Person: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          user
+          socialNetworks
+          phones
+          emails
+          asStudents
+          asCurator`,
         uploader: {
           findQuery: {
             id: 'Person/findById.graphql',
+            spiritualName: 'Person/findBySpiritualName.graphql',
+            fullName: 'Person/findByFullName.graphql',
           },
           // createQuery: 'Person/create.graphql',
           // updateQuery: 'Person/update.graphql',
           // dataPropName: 'person',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            spiritualName: f =>
+              f.hasOwnProperty('spiritualName')
+                ? { spiritualName: f.spiritualName }
+                : null,
+            fullName: f =>
+              f.hasOwnProperty('fullName') ? { fullName: f.fullName } : null,
           },
         },
       },

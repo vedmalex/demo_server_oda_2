@@ -8,27 +8,21 @@ import gql from 'graphql-tag';
 export default new Type({
   schema: gql`
     type Email {
-      # # Created At
-      createdAt: Date
-      # # Updated At
-      updatedAt: Date
-      # # Removed
-      removed: Boolean
-      # # Owner
-      owner: String
-      # # Created By
+      # # Email
+      email: String!
+      # # Type
+      type: CommunicationType
+      # # Id
+      id: ID!
+      # # Person
 
-      createdBy: User
-
-      # # Update By
-
-      updateBy: User
+      person: Person
     }
   `,
   resolver: {
     id: ({ id }) => id,
 
-    createdBy: async (
+    person: async (
       { id }, // owner id
       args: {
         limit?: number;
@@ -50,36 +44,8 @@ export default new Type({
 
       let email = await context.connectors.Email.findOneById(id);
       //BelongsTo
-      if (email && email.createdBy) {
-        result = await context.connectors.User.findOneById(email.createdBy);
-      }
-
-      return result;
-    },
-    updateBy: async (
-      { id }, // owner id
-      args: {
-        limit?: number;
-        skip?: number;
-        first?: number;
-        after?: string;
-        last?: number;
-        before?: string;
-        filter?: {
-          [k: string]: any;
-        };
-        orderBy?: string | string[];
-      },
-      context: { connectors: RegisterConnectors },
-      info,
-    ) => {
-      let result;
-      let selectionSet = traverse(info);
-
-      let email = await context.connectors.Email.findOneById(id);
-      //BelongsTo
-      if (email && email.updateBy) {
-        result = await context.connectors.User.findOneById(email.updateBy);
+      if (email && email.person) {
+        result = await context.connectors.Person.findOneById(email.person);
       }
 
       return result;

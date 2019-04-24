@@ -5,13 +5,13 @@ export default new Input({
   schema: gql`
     input createStudentAttendanceInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
+      meeting: String
+      student: String
+      present: Boolean!
+      specialNotes: String
       superpuper: String
-      createdBy: embedUserInput
-      updateBy: embedUserInput
+      meetingLink: embedMeetingInput
+      studentLink: embedStudentInput
     }
   `,
 });

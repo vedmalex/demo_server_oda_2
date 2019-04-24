@@ -1,10 +1,12 @@
 import Student from './Student';
 import UpdateStudentSubscriptionPayload from './UpdateStudentSubscriptionPayload';
 import StudentSubscription from './StudentSubscription';
-import StudentBelongsToCreatedByArgsSubscriptionPayload from './StudentBelongsToCreatedByArgsSubscriptionPayload';
-import StudentBelongsToCreatedBySubscriptionPayload from './StudentBelongsToCreatedBySubscriptionPayload';
-import StudentBelongsToUpdateByArgsSubscriptionPayload from './StudentBelongsToUpdateByArgsSubscriptionPayload';
-import StudentBelongsToUpdateBySubscriptionPayload from './StudentBelongsToUpdateBySubscriptionPayload';
+import StudentBelongsToPersonArgsSubscriptionPayload from './StudentBelongsToPersonArgsSubscriptionPayload';
+import StudentBelongsToPersonSubscriptionPayload from './StudentBelongsToPersonSubscriptionPayload';
+import StudentBelongsToGroupArgsSubscriptionPayload from './StudentBelongsToGroupArgsSubscriptionPayload';
+import StudentBelongsToGroupSubscriptionPayload from './StudentBelongsToGroupSubscriptionPayload';
+import StudentBelongsToManyMeetingsArgsSubscriptionPayload from './StudentBelongsToManyMeetingsArgsSubscriptionPayload';
+import StudentBelongsToManyMeetingsSubscriptionPayload from './StudentBelongsToManyMeetingsSubscriptionPayload';
 import StudentSubscriptionPayload from './StudentSubscriptionPayload';
 import { Schema } from '../../../common';
 
@@ -14,10 +16,12 @@ export default new Schema({
     Student,
     UpdateStudentSubscriptionPayload,
     StudentSubscription,
-    StudentBelongsToCreatedByArgsSubscriptionPayload,
-    StudentBelongsToCreatedBySubscriptionPayload,
-    StudentBelongsToUpdateByArgsSubscriptionPayload,
-    StudentBelongsToUpdateBySubscriptionPayload,
+    StudentBelongsToPersonArgsSubscriptionPayload,
+    StudentBelongsToPersonSubscriptionPayload,
+    StudentBelongsToGroupArgsSubscriptionPayload,
+    StudentBelongsToGroupSubscriptionPayload,
+    StudentBelongsToManyMeetingsArgsSubscriptionPayload,
+    StudentBelongsToManyMeetingsSubscriptionPayload,
     StudentSubscriptionPayload,
   ],
 });

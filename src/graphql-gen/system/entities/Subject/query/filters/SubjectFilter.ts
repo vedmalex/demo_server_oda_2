@@ -6,12 +6,8 @@ export default new Input({
     input SubjectFilter {
       or: [SubjectFilterItem]
       and: [SubjectFilterItem]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      name: WhereString
+      id: WhereID
     }
   `,
 });

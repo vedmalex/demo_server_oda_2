@@ -4,9 +4,12 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkMeetingToCreatedBy,
-  linkMeetingToUpdateBy,
+  ensureCurator,
+  linkMeetingToCurator,
+  ensureGroup,
+  linkMeetingToGroup,
+  ensureStudent,
+  linkMeetingToStudents,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -20,12 +23,10 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        date?: Date;
+        curator?: object /*Curator*/;
+        group?: object /*Group*/;
+        students?: object /*Student*/[];
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -52,35 +53,65 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.curator) {
+        let $item = args.curator as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let curator = await ensureCurator({
             args: $item,
             context,
             create: true,
           });
-          await linkMeetingToCreatedBy({
+          await linkMeetingToCurator({
             context,
-            createdBy,
+            curator,
             meeting: result,
           });
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
+      if (args.group) {
+        let $item = args.group as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let group = await ensureGroup({
             args: $item,
             context,
             create: true,
           });
-          await linkMeetingToUpdateBy({
+          await linkMeetingToGroup({
             context,
-            updateBy,
+            group,
             meeting: result,
           });
+        }
+      }
+
+      if (
+        args.students &&
+        Array.isArray(args.students) &&
+        args.students.length > 0
+      ) {
+        for (let i = 0, len = args.students.length; i < len; i++) {
+          let $item = args.students[i] as {
+            id;
+            present;
+            specialNotes;
+            superpuper;
+          };
+          if ($item) {
+            let students = await ensureStudent({
+              args: $item,
+              context,
+              create: true,
+            });
+            await linkMeetingToStudents({
+              context,
+              students,
+              meeting: result,
+              present: $item.present,
+              specialNotes: $item.specialNotes,
+              superpuper: $item.superpuper,
+            });
+          }
         }
       }
 

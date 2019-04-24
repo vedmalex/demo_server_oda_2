@@ -5,12 +5,9 @@ export default new Input({
   schema: gql`
     input embedStudentInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
-      createdBy: embedUserInput
-      updateBy: embedUserInput
+      person: embedPersonInput
+      group: embedGroupInput
+      meetings: [embedMeetingInput]
     }
   `,
 });

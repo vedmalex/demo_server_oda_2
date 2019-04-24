@@ -4,10 +4,11 @@ export default {
       SubjectCourse: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          description
+          subject
+          course
+          hours
+          level`,
         uploader: {
           findQuery: {
             id: 'SubjectCourse/findById.graphql',
@@ -25,8 +26,8 @@ export default {
       SubjectCourse: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          subjectLink
+          courseLink`,
         uploader: {
           findQuery: {
             id: 'SubjectCourse/findById.graphql',

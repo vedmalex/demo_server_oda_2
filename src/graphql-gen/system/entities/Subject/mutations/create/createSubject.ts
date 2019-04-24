@@ -4,9 +4,8 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  linkSubjectToCreatedBy,
-  linkSubjectToUpdateBy,
+  ensureCourse,
+  linkSubjectToCourse,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -20,12 +19,8 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        updateBy?: object /*User*/;
+        name?: string;
+        course?: object /*Course*/[];
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -52,35 +47,23 @@ export default new Mutation({
         node: result,
       };
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
-        if ($item) {
-          let createdBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkSubjectToCreatedBy({
-            context,
-            createdBy,
-            subject: result,
-          });
-        }
-      }
-
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkSubjectToUpdateBy({
-            context,
-            updateBy,
-            subject: result,
-          });
+      if (args.course && Array.isArray(args.course) && args.course.length > 0) {
+        for (let i = 0, len = args.course.length; i < len; i++) {
+          let $item = args.course[i] as { id; hours; level };
+          if ($item) {
+            let course = await ensureCourse({
+              args: $item,
+              context,
+              create: true,
+            });
+            await linkSubjectToCourse({
+              context,
+              course,
+              subject: result,
+              hours: $item.hours,
+              level: $item.level,
+            });
+          }
         }
       }
 

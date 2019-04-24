@@ -6,25 +6,15 @@ export default new Type({
   schema: gql`
     union PhoneSubscriptionPayload =
         UpdatePhoneSubscriptionPayload
-      | PhoneBelongsToCreatedBySubscriptionPayload
-      | PhoneBelongsToUpdateBySubscriptionPayload
+      | PhoneBelongsToPersonSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
-      if (
-        obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner
-      ) {
+      if (obj.id || obj.phoneNumber || obj.type) {
         return 'UpdatePhoneSubscriptionPayload';
       }
-      if (obj.args && obj.args.phone && obj.args.user) {
-        return 'PhoneBelongsToCreatedBySubscriptionPayload';
-      }
-      if (obj.args && obj.args.phone && obj.args.user) {
-        return 'PhoneBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.phone && obj.args.person) {
+        return 'PhoneBelongsToPersonSubscriptionPayload';
       }
       return null;
     },

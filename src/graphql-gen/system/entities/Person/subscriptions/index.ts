@@ -1,10 +1,18 @@
 import Person from './Person';
 import UpdatePersonSubscriptionPayload from './UpdatePersonSubscriptionPayload';
 import PersonSubscription from './PersonSubscription';
-import PersonBelongsToCreatedByArgsSubscriptionPayload from './PersonBelongsToCreatedByArgsSubscriptionPayload';
-import PersonBelongsToCreatedBySubscriptionPayload from './PersonBelongsToCreatedBySubscriptionPayload';
-import PersonBelongsToUpdateByArgsSubscriptionPayload from './PersonBelongsToUpdateByArgsSubscriptionPayload';
-import PersonBelongsToUpdateBySubscriptionPayload from './PersonBelongsToUpdateBySubscriptionPayload';
+import PersonBelongsToUserArgsSubscriptionPayload from './PersonBelongsToUserArgsSubscriptionPayload';
+import PersonBelongsToUserSubscriptionPayload from './PersonBelongsToUserSubscriptionPayload';
+import PersonHasManySocialNetworksArgsSubscriptionPayload from './PersonHasManySocialNetworksArgsSubscriptionPayload';
+import PersonHasManySocialNetworksSubscriptionPayload from './PersonHasManySocialNetworksSubscriptionPayload';
+import PersonHasManyPhonesArgsSubscriptionPayload from './PersonHasManyPhonesArgsSubscriptionPayload';
+import PersonHasManyPhonesSubscriptionPayload from './PersonHasManyPhonesSubscriptionPayload';
+import PersonHasManyEmailsArgsSubscriptionPayload from './PersonHasManyEmailsArgsSubscriptionPayload';
+import PersonHasManyEmailsSubscriptionPayload from './PersonHasManyEmailsSubscriptionPayload';
+import PersonHasManyAsStudentsArgsSubscriptionPayload from './PersonHasManyAsStudentsArgsSubscriptionPayload';
+import PersonHasManyAsStudentsSubscriptionPayload from './PersonHasManyAsStudentsSubscriptionPayload';
+import PersonHasOneAsCuratorArgsSubscriptionPayload from './PersonHasOneAsCuratorArgsSubscriptionPayload';
+import PersonHasOneAsCuratorSubscriptionPayload from './PersonHasOneAsCuratorSubscriptionPayload';
 import PersonSubscriptionPayload from './PersonSubscriptionPayload';
 import { Schema } from '../../../common';
 
@@ -14,10 +22,18 @@ export default new Schema({
     Person,
     UpdatePersonSubscriptionPayload,
     PersonSubscription,
-    PersonBelongsToCreatedByArgsSubscriptionPayload,
-    PersonBelongsToCreatedBySubscriptionPayload,
-    PersonBelongsToUpdateByArgsSubscriptionPayload,
-    PersonBelongsToUpdateBySubscriptionPayload,
+    PersonBelongsToUserArgsSubscriptionPayload,
+    PersonBelongsToUserSubscriptionPayload,
+    PersonHasManySocialNetworksArgsSubscriptionPayload,
+    PersonHasManySocialNetworksSubscriptionPayload,
+    PersonHasManyPhonesArgsSubscriptionPayload,
+    PersonHasManyPhonesSubscriptionPayload,
+    PersonHasManyEmailsArgsSubscriptionPayload,
+    PersonHasManyEmailsSubscriptionPayload,
+    PersonHasManyAsStudentsArgsSubscriptionPayload,
+    PersonHasManyAsStudentsSubscriptionPayload,
+    PersonHasOneAsCuratorArgsSubscriptionPayload,
+    PersonHasOneAsCuratorSubscriptionPayload,
     PersonSubscriptionPayload,
   ],
 });

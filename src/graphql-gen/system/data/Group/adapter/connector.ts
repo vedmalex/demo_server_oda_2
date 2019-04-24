@@ -154,32 +154,6 @@ export default class Group extends MongooseApi<RegisterConnectors, PartialGroup>
     await this.findOneByIdAndUpdate(args.group, { curator: null });
   }
 
-  public async addToCreatedBy(args: { group?: string; user?: string }) {
-    logger.trace(`addToCreatedBy`);
-    let opposite = await this.connectors.User.findOneById(args.user);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.group, { createdBy: opposite.id });
-    }
-  }
-
-  public async removeFromCreatedBy(args: { group?: string; user?: string }) {
-    logger.trace(`removeFromCreatedBy`);
-    await this.findOneByIdAndUpdate(args.group, { createdBy: null });
-  }
-
-  public async addToUpdateBy(args: { group?: string; user?: string }) {
-    logger.trace(`addToUpdateBy`);
-    let opposite = await this.connectors.User.findOneById(args.user);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.group, { updateBy: opposite.id });
-    }
-  }
-
-  public async removeFromUpdateBy(args: { group?: string; user?: string }) {
-    logger.trace(`removeFromUpdateBy`);
-    await this.findOneByIdAndUpdate(args.group, { updateBy: null });
-  }
-
   public async findOneById(id?: string) {
     if (id) {
       logger.trace(`findOneById with ${id} `);
@@ -209,24 +183,6 @@ export default class Group extends MongooseApi<RegisterConnectors, PartialGroup>
     }
     if (args.curator !== undefined) {
       entity.curator = args.curator;
-    }
-    if (args.createdBy !== undefined) {
-      entity.createdBy = args.createdBy;
-    }
-    if (args.updateBy !== undefined) {
-      entity.updateBy = args.updateBy;
-    }
-    if (args.createdAt !== undefined) {
-      entity.createdAt = args.createdAt;
-    }
-    if (args.updatedAt !== undefined) {
-      entity.updatedAt = args.updatedAt;
-    }
-    if (args.removed !== undefined) {
-      entity.removed = args.removed;
-    }
-    if (args.owner !== undefined) {
-      entity.owner = args.owner;
     }
     if (update) {
       delete entity.id;

@@ -5,6 +5,7 @@ export default new Input({
   schema: gql`
     input deleteGroupInput {
       id: ID
+      name: String
     }
   `,
 });

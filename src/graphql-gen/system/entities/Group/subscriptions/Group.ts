@@ -32,8 +32,8 @@ export default new Subscription({
       ),
       {
         id: 'id',
-        createdBy: 'createdBy',
-        updateBy: 'updateBy',
+        course: 'course',
+        curator: 'curator',
       },
     ),
   },

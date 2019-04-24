@@ -2,26 +2,22 @@
 fragment EmbedEmailWithId on Email {
   id
 }
+fragment EmbedEmailWithEmail on Email {
+  email
+}
 
 # fragments on entity
 fragment ViewEmail on Email {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
+  email
+  type
 }
 
 fragment ViewEmailFull on Email {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
-  createdBy {
-    ...EmbedUserWithId
-  }
-  updateBy {
-    ...EmbedUserWithId
+  email
+  type
+  person {
+    ...EmbedPersonWithId
   }
 }

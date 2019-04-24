@@ -4,19 +4,18 @@ export default {
       Group: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          name`,
         uploader: {
           findQuery: {
             id: 'Group/findById.graphql',
+            name: 'Group/findByName.graphql',
           },
           // createQuery: 'Group/create.graphql',
           // updateQuery: 'Group/update.graphql',
           // dataPropName: 'group',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            name: f => (f.hasOwnProperty('name') ? { name: f.name } : null),
           },
         },
       },
@@ -25,17 +24,20 @@ export default {
       Group: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          course
+          students
+          curator`,
         uploader: {
           findQuery: {
             id: 'Group/findById.graphql',
+            name: 'Group/findByName.graphql',
           },
           // createQuery: 'Group/create.graphql',
           // updateQuery: 'Group/update.graphql',
           // dataPropName: 'group',
           findVars: {
             id: f => (f.hasOwnProperty('id') ? { id: f.id } : null),
+            name: f => (f.hasOwnProperty('name') ? { name: f.name } : null),
           },
         },
       },

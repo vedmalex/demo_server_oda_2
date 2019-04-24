@@ -3,7 +3,14 @@ import updateMeeting from './updateMeeting';
 import updateMeetingInput from './updateMeetingInput';
 import updateMeetingPayload from './updateMeetingPayload';
 
+import embedStudentUpdateIntoMeetingStudentsInput from './embedStudentUpdateIntoMeetingStudentsInput';
+
 export default new Schema({
   name: 'Meeting.mutation.update',
-  items: [updateMeeting, updateMeetingInput, updateMeetingPayload],
+  items: [
+    embedStudentUpdateIntoMeetingStudentsInput,
+    updateMeeting,
+    updateMeetingInput,
+    updateMeetingPayload,
+  ],
 });

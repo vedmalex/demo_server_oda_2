@@ -18,6 +18,7 @@ export default new Mutation({
     async (
       args: {
         id?: string;
+        phoneNumber?: string;
       },
       context: {
         connectors: RegisterConnectors;
@@ -41,6 +42,21 @@ export default new Mutation({
         );
 
         result = await context.connectors.Phone.findOneByIdAndRemove(args.id);
+      } else if (args.phoneNumber) {
+        await unlinkPhoneFromAll(
+          [
+            {
+              key: 'phoneNumber',
+              type: 'String',
+              value: args.phoneNumber,
+            },
+          ],
+          context,
+        );
+
+        result = await context.connectors.Phone.findOneByPhoneNumberAndRemove(
+          args.phoneNumber,
+        );
       }
 
       if (!result) {

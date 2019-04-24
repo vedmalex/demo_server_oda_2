@@ -6,24 +6,24 @@ fragment EmbedStudentAttendanceWithId on StudentAttendance {
 # fragments on entity
 fragment ViewStudentAttendance on StudentAttendance {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
+  meeting
+  student
+  present
+  specialNotes
   superpuper
 }
 
 fragment ViewStudentAttendanceFull on StudentAttendance {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
+  meeting
+  student
+  present
+  specialNotes
   superpuper
-  createdBy {
-    ...EmbedUserWithId
+  meetingLink {
+    ...EmbedMeetingWithId
   }
-  updateBy {
-    ...EmbedUserWithId
+  studentLink {
+    ...EmbedStudentWithId
   }
 }

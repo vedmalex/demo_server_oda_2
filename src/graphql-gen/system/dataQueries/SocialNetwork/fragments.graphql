@@ -2,26 +2,24 @@
 fragment EmbedSocialNetworkWithId on SocialNetwork {
   id
 }
+fragment EmbedSocialNetworkWithAccount on SocialNetwork {
+  account
+}
 
 # fragments on entity
 fragment ViewSocialNetwork on SocialNetwork {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
+  account
+  url
+  type
 }
 
 fragment ViewSocialNetworkFull on SocialNetwork {
   id
-  createdAt
-  updatedAt
-  removed
-  owner
-  createdBy {
-    ...EmbedUserWithId
-  }
-  updateBy {
-    ...EmbedUserWithId
+  account
+  url
+  type
+  person {
+    ...EmbedPersonWithId
   }
 }

@@ -4,10 +4,10 @@ export default {
       StudentAttendance: {
         filter: `
           id
-          createdAt
-          updatedAt
-          removed
-          owner
+          meeting
+          student
+          present
+          specialNotes
           superpuper`,
         uploader: {
           findQuery: {
@@ -26,8 +26,8 @@ export default {
       StudentAttendance: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          meetingLink
+          studentLink`,
         uploader: {
           findQuery: {
             id: 'StudentAttendance/findById.graphql',

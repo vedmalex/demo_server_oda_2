@@ -5,12 +5,9 @@ export default new Input({
   schema: gql`
     input createPhoneInput {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
-      createdBy: embedUserInput
-      updateBy: embedUserInput
+      phoneNumber: String!
+      type: CommunicationType
+      person: embedPersonInput
     }
   `,
 });

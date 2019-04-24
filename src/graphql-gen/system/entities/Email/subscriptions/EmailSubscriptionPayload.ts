@@ -6,25 +6,15 @@ export default new Type({
   schema: gql`
     union EmailSubscriptionPayload =
         UpdateEmailSubscriptionPayload
-      | EmailBelongsToCreatedBySubscriptionPayload
-      | EmailBelongsToUpdateBySubscriptionPayload
+      | EmailBelongsToPersonSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
-      if (
-        obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner
-      ) {
+      if (obj.id || obj.email || obj.type) {
         return 'UpdateEmailSubscriptionPayload';
       }
-      if (obj.args && obj.args.email && obj.args.user) {
-        return 'EmailBelongsToCreatedBySubscriptionPayload';
-      }
-      if (obj.args && obj.args.email && obj.args.user) {
-        return 'EmailBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.email && obj.args.person) {
+        return 'EmailBelongsToPersonSubscriptionPayload';
       }
       return null;
     },

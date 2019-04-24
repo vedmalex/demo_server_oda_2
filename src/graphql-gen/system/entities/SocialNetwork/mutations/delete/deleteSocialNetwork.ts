@@ -20,6 +20,7 @@ export default new Mutation({
     async (
       args: {
         id?: string;
+        account?: string;
       },
       context: {
         connectors: RegisterConnectors;
@@ -44,6 +45,21 @@ export default new Mutation({
 
         result = await context.connectors.SocialNetwork.findOneByIdAndRemove(
           args.id,
+        );
+      } else if (args.account) {
+        await unlinkSocialNetworkFromAll(
+          [
+            {
+              key: 'account',
+              type: 'String',
+              value: args.account,
+            },
+          ],
+          context,
+        );
+
+        result = await context.connectors.SocialNetwork.findOneByAccountAndRemove(
+          args.account,
         );
       }
 

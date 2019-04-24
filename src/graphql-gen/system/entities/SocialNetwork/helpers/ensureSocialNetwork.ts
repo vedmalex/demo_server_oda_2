@@ -11,6 +11,12 @@ export default async function ensureSocialNetwork({ args, context, create }) {
     variables = {
       id: args.id,
     };
+  } else if (args.account) {
+    fArgs = '$account: String';
+    filter = 'account: $account';
+    variables = {
+      account: args.account,
+    };
   }
   let socialNetwork;
   if (filter) {
@@ -46,12 +52,11 @@ export default async function ensureSocialNetwork({ args, context, create }) {
           `,
           variables: {
             socialNetwork: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              account: args.account,
+              url: args.url,
+              type: args.type,
+              person: args.person,
+              id: args.id,
             },
           },
         })
@@ -74,12 +79,11 @@ export default async function ensureSocialNetwork({ args, context, create }) {
         `,
         variables: {
           socialNetwork: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            account: args.account,
+            url: args.url,
+            type: args.type,
+            person: args.person,
+            id: args.id,
           },
         },
       })

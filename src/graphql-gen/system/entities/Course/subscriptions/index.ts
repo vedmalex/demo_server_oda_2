@@ -1,10 +1,10 @@
 import Course from './Course';
 import UpdateCourseSubscriptionPayload from './UpdateCourseSubscriptionPayload';
 import CourseSubscription from './CourseSubscription';
-import CourseBelongsToCreatedByArgsSubscriptionPayload from './CourseBelongsToCreatedByArgsSubscriptionPayload';
-import CourseBelongsToCreatedBySubscriptionPayload from './CourseBelongsToCreatedBySubscriptionPayload';
-import CourseBelongsToUpdateByArgsSubscriptionPayload from './CourseBelongsToUpdateByArgsSubscriptionPayload';
-import CourseBelongsToUpdateBySubscriptionPayload from './CourseBelongsToUpdateBySubscriptionPayload';
+import CourseBelongsToManySubjectsArgsSubscriptionPayload from './CourseBelongsToManySubjectsArgsSubscriptionPayload';
+import CourseBelongsToManySubjectsSubscriptionPayload from './CourseBelongsToManySubjectsSubscriptionPayload';
+import CourseHasManyGroupsArgsSubscriptionPayload from './CourseHasManyGroupsArgsSubscriptionPayload';
+import CourseHasManyGroupsSubscriptionPayload from './CourseHasManyGroupsSubscriptionPayload';
 import CourseSubscriptionPayload from './CourseSubscriptionPayload';
 import { Schema } from '../../../common';
 
@@ -14,10 +14,10 @@ export default new Schema({
     Course,
     UpdateCourseSubscriptionPayload,
     CourseSubscription,
-    CourseBelongsToCreatedByArgsSubscriptionPayload,
-    CourseBelongsToCreatedBySubscriptionPayload,
-    CourseBelongsToUpdateByArgsSubscriptionPayload,
-    CourseBelongsToUpdateBySubscriptionPayload,
+    CourseBelongsToManySubjectsArgsSubscriptionPayload,
+    CourseBelongsToManySubjectsSubscriptionPayload,
+    CourseHasManyGroupsArgsSubscriptionPayload,
+    CourseHasManyGroupsSubscriptionPayload,
     CourseSubscriptionPayload,
   ],
 });

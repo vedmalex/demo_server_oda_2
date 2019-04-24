@@ -8,29 +8,31 @@ import gql from 'graphql-tag';
 export default new Type({
   schema: gql`
     type StudentAttendance {
-      # # Created At
-      createdAt: Date
-      # # Updated At
-      updatedAt: Date
-      # # Removed
-      removed: Boolean
-      # # Owner
-      owner: String
+      # # Meeting
+      meeting: String
+      # # Student
+      student: String
+      # # Present
+      present: Boolean!
+      # # Special Notes
+      specialNotes: String
+      # # Id
+      id: ID!
       # # Superpuper
       superpuper: String
-      # # Created By
+      # # Meeting Link
 
-      createdBy: User
+      meetingLink: Meeting
 
-      # # Update By
+      # # Student Link
 
-      updateBy: User
+      studentLink: Student
     }
   `,
   resolver: {
     id: ({ id }) => id,
 
-    createdBy: async (
+    meetingLink: async (
       { id }, // owner id
       args: {
         limit?: number;
@@ -54,15 +56,15 @@ export default new Type({
         id,
       );
       //BelongsTo
-      if (studentAttendance && studentAttendance.createdBy) {
-        result = await context.connectors.User.findOneById(
-          studentAttendance.createdBy,
+      if (studentAttendance && studentAttendance.meeting) {
+        result = await context.connectors.Meeting.findOneById(
+          studentAttendance.meeting,
         );
       }
 
       return result;
     },
-    updateBy: async (
+    studentLink: async (
       { id }, // owner id
       args: {
         limit?: number;
@@ -86,9 +88,9 @@ export default new Type({
         id,
       );
       //BelongsTo
-      if (studentAttendance && studentAttendance.updateBy) {
-        result = await context.connectors.User.findOneById(
-          studentAttendance.updateBy,
+      if (studentAttendance && studentAttendance.student) {
+        result = await context.connectors.Student.findOneById(
+          studentAttendance.student,
         );
       }
 

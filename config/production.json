@@ -1,0 +1,23 @@
+{
+  "AppName": "api-courseware",
+  "hosts": {
+    "api-courseware": {
+      "host": "0.0.0.0",
+      "port": 3003
+    }
+  },
+  "subscriptions": {
+    "host": "localhost",
+    "port": 3004
+  },
+  "db": {
+    "api": {
+      "url": "mongodb://localhost/api-courseware"
+    }
+  },
+  "passport": {
+    "salt2": "phGTjpWIh3lkDiBvge44/3RO6ZIxb7xasAVTzrOmEW1/V0k2eOxdlg==",
+    "secret": "THE VERY api-model-editor  uwkFM68zadlOVpH9nAZdGAxsDEE35pSKHd7VnmIm80acudewhT+QzQ== ONE",
+    "expiresIn": "1h"
+  }
+}

@@ -131,32 +131,6 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     await this.findOneByIdAndUpdate(args.phone, { person: null });
   }
 
-  public async addToCreatedBy(args: { phone?: string; user?: string }) {
-    logger.trace(`addToCreatedBy`);
-    let opposite = await this.connectors.User.findOneById(args.user);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.phone, { createdBy: opposite.id });
-    }
-  }
-
-  public async removeFromCreatedBy(args: { phone?: string; user?: string }) {
-    logger.trace(`removeFromCreatedBy`);
-    await this.findOneByIdAndUpdate(args.phone, { createdBy: null });
-  }
-
-  public async addToUpdateBy(args: { phone?: string; user?: string }) {
-    logger.trace(`addToUpdateBy`);
-    let opposite = await this.connectors.User.findOneById(args.user);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.phone, { updateBy: opposite.id });
-    }
-  }
-
-  public async removeFromUpdateBy(args: { phone?: string; user?: string }) {
-    logger.trace(`removeFromUpdateBy`);
-    await this.findOneByIdAndUpdate(args.phone, { updateBy: null });
-  }
-
   public async findOneById(id?: string) {
     if (id) {
       logger.trace(`findOneById with ${id} `);
@@ -186,24 +160,6 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     }
     if (args.person !== undefined) {
       entity.person = args.person;
-    }
-    if (args.createdBy !== undefined) {
-      entity.createdBy = args.createdBy;
-    }
-    if (args.updateBy !== undefined) {
-      entity.updateBy = args.updateBy;
-    }
-    if (args.createdAt !== undefined) {
-      entity.createdAt = args.createdAt;
-    }
-    if (args.updatedAt !== undefined) {
-      entity.updatedAt = args.updatedAt;
-    }
-    if (args.removed !== undefined) {
-      entity.removed = args.removed;
-    }
-    if (args.owner !== undefined) {
-      entity.owner = args.owner;
     }
     if (update) {
       delete entity.id;

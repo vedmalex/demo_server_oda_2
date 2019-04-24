@@ -6,6 +6,9 @@ export default {
         /*process: (f) => ({
           Group: f.viewer.groups ? f.viewer.groups.edges.map(e => ({
             ...e.node,
+            students : e.node.students ? e.node.students.edges.map(s => ({
+              ...s.node,
+            })) : [],
           })) : [],
         }),*/
       },

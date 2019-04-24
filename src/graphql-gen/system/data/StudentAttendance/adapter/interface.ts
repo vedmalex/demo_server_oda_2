@@ -27,22 +27,4 @@ export interface StudentAttendanceConnector
     studentAttendance?: string;
     student?: string;
   }): Promise<void>;
-
-  addToCreatedBy(args: {
-    studentAttendance?: string;
-    user?: string;
-  }): Promise<void>;
-  removeFromCreatedBy(args: {
-    studentAttendance?: string;
-    user?: string;
-  }): Promise<void>;
-
-  addToUpdateBy(args: {
-    studentAttendance?: string;
-    user?: string;
-  }): Promise<void>;
-  removeFromUpdateBy(args: {
-    studentAttendance?: string;
-    user?: string;
-  }): Promise<void>;
 }

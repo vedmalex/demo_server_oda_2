@@ -18,6 +18,8 @@ export default new Mutation({
     async (
       args: {
         id?: string;
+        spiritualName?: string;
+        fullName?: string;
       },
       context: {
         connectors: RegisterConnectors;
@@ -41,6 +43,36 @@ export default new Mutation({
         );
 
         result = await context.connectors.Person.findOneByIdAndRemove(args.id);
+      } else if (args.spiritualName) {
+        await unlinkPersonFromAll(
+          [
+            {
+              key: 'spiritualName',
+              type: 'String',
+              value: args.spiritualName,
+            },
+          ],
+          context,
+        );
+
+        result = await context.connectors.Person.findOneBySpiritualNameAndRemove(
+          args.spiritualName,
+        );
+      } else if (args.fullName) {
+        await unlinkPersonFromAll(
+          [
+            {
+              key: 'fullName',
+              type: 'String',
+              value: args.fullName,
+            },
+          ],
+          context,
+        );
+
+        result = await context.connectors.Person.findOneByFullNameAndRemove(
+          args.fullName,
+        );
       }
 
       if (!result) {

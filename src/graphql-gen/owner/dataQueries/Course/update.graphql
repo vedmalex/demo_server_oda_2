@@ -1,8 +1,0 @@
-# Update Course
-mutation updateCourse($course: updateCourseInput!) {
-  updateCourse(input: $course) {
-    course {
-      id
-    }
-  }
-}

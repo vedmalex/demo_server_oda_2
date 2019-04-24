@@ -4,11 +4,12 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  unlinkStudentAttendanceFromCreatedBy,
-  linkStudentAttendanceToCreatedBy,
-  unlinkStudentAttendanceFromUpdateBy,
-  linkStudentAttendanceToUpdateBy,
+  ensureMeeting,
+  unlinkStudentAttendanceFromMeetingLink,
+  linkStudentAttendanceToMeetingLink,
+  ensureStudent,
+  unlinkStudentAttendanceFromStudentLink,
+  linkStudentAttendanceToStudentLink,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -25,17 +26,17 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
+        meeting?: string;
+        student?: string;
+        present?: boolean;
+        specialNotes?: string;
         superpuper?: string;
-        createdBy?: object /*User*/;
-        createdByUnlink?: object /*User*/;
-        createdByCreate?: object /*User*/;
-        updateBy?: object /*User*/;
-        updateByUnlink?: object /*User*/;
-        updateByCreate?: object /*User*/;
+        meetingLink?: object /*Meeting*/;
+        meetingLinkUnlink?: object /*Meeting*/;
+        meetingLinkCreate?: object /*Meeting*/;
+        studentLink?: object /*Student*/;
+        studentLinkUnlink?: object /*Student*/;
+        studentLinkCreate?: object /*Student*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -76,101 +77,101 @@ export default new Mutation({
         });
       }
 
-      if (args.createdByUnlink) {
-        let $item = args.createdByUnlink;
+      if (args.meetingLinkUnlink) {
+        let $item = args.meetingLinkUnlink;
         if ($item) {
-          let createdBy = await ensureUser({
+          let meetingLink = await ensureMeeting({
             args: $item,
             context,
             create: false,
           });
-          await unlinkStudentAttendanceFromCreatedBy({
+          await unlinkStudentAttendanceFromMeetingLink({
             context,
-            createdBy,
+            meetingLink,
             studentAttendance: result,
           });
         }
       }
 
-      if (args.createdByCreate) {
-        let $item = args.createdByCreate as { id };
+      if (args.meetingLinkCreate) {
+        let $item = args.meetingLinkCreate as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let meetingLink = await ensureMeeting({
             args: $item,
             context,
             create: true,
           });
 
-          await linkStudentAttendanceToCreatedBy({
+          await linkStudentAttendanceToMeetingLink({
             context,
-            createdBy,
+            meetingLink,
             studentAttendance: result,
           });
         }
       }
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.meetingLink) {
+        let $item = args.meetingLink as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let meetingLink = await ensureMeeting({
             args: $item,
             context,
             create: false,
           });
 
-          await linkStudentAttendanceToCreatedBy({
+          await linkStudentAttendanceToMeetingLink({
             context,
-            createdBy,
+            meetingLink,
             studentAttendance: result,
           });
         }
       }
 
-      if (args.updateByUnlink) {
-        let $item = args.updateByUnlink;
+      if (args.studentLinkUnlink) {
+        let $item = args.studentLinkUnlink;
         if ($item) {
-          let updateBy = await ensureUser({
+          let studentLink = await ensureStudent({
             args: $item,
             context,
             create: false,
           });
-          await unlinkStudentAttendanceFromUpdateBy({
+          await unlinkStudentAttendanceFromStudentLink({
             context,
-            updateBy,
+            studentLink,
             studentAttendance: result,
           });
         }
       }
 
-      if (args.updateByCreate) {
-        let $item = args.updateByCreate as { id };
+      if (args.studentLinkCreate) {
+        let $item = args.studentLinkCreate as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let studentLink = await ensureStudent({
             args: $item,
             context,
             create: true,
           });
 
-          await linkStudentAttendanceToUpdateBy({
+          await linkStudentAttendanceToStudentLink({
             context,
-            updateBy,
+            studentLink,
             studentAttendance: result,
           });
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
+      if (args.studentLink) {
+        let $item = args.studentLink as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let studentLink = await ensureStudent({
             args: $item,
             context,
             create: false,
           });
 
-          await linkStudentAttendanceToUpdateBy({
+          await linkStudentAttendanceToStudentLink({
             context,
-            updateBy,
+            studentLink,
             studentAttendance: result,
           });
         }

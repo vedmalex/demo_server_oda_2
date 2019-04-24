@@ -34,8 +34,7 @@ export default new Query({
     logger.trace('people');
     let idMap = {
       id: '_id',
-      createdBy: 'createdBy',
-      updateBy: 'updateBy',
+      user: 'user',
     };
     return await context.connectors.Person.getList({
       ...args,

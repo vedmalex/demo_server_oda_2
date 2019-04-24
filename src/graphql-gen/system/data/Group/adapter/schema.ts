@@ -18,18 +18,6 @@ export default (args?: {
       type: String,
       required: true,
     },
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
   });
 
   $Group.add({
@@ -39,16 +27,6 @@ export default (args?: {
   });
   $Group.add({
     curator: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Group.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Group.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -65,60 +43,6 @@ export default (args?: {
   $Group.index(
     {
       curator: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Group.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Group.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Group.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Group.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Group.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Group.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

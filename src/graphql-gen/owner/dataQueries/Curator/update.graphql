@@ -1,8 +1,0 @@
-# Update Curator
-mutation updateCurator($curator: updateCuratorInput!) {
-  updateCurator(input: $curator) {
-    curator {
-      id
-    }
-  }
-}

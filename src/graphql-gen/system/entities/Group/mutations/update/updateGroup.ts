@@ -4,11 +4,15 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  unlinkGroupFromCreatedBy,
-  linkGroupToCreatedBy,
-  unlinkGroupFromUpdateBy,
-  linkGroupToUpdateBy,
+  ensureCourse,
+  unlinkGroupFromCourse,
+  linkGroupToCourse,
+  ensureStudent,
+  unlinkGroupFromStudents,
+  linkGroupToStudents,
+  ensureCurator,
+  unlinkGroupFromCurator,
+  linkGroupToCurator,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -23,16 +27,16 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        createdByUnlink?: object /*User*/;
-        createdByCreate?: object /*User*/;
-        updateBy?: object /*User*/;
-        updateByUnlink?: object /*User*/;
-        updateByCreate?: object /*User*/;
+        name?: string;
+        course?: object /*Course*/;
+        courseUnlink?: object /*Course*/;
+        courseCreate?: object /*Course*/;
+        students?: object /*Student*/[];
+        studentsUnlink?: object /*Student*/[];
+        studentsCreate?: object /*Student*/[];
+        curator?: object /*Curator*/;
+        curatorUnlink?: object /*Curator*/;
+        curatorCreate?: object /*Curator*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -47,6 +51,13 @@ export default new Mutation({
         previous = await context.connectors.Group.findOneById(args.id);
         result = await context.connectors.Group.findOneByIdAndUpdate(
           args.id,
+          merge({}, previous, payload),
+        );
+      } else if (args.name) {
+        delete payload.name;
+        previous = await context.connectors.Group.findOneByName(args.name);
+        result = await context.connectors.Group.findOneByNameAndUpdate(
+          args.name,
           merge({}, previous, payload),
         );
       }
@@ -69,101 +80,169 @@ export default new Mutation({
         });
       }
 
-      if (args.createdByUnlink) {
-        let $item = args.createdByUnlink;
+      if (args.courseUnlink) {
+        let $item = args.courseUnlink;
         if ($item) {
-          let createdBy = await ensureUser({
+          let course = await ensureCourse({
             args: $item,
             context,
             create: false,
           });
-          await unlinkGroupFromCreatedBy({
+          await unlinkGroupFromCourse({
             context,
-            createdBy,
+            course,
             group: result,
           });
         }
       }
 
-      if (args.createdByCreate) {
-        let $item = args.createdByCreate as { id };
+      if (args.courseCreate) {
+        let $item = args.courseCreate as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let course = await ensureCourse({
             args: $item,
             context,
             create: true,
           });
 
-          await linkGroupToCreatedBy({
+          await linkGroupToCourse({
             context,
-            createdBy,
+            course,
             group: result,
           });
         }
       }
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.course) {
+        let $item = args.course as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let course = await ensureCourse({
             args: $item,
             context,
             create: false,
           });
 
-          await linkGroupToCreatedBy({
+          await linkGroupToCourse({
             context,
-            createdBy,
+            course,
             group: result,
           });
         }
       }
 
-      if (args.updateByUnlink) {
-        let $item = args.updateByUnlink;
+      if (
+        args.studentsUnlink &&
+        Array.isArray(args.studentsUnlink) &&
+        args.studentsUnlink.length > 0
+      ) {
+        for (let i = 0, len = args.studentsUnlink.length; i < len; i++) {
+          let $item = args.studentsUnlink[i];
+          if ($item) {
+            let students = await ensureStudent({
+              args: $item,
+              context,
+              create: false,
+            });
+            await unlinkGroupFromStudents({
+              context,
+              students,
+              group: result,
+            });
+          }
+        }
+      }
+
+      if (
+        args.studentsCreate &&
+        Array.isArray(args.studentsCreate) &&
+        args.studentsCreate.length > 0
+      ) {
+        for (let i = 0, len = args.studentsCreate.length; i < len; i++) {
+          let $item = args.studentsCreate[i] as { id };
+          if ($item) {
+            let students = await ensureStudent({
+              args: $item,
+              context,
+              create: true,
+            });
+
+            await linkGroupToStudents({
+              context,
+              students,
+              group: result,
+            });
+          }
+        }
+      }
+
+      if (
+        args.students &&
+        Array.isArray(args.students) &&
+        args.students.length > 0
+      ) {
+        for (let i = 0, len = args.students.length; i < len; i++) {
+          let $item = args.students[i] as { id };
+          if ($item) {
+            let students = await ensureStudent({
+              args: $item,
+              context,
+              create: false,
+            });
+
+            await linkGroupToStudents({
+              context,
+              students,
+              group: result,
+            });
+          }
+        }
+      }
+
+      if (args.curatorUnlink) {
+        let $item = args.curatorUnlink;
         if ($item) {
-          let updateBy = await ensureUser({
+          let curator = await ensureCurator({
             args: $item,
             context,
             create: false,
           });
-          await unlinkGroupFromUpdateBy({
+          await unlinkGroupFromCurator({
             context,
-            updateBy,
+            curator,
             group: result,
           });
         }
       }
 
-      if (args.updateByCreate) {
-        let $item = args.updateByCreate as { id };
+      if (args.curatorCreate) {
+        let $item = args.curatorCreate as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let curator = await ensureCurator({
             args: $item,
             context,
             create: true,
           });
 
-          await linkGroupToUpdateBy({
+          await linkGroupToCurator({
             context,
-            updateBy,
+            curator,
             group: result,
           });
         }
       }
 
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
+      if (args.curator) {
+        let $item = args.curator as { id };
         if ($item) {
-          let updateBy = await ensureUser({
+          let curator = await ensureCurator({
             args: $item,
             context,
             create: false,
           });
 
-          await linkGroupToUpdateBy({
+          await linkGroupToCurator({
             context,
-            updateBy,
+            curator,
             group: result,
           });
         }

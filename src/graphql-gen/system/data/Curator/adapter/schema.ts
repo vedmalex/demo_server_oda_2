@@ -13,33 +13,10 @@ export default (args?: {
     },
   );
 
-  $Curator.add({
-    createdAt: {
-      type: Date,
-    },
-    updatedAt: {
-      type: Date,
-    },
-    removed: {
-      type: Boolean,
-    },
-    owner: {
-      type: String,
-    },
-  });
+  $Curator.add({});
 
   $Curator.add({
     person: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Curator.add({
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-  $Curator.add({
-    updateBy: {
       type: mongoose.Schema.Types.ObjectId,
     },
   });
@@ -47,60 +24,6 @@ export default (args?: {
   $Curator.index(
     {
       person: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Curator.index(
-    {
-      createdBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Curator.index(
-    {
-      updateBy: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Curator.index(
-    {
-      createdAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Curator.index(
-    {
-      updatedAt: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Curator.index(
-    {
-      removed: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Curator.index(
-    {
-      owner: 1,
     },
     {
       sparse: 1,

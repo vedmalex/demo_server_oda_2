@@ -34,8 +34,8 @@ export default new Subscription({
       ),
       {
         id: 'id',
-        createdBy: 'createdBy',
-        updateBy: 'updateBy',
+        meetingLink: 'meetingLink',
+        studentLink: 'studentLink',
       },
     ),
   },

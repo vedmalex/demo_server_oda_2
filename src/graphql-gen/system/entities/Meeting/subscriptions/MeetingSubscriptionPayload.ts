@@ -6,25 +6,23 @@ export default new Type({
   schema: gql`
     union MeetingSubscriptionPayload =
         UpdateMeetingSubscriptionPayload
-      | MeetingBelongsToCreatedBySubscriptionPayload
-      | MeetingBelongsToUpdateBySubscriptionPayload
+      | MeetingBelongsToCuratorSubscriptionPayload
+      | MeetingBelongsToGroupSubscriptionPayload
+      | MeetingBelongsToManyStudentsSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
-      if (
-        obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner
-      ) {
+      if (obj.id || obj.date) {
         return 'UpdateMeetingSubscriptionPayload';
       }
-      if (obj.args && obj.args.meeting && obj.args.user) {
-        return 'MeetingBelongsToCreatedBySubscriptionPayload';
+      if (obj.args && obj.args.meeting && obj.args.curator) {
+        return 'MeetingBelongsToCuratorSubscriptionPayload';
       }
-      if (obj.args && obj.args.meeting && obj.args.user) {
-        return 'MeetingBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.meeting && obj.args.group) {
+        return 'MeetingBelongsToGroupSubscriptionPayload';
+      }
+      if (obj.args && obj.args.meeting && obj.args.student) {
+        return 'MeetingBelongsToManyStudentsSubscriptionPayload';
       }
       return null;
     },

@@ -6,9 +6,12 @@ export default new Input({
     input UserFilter {
       or: [UserFilterItem]
       and: [UserFilterItem]
+      userName: WhereString
+      password: WhereString
       isAdmin: WhereBoolean
       isSystem: WhereBoolean
       enabled: WhereBoolean
+      id: WhereID
     }
   `,
 });

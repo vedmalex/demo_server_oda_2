@@ -1,5 +1,0 @@
-query findUserById($id: ID) {
-  user(id: $id) {
-    ...ViewUserFull
-  }
-}

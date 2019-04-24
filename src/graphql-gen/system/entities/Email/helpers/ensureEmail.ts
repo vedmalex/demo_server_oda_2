@@ -11,6 +11,12 @@ export default async function ensureEmail({ args, context, create }) {
     variables = {
       id: args.id,
     };
+  } else if (args.email) {
+    fArgs = '$email: String';
+    filter = 'email: $email';
+    variables = {
+      email: args.email,
+    };
   }
   let email;
   if (filter) {
@@ -44,12 +50,10 @@ export default async function ensureEmail({ args, context, create }) {
           `,
           variables: {
             email: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              email: args.email,
+              type: args.type,
+              person: args.person,
+              id: args.id,
             },
           },
         })
@@ -70,12 +74,10 @@ export default async function ensureEmail({ args, context, create }) {
         `,
         variables: {
           email: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            email: args.email,
+            type: args.type,
+            person: args.person,
+            id: args.id,
           },
         },
       })

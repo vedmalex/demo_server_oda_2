@@ -11,6 +11,12 @@ export default async function ensureSubject({ args, context, create }) {
     variables = {
       id: args.id,
     };
+  } else if (args.name) {
+    fArgs = '$name: String';
+    filter = 'name: $name';
+    variables = {
+      name: args.name,
+    };
   }
   let subject;
   if (filter) {
@@ -44,12 +50,9 @@ export default async function ensureSubject({ args, context, create }) {
           `,
           variables: {
             subject: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              name: args.name,
+              course: args.course,
+              id: args.id,
             },
           },
         })
@@ -70,12 +73,9 @@ export default async function ensureSubject({ args, context, create }) {
         `,
         variables: {
           subject: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            name: args.name,
+            course: args.course,
+            id: args.id,
           },
         },
       })

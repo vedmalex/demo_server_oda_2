@@ -4,11 +4,9 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  unlinkSubjectFromCreatedBy,
-  linkSubjectToCreatedBy,
-  unlinkSubjectFromUpdateBy,
-  linkSubjectToUpdateBy,
+  ensureCourse,
+  unlinkSubjectFromCourse,
+  linkSubjectToCourse,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -23,16 +21,10 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        createdByUnlink?: object /*User*/;
-        createdByCreate?: object /*User*/;
-        updateBy?: object /*User*/;
-        updateByUnlink?: object /*User*/;
-        updateByCreate?: object /*User*/;
+        name?: string;
+        course?: object /*Course*/[];
+        courseUnlink?: object /*Course*/[];
+        courseCreate?: object /*Course*/[];
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -47,6 +39,13 @@ export default new Mutation({
         previous = await context.connectors.Subject.findOneById(args.id);
         result = await context.connectors.Subject.findOneByIdAndUpdate(
           args.id,
+          merge({}, previous, payload),
+        );
+      } else if (args.name) {
+        delete payload.name;
+        previous = await context.connectors.Subject.findOneByName(args.name);
+        result = await context.connectors.Subject.findOneByNameAndUpdate(
+          args.name,
           merge({}, previous, payload),
         );
       }
@@ -69,103 +68,71 @@ export default new Mutation({
         });
       }
 
-      if (args.createdByUnlink) {
-        let $item = args.createdByUnlink;
-        if ($item) {
-          let createdBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkSubjectFromCreatedBy({
-            context,
-            createdBy,
-            subject: result,
-          });
+      if (
+        args.courseUnlink &&
+        Array.isArray(args.courseUnlink) &&
+        args.courseUnlink.length > 0
+      ) {
+        for (let i = 0, len = args.courseUnlink.length; i < len; i++) {
+          let $item = args.courseUnlink[i];
+          if ($item) {
+            let course = await ensureCourse({
+              args: $item,
+              context,
+              create: false,
+            });
+            await unlinkSubjectFromCourse({
+              context,
+              course,
+              subject: result,
+            });
+          }
         }
       }
 
-      if (args.createdByCreate) {
-        let $item = args.createdByCreate as { id };
-        if ($item) {
-          let createdBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
+      if (
+        args.courseCreate &&
+        Array.isArray(args.courseCreate) &&
+        args.courseCreate.length > 0
+      ) {
+        for (let i = 0, len = args.courseCreate.length; i < len; i++) {
+          let $item = args.courseCreate[i] as { id; hours; level };
+          if ($item) {
+            let course = await ensureCourse({
+              args: $item,
+              context,
+              create: true,
+            });
 
-          await linkSubjectToCreatedBy({
-            context,
-            createdBy,
-            subject: result,
-          });
+            await linkSubjectToCourse({
+              context,
+              course,
+              subject: result,
+              hours: $item.hours,
+              level: $item.level,
+            });
+          }
         }
       }
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
-        if ($item) {
-          let createdBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
+      if (args.course && Array.isArray(args.course) && args.course.length > 0) {
+        for (let i = 0, len = args.course.length; i < len; i++) {
+          let $item = args.course[i] as { id; hours; level };
+          if ($item) {
+            let course = await ensureCourse({
+              args: $item,
+              context,
+              create: false,
+            });
 
-          await linkSubjectToCreatedBy({
-            context,
-            createdBy,
-            subject: result,
-          });
-        }
-      }
-
-      if (args.updateByUnlink) {
-        let $item = args.updateByUnlink;
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkSubjectFromUpdateBy({
-            context,
-            updateBy,
-            subject: result,
-          });
-        }
-      }
-
-      if (args.updateByCreate) {
-        let $item = args.updateByCreate as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-
-          await linkSubjectToUpdateBy({
-            context,
-            updateBy,
-            subject: result,
-          });
-        }
-      }
-
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-
-          await linkSubjectToUpdateBy({
-            context,
-            updateBy,
-            subject: result,
-          });
+            await linkSubjectToCourse({
+              context,
+              course,
+              subject: result,
+              hours: $item.hours,
+              level: $item.level,
+            });
+          }
         }
       }
 

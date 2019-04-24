@@ -3,11 +3,7 @@ export default {
     queries: {
       Curator: {
         filter: `
-          id
-          createdAt
-          updatedAt
-          removed
-          owner`,
+          id`,
         uploader: {
           findQuery: {
             id: 'Curator/findById.graphql',
@@ -25,8 +21,8 @@ export default {
       Curator: {
         filter: `
           id
-          createdBy
-          updateBy`,
+          person
+          groups`,
         uploader: {
           findQuery: {
             id: 'Curator/findById.graphql',

@@ -4,11 +4,9 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  unlinkPhoneFromCreatedBy,
-  linkPhoneToCreatedBy,
-  unlinkPhoneFromUpdateBy,
-  linkPhoneToUpdateBy,
+  ensurePerson,
+  unlinkPhoneFromPerson,
+  linkPhoneToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -23,16 +21,11 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        createdByUnlink?: object /*User*/;
-        createdByCreate?: object /*User*/;
-        updateBy?: object /*User*/;
-        updateByUnlink?: object /*User*/;
-        updateByCreate?: object /*User*/;
+        phoneNumber?: string;
+        type?: string;
+        person?: object /*Person*/;
+        personUnlink?: object /*Person*/;
+        personCreate?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -47,6 +40,15 @@ export default new Mutation({
         previous = await context.connectors.Phone.findOneById(args.id);
         result = await context.connectors.Phone.findOneByIdAndUpdate(
           args.id,
+          merge({}, previous, payload),
+        );
+      } else if (args.phoneNumber) {
+        delete payload.phoneNumber;
+        previous = await context.connectors.Phone.findOneByPhoneNumber(
+          args.phoneNumber,
+        );
+        result = await context.connectors.Phone.findOneByPhoneNumberAndUpdate(
+          args.phoneNumber,
           merge({}, previous, payload),
         );
       }
@@ -69,101 +71,51 @@ export default new Mutation({
         });
       }
 
-      if (args.createdByUnlink) {
-        let $item = args.createdByUnlink;
+      if (args.personUnlink) {
+        let $item = args.personUnlink;
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: false,
           });
-          await unlinkPhoneFromCreatedBy({
+          await unlinkPhoneFromPerson({
             context,
-            createdBy,
+            person,
             phone: result,
           });
         }
       }
 
-      if (args.createdByCreate) {
-        let $item = args.createdByCreate as { id };
+      if (args.personCreate) {
+        let $item = args.personCreate as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: true,
           });
 
-          await linkPhoneToCreatedBy({
+          await linkPhoneToPerson({
             context,
-            createdBy,
+            person,
             phone: result,
           });
         }
       }
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.person) {
+        let $item = args.person as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: false,
           });
 
-          await linkPhoneToCreatedBy({
+          await linkPhoneToPerson({
             context,
-            createdBy,
-            phone: result,
-          });
-        }
-      }
-
-      if (args.updateByUnlink) {
-        let $item = args.updateByUnlink;
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkPhoneFromUpdateBy({
-            context,
-            updateBy,
-            phone: result,
-          });
-        }
-      }
-
-      if (args.updateByCreate) {
-        let $item = args.updateByCreate as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-
-          await linkPhoneToUpdateBy({
-            context,
-            updateBy,
-            phone: result,
-          });
-        }
-      }
-
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-
-          await linkPhoneToUpdateBy({
-            context,
-            updateBy,
+            person,
             phone: result,
           });
         }

@@ -6,10 +6,7 @@ export default new Type({
   schema: gql`
     type UpdateMeetingSubscriptionPayload {
       id: ID
-      createdAt: Date
-      updatedAt: Date
-      removed: Boolean
-      owner: String
+      date: Date
     }
   `,
 });

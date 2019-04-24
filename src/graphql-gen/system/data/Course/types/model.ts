@@ -3,12 +3,6 @@ export interface ICourse {
   name: string;
   subjects?: string[];
   groups?: string[];
-  createdBy?: string;
-  updateBy?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  removed?: boolean;
-  owner?: string;
 }
 
 export class Course implements ICourse {
@@ -17,23 +11,11 @@ export class Course implements ICourse {
   public name: string;
   public subjects?: string[];
   public groups?: string[];
-  public createdBy?: string;
-  public updateBy?: string;
-  public createdAt?: Date;
-  public updatedAt?: Date;
-  public removed?: boolean;
-  public owner?: string;
   constructor(init: PartialCourse) {
     this.id = init.id;
     this.name = init.name;
     this.subjects = init.subjects;
     this.groups = init.groups;
-    this.createdBy = init.createdBy;
-    this.updateBy = init.updateBy;
-    this.createdAt = init.createdAt;
-    this.updatedAt = init.updatedAt;
-    this.removed = init.removed;
-    this.owner = init.owner;
   }
 }
 
@@ -41,16 +23,7 @@ export function isCourse(obj): obj is ICourse {
   return (
     obj instanceof Course ||
     obj.__type === 'Course' ||
-    (obj.id ||
-      obj.name ||
-      obj.subjects ||
-      obj.groups ||
-      obj.createdBy ||
-      obj.updateBy ||
-      obj.createdAt ||
-      obj.updatedAt ||
-      obj.removed ||
-      obj.owner)
+    (obj.id || obj.name || obj.subjects || obj.groups)
   );
 }
 

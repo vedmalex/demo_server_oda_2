@@ -1,10 +1,12 @@
 import Meeting from './Meeting';
 import UpdateMeetingSubscriptionPayload from './UpdateMeetingSubscriptionPayload';
 import MeetingSubscription from './MeetingSubscription';
-import MeetingBelongsToCreatedByArgsSubscriptionPayload from './MeetingBelongsToCreatedByArgsSubscriptionPayload';
-import MeetingBelongsToCreatedBySubscriptionPayload from './MeetingBelongsToCreatedBySubscriptionPayload';
-import MeetingBelongsToUpdateByArgsSubscriptionPayload from './MeetingBelongsToUpdateByArgsSubscriptionPayload';
-import MeetingBelongsToUpdateBySubscriptionPayload from './MeetingBelongsToUpdateBySubscriptionPayload';
+import MeetingBelongsToCuratorArgsSubscriptionPayload from './MeetingBelongsToCuratorArgsSubscriptionPayload';
+import MeetingBelongsToCuratorSubscriptionPayload from './MeetingBelongsToCuratorSubscriptionPayload';
+import MeetingBelongsToGroupArgsSubscriptionPayload from './MeetingBelongsToGroupArgsSubscriptionPayload';
+import MeetingBelongsToGroupSubscriptionPayload from './MeetingBelongsToGroupSubscriptionPayload';
+import MeetingBelongsToManyStudentsArgsSubscriptionPayload from './MeetingBelongsToManyStudentsArgsSubscriptionPayload';
+import MeetingBelongsToManyStudentsSubscriptionPayload from './MeetingBelongsToManyStudentsSubscriptionPayload';
 import MeetingSubscriptionPayload from './MeetingSubscriptionPayload';
 import { Schema } from '../../../common';
 
@@ -14,10 +16,12 @@ export default new Schema({
     Meeting,
     UpdateMeetingSubscriptionPayload,
     MeetingSubscription,
-    MeetingBelongsToCreatedByArgsSubscriptionPayload,
-    MeetingBelongsToCreatedBySubscriptionPayload,
-    MeetingBelongsToUpdateByArgsSubscriptionPayload,
-    MeetingBelongsToUpdateBySubscriptionPayload,
+    MeetingBelongsToCuratorArgsSubscriptionPayload,
+    MeetingBelongsToCuratorSubscriptionPayload,
+    MeetingBelongsToGroupArgsSubscriptionPayload,
+    MeetingBelongsToGroupSubscriptionPayload,
+    MeetingBelongsToManyStudentsArgsSubscriptionPayload,
+    MeetingBelongsToManyStudentsSubscriptionPayload,
     MeetingSubscriptionPayload,
   ],
 });

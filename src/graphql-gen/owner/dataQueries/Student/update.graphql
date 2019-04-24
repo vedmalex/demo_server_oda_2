@@ -1,8 +1,0 @@
-# Update Student
-mutation updateStudent($student: updateStudentInput!) {
-  updateStudent(input: $student) {
-    student {
-      id
-    }
-  }
-}

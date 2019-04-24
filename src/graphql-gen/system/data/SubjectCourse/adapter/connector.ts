@@ -121,42 +121,6 @@ export default class SubjectCourse
     await this.findOneByIdAndUpdate(args.subjectCourse, { course: null });
   }
 
-  public async addToCreatedBy(args: { subjectCourse?: string; user?: string }) {
-    logger.trace(`addToCreatedBy`);
-    let opposite = await this.connectors.User.findOneById(args.user);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.subjectCourse, {
-        createdBy: opposite.id,
-      });
-    }
-  }
-
-  public async removeFromCreatedBy(args: {
-    subjectCourse?: string;
-    user?: string;
-  }) {
-    logger.trace(`removeFromCreatedBy`);
-    await this.findOneByIdAndUpdate(args.subjectCourse, { createdBy: null });
-  }
-
-  public async addToUpdateBy(args: { subjectCourse?: string; user?: string }) {
-    logger.trace(`addToUpdateBy`);
-    let opposite = await this.connectors.User.findOneById(args.user);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.subjectCourse, {
-        updateBy: opposite.id,
-      });
-    }
-  }
-
-  public async removeFromUpdateBy(args: {
-    subjectCourse?: string;
-    user?: string;
-  }) {
-    logger.trace(`removeFromUpdateBy`);
-    await this.findOneByIdAndUpdate(args.subjectCourse, { updateBy: null });
-  }
-
   public async findOneById(id?: string) {
     if (id) {
       logger.trace(`findOneById with ${id} `);
@@ -193,24 +157,6 @@ export default class SubjectCourse
     }
     if (args.level !== undefined) {
       entity.level = args.level;
-    }
-    if (args.createdBy !== undefined) {
-      entity.createdBy = args.createdBy;
-    }
-    if (args.updateBy !== undefined) {
-      entity.updateBy = args.updateBy;
-    }
-    if (args.createdAt !== undefined) {
-      entity.createdAt = args.createdAt;
-    }
-    if (args.updatedAt !== undefined) {
-      entity.updatedAt = args.updatedAt;
-    }
-    if (args.removed !== undefined) {
-      entity.removed = args.removed;
-    }
-    if (args.owner !== undefined) {
-      entity.owner = args.owner;
     }
     if (update) {
       delete entity.id;

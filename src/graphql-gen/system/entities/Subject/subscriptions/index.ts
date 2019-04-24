@@ -1,10 +1,8 @@
 import Subject from './Subject';
 import UpdateSubjectSubscriptionPayload from './UpdateSubjectSubscriptionPayload';
 import SubjectSubscription from './SubjectSubscription';
-import SubjectBelongsToCreatedByArgsSubscriptionPayload from './SubjectBelongsToCreatedByArgsSubscriptionPayload';
-import SubjectBelongsToCreatedBySubscriptionPayload from './SubjectBelongsToCreatedBySubscriptionPayload';
-import SubjectBelongsToUpdateByArgsSubscriptionPayload from './SubjectBelongsToUpdateByArgsSubscriptionPayload';
-import SubjectBelongsToUpdateBySubscriptionPayload from './SubjectBelongsToUpdateBySubscriptionPayload';
+import SubjectBelongsToManyCoursesArgsSubscriptionPayload from './SubjectBelongsToManyCoursesArgsSubscriptionPayload';
+import SubjectBelongsToManyCoursesSubscriptionPayload from './SubjectBelongsToManyCoursesSubscriptionPayload';
 import SubjectSubscriptionPayload from './SubjectSubscriptionPayload';
 import { Schema } from '../../../common';
 
@@ -14,10 +12,8 @@ export default new Schema({
     Subject,
     UpdateSubjectSubscriptionPayload,
     SubjectSubscription,
-    SubjectBelongsToCreatedByArgsSubscriptionPayload,
-    SubjectBelongsToCreatedBySubscriptionPayload,
-    SubjectBelongsToUpdateByArgsSubscriptionPayload,
-    SubjectBelongsToUpdateBySubscriptionPayload,
+    SubjectBelongsToManyCoursesArgsSubscriptionPayload,
+    SubjectBelongsToManyCoursesSubscriptionPayload,
     SubjectSubscriptionPayload,
   ],
 });

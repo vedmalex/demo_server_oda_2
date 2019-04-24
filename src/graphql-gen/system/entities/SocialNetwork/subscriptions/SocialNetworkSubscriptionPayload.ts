@@ -6,25 +6,15 @@ export default new Type({
   schema: gql`
     union SocialNetworkSubscriptionPayload =
         UpdateSocialNetworkSubscriptionPayload
-      | SocialNetworkBelongsToCreatedBySubscriptionPayload
-      | SocialNetworkBelongsToUpdateBySubscriptionPayload
+      | SocialNetworkBelongsToPersonSubscriptionPayload
   `,
   resolver: {
     __resolveType(obj, context, info) {
-      if (
-        obj.id ||
-        obj.createdAt ||
-        obj.updatedAt ||
-        obj.removed ||
-        obj.owner
-      ) {
+      if (obj.id || obj.account || obj.url || obj.type) {
         return 'UpdateSocialNetworkSubscriptionPayload';
       }
-      if (obj.args && obj.args.socialNetwork && obj.args.user) {
-        return 'SocialNetworkBelongsToCreatedBySubscriptionPayload';
-      }
-      if (obj.args && obj.args.socialNetwork && obj.args.user) {
-        return 'SocialNetworkBelongsToUpdateBySubscriptionPayload';
+      if (obj.args && obj.args.socialNetwork && obj.args.person) {
+        return 'SocialNetworkBelongsToPersonSubscriptionPayload';
       }
       return null;
     },

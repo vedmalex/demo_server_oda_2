@@ -1,15 +1,15 @@
 import ensureCourse from './ensureCourse';
-import linkCourseToCreatedBy from './linkCourseToCreatedBy';
-import unlinkCourseFromCreatedBy from './unlinkCourseFromCreatedBy';
-import linkCourseToUpdateBy from './linkCourseToUpdateBy';
-import unlinkCourseFromUpdateBy from './unlinkCourseFromUpdateBy';
+import linkCourseToSubjects from './linkCourseToSubjects';
+import unlinkCourseFromSubjects from './unlinkCourseFromSubjects';
+import linkCourseToGroups from './linkCourseToGroups';
+import unlinkCourseFromGroups from './unlinkCourseFromGroups';
 import unlinkCourseFromAll from './unlinkCourseFromAll';
 
 export {
   ensureCourse,
-  linkCourseToCreatedBy,
-  unlinkCourseFromCreatedBy,
-  linkCourseToUpdateBy,
-  unlinkCourseFromUpdateBy,
+  linkCourseToSubjects,
+  unlinkCourseFromSubjects,
+  linkCourseToGroups,
+  unlinkCourseFromGroups,
   unlinkCourseFromAll,
 };

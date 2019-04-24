@@ -4,11 +4,9 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensureUser,
-  unlinkEmailFromCreatedBy,
-  linkEmailToCreatedBy,
-  unlinkEmailFromUpdateBy,
-  linkEmailToUpdateBy,
+  ensurePerson,
+  unlinkEmailFromPerson,
+  linkEmailToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -23,16 +21,11 @@ export default new Mutation({
     async (
       args: {
         id?: string;
-        createdAt?: Date;
-        updatedAt?: Date;
-        removed?: boolean;
-        owner?: string;
-        createdBy?: object /*User*/;
-        createdByUnlink?: object /*User*/;
-        createdByCreate?: object /*User*/;
-        updateBy?: object /*User*/;
-        updateByUnlink?: object /*User*/;
-        updateByCreate?: object /*User*/;
+        email?: string;
+        type?: string;
+        person?: object /*Person*/;
+        personUnlink?: object /*Person*/;
+        personCreate?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -47,6 +40,13 @@ export default new Mutation({
         previous = await context.connectors.Email.findOneById(args.id);
         result = await context.connectors.Email.findOneByIdAndUpdate(
           args.id,
+          merge({}, previous, payload),
+        );
+      } else if (args.email) {
+        delete payload.email;
+        previous = await context.connectors.Email.findOneByEmail(args.email);
+        result = await context.connectors.Email.findOneByEmailAndUpdate(
+          args.email,
           merge({}, previous, payload),
         );
       }
@@ -69,101 +69,51 @@ export default new Mutation({
         });
       }
 
-      if (args.createdByUnlink) {
-        let $item = args.createdByUnlink;
+      if (args.personUnlink) {
+        let $item = args.personUnlink;
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: false,
           });
-          await unlinkEmailFromCreatedBy({
+          await unlinkEmailFromPerson({
             context,
-            createdBy,
+            person,
             email: result,
           });
         }
       }
 
-      if (args.createdByCreate) {
-        let $item = args.createdByCreate as { id };
+      if (args.personCreate) {
+        let $item = args.personCreate as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: true,
           });
 
-          await linkEmailToCreatedBy({
+          await linkEmailToPerson({
             context,
-            createdBy,
+            person,
             email: result,
           });
         }
       }
 
-      if (args.createdBy) {
-        let $item = args.createdBy as { id };
+      if (args.person) {
+        let $item = args.person as { id };
         if ($item) {
-          let createdBy = await ensureUser({
+          let person = await ensurePerson({
             args: $item,
             context,
             create: false,
           });
 
-          await linkEmailToCreatedBy({
+          await linkEmailToPerson({
             context,
-            createdBy,
-            email: result,
-          });
-        }
-      }
-
-      if (args.updateByUnlink) {
-        let $item = args.updateByUnlink;
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkEmailFromUpdateBy({
-            context,
-            updateBy,
-            email: result,
-          });
-        }
-      }
-
-      if (args.updateByCreate) {
-        let $item = args.updateByCreate as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-
-          await linkEmailToUpdateBy({
-            context,
-            updateBy,
-            email: result,
-          });
-        }
-      }
-
-      if (args.updateBy) {
-        let $item = args.updateBy as { id };
-        if ($item) {
-          let updateBy = await ensureUser({
-            args: $item,
-            context,
-            create: false,
-          });
-
-          await linkEmailToUpdateBy({
-            context,
-            updateBy,
+            person,
             email: result,
           });
         }

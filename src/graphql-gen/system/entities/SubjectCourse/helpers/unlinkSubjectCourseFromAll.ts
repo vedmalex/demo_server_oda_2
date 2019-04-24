@@ -31,10 +31,10 @@ export default async function unlinkSubjectCourseFromAll(
     const unlinkFragment = gql`
       fragment UnlinkSubjectCourse on SubjectCourse {
         id
-        createdByUnlink: createdBy {
+        subjectLinkUnlink: subjectLink {
           id
         }
-        updateByUnlink: updateBy {
+        courseLinkUnlink: courseLink {
           id
         }
       }

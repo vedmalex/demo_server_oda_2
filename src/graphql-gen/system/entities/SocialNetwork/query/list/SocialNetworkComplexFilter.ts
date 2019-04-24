@@ -5,12 +5,11 @@ export default new Input({
     input SocialNetworkComplexFilter {
       or: [SocialNetworkComplexFilter]
       and: [SocialNetworkComplexFilter]
-      createdBy: WhereID
-      updateBy: WhereID
-      createdAt: WhereDate
-      updatedAt: WhereDate
-      removed: WhereBoolean
-      owner: WhereString
+      account: WhereString
+      url: WhereString
+      type: WhereSocialNetworkType
+      person: WhereID
+      id: WhereID
     }
   `,
 });

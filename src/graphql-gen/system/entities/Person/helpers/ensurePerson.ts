@@ -11,6 +11,18 @@ export default async function ensurePerson({ args, context, create }) {
     variables = {
       id: args.id,
     };
+  } else if (args.spiritualName) {
+    fArgs = '$spiritualName: String';
+    filter = 'spiritualName: $spiritualName';
+    variables = {
+      spiritualName: args.spiritualName,
+    };
+  } else if (args.fullName) {
+    fArgs = '$fullName: String';
+    filter = 'fullName: $fullName';
+    variables = {
+      fullName: args.fullName,
+    };
   }
   let person;
   if (filter) {
@@ -44,12 +56,17 @@ export default async function ensurePerson({ args, context, create }) {
           `,
           variables: {
             person: {
-              createdBy: args.createdBy,
-              updateBy: args.updateBy,
-              createdAt: args.createdAt,
-              updatedAt: args.updatedAt,
-              removed: args.removed,
-              owner: args.owner,
+              spiritualName: args.spiritualName,
+              fullName: args.fullName,
+              dateOfBirth: args.dateOfBirth,
+              user: args.user,
+              socialNetworks: args.socialNetworks,
+              phones: args.phones,
+              emails: args.emails,
+              asStudents: args.asStudents,
+              asCurator: args.asCurator,
+              specialNotes: args.specialNotes,
+              id: args.id,
             },
           },
         })
@@ -70,12 +87,17 @@ export default async function ensurePerson({ args, context, create }) {
         `,
         variables: {
           person: {
-            createdBy: args.createdBy,
-            updateBy: args.updateBy,
-            createdAt: args.createdAt,
-            updatedAt: args.updatedAt,
-            removed: args.removed,
-            owner: args.owner,
+            spiritualName: args.spiritualName,
+            fullName: args.fullName,
+            dateOfBirth: args.dateOfBirth,
+            user: args.user,
+            socialNetworks: args.socialNetworks,
+            phones: args.phones,
+            emails: args.emails,
+            asStudents: args.asStudents,
+            asCurator: args.asCurator,
+            specialNotes: args.specialNotes,
+            id: args.id,
           },
         },
       })
