@@ -29,7 +29,15 @@ async function createContext(schema: object) {
     schema,
   });
   result.userGQL = userGQL.query.bind(userGQL);
-  return result;
+
+  return ({ connection }) => {
+    debugger;
+    if (connection) {
+      return {...connection.context, ...result};
+    } else {
+      return result;
+    }
+  };
 }
 
 async function runServer() {

@@ -1791,7 +1791,7 @@ immutable@^4.0.0-rc.9:
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
   integrity sha512-0M2XxkZLx/mi3t8NVwIm1g8nHoEmM9p9UBl/G9k4+hm0kBgOVdMV/B3CY5dQ8qG8qc80NN4gDV4HQv6FTJ5q7A==
 
-inflected@^2.0.4:
+inflected@^2.0.3, inflected@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/inflected/-/inflected-2.0.4.tgz#323770961ccbe992a98ea930512e9a82d3d3ef77"
   integrity sha512-HQPzFLTTUvwfeUH6RAGjD8cHS069mBqXG5n4qaxX7sJXBhVQrsGgF+0ZJGkSuN6a8pcUWB/GXStta11kKi/WvA==
@@ -2558,7 +2558,7 @@ oda-api-graphql-mongoose@^1.0.0-17:
     oda-api-graphql "^1.0.0-27"
     oda-isomorfic "^1.0.0-25"
 
-oda-api-graphql@^1.0.0-17, oda-api-graphql@^1.0.0-27:
+oda-api-graphql@1.0.0-27, oda-api-graphql@^1.0.0-17, oda-api-graphql@^1.0.0-27:
   version "1.0.0-27"
   resolved "https://registry.yarnpkg.com/oda-api-graphql/-/oda-api-graphql-1.0.0-27.tgz#ea17e08439becb53e2bceabae1b866f9a75952ab"
   integrity sha512-dJF/+2t4oz9uduoUNbX3d2O7/S5FjjgWadEcEdRMZfY2HZ8n6HDVX96/e2uUHfD5Z2RNayYPqHA04N4sOEZH8Q==
@@ -2570,7 +2570,7 @@ oda-api-graphql@^1.0.0-17, oda-api-graphql@^1.0.0-27:
     iterall "^1.2.2"
     oda-isomorfic "^1.0.0-25"
 
-oda-gen-common@^1.0.0-17, oda-gen-common@^1.0.0-30:
+oda-gen-common@1.0.0-30, oda-gen-common@^1.0.0-17, oda-gen-common@^1.0.0-30:
   version "1.0.0-30"
   resolved "https://registry.yarnpkg.com/oda-gen-common/-/oda-gen-common-1.0.0-30.tgz#6149c33c5debb4e4f049d7c544680cb8ff2c0dc6"
   integrity sha512-PM6oOVb4Zhu9M22yEA7ILRnegjkduOAp6/WSAOF1vM6H23e2760Tvs/Sbd5M81KOKPIijWm6lVNfjAlS41TDaw==
@@ -2581,22 +2581,22 @@ oda-gen-common@^1.0.0-17, oda-gen-common@^1.0.0-30:
     warning "^3.0.0"
 
 oda-gen-graphql@^1.0.0-17:
-  version "1.0.0-56"
-  resolved "https://registry.yarnpkg.com/oda-gen-graphql/-/oda-gen-graphql-1.0.0-56.tgz#9a6196cb147f0ff29744ac976d74290f99e1b46e"
-  integrity sha512-PNmu4fES+oDUJ9kLLzYrg92gIVP5U0MWSdEXqm7JLelMNjt66o2Fm9vMh47nSj272DE0vqcCq89c0Ohp/lsYKQ==
+  version "1.0.0-58"
+  resolved "https://registry.yarnpkg.com/oda-gen-graphql/-/oda-gen-graphql-1.0.0-58.tgz#5b1cce34e992822a117fbd4ac98efc853012dd93"
+  integrity sha512-TZlLp5TOHL7xOKg3AqeHIubY4SfTS96+gqUNOkZlsqTYG+5LI+t0b0cyWAD/ivX/+LCBdEZ/p5zjCOCAUiTnUg==
   dependencies:
     fte.js "^0.8.1"
     inflected "^2.0.4"
     mem-fs "^1.1.3"
     mem-fs-editor "^5.1.0"
-    oda-api-graphql "^1.0.0-27"
-    oda-gen-common "^1.0.0-30"
-    oda-isomorfic "^1.0.0-25"
-    oda-model "^1.0.0-38"
+    oda-api-graphql "1.0.0-27"
+    oda-gen-common "1.0.0-30"
+    oda-isomorfic "1.0.0-25"
+    oda-model "1.0.0-28"
     prettier "^1.15.2"
     string-humanize "^1.0.0"
 
-oda-isomorfic@^1.0.0-17, oda-isomorfic@^1.0.0-25:
+oda-isomorfic@1.0.0-25, oda-isomorfic@^1.0.0-17, oda-isomorfic@^1.0.0-19, oda-isomorfic@^1.0.0-25:
   version "1.0.0-25"
   resolved "https://registry.yarnpkg.com/oda-isomorfic/-/oda-isomorfic-1.0.0-25.tgz#c9ef3b16686cca21f65d9dc7bb01f932268ea100"
   integrity sha512-84LUEbDr9pRe+ONswofaGDkncUD/972vE/vU4pzpWciKAgTaME/t+FW9C+ki3FfZ/J7fZAff53ScnJKC/x/YzA==
@@ -2614,16 +2614,16 @@ oda-lodash@^1.0.0-17:
     oda-gen-common "^1.0.0-30"
     oda-isomorfic "^1.0.0-25"
 
-oda-model@^1.0.0-38:
-  version "1.0.0-38"
-  resolved "https://registry.yarnpkg.com/oda-model/-/oda-model-1.0.0-38.tgz#a6332660570555ee606604ad6baa6feac5dd9396"
-  integrity sha512-/6SZuTpUvj5SOovlWNsCuBwlzI3O+Y6A2CeCT0ZA4OExH3aNdOjVTio7TahVzdSWxW9nyymsWvhBmntP4wlEjA==
+oda-model@1.0.0-28:
+  version "1.0.0-28"
+  resolved "https://registry.yarnpkg.com/oda-model/-/oda-model-1.0.0-28.tgz#fba59d7efa6570cb19ef76dadb02b32536da234d"
+  integrity sha512-DDCGuQDGJQizJy3e+gGWtmTcrO3IeFmLOduzcl6/ZkJy5CMgV5UHvFpG4H4ITJ/1yx/pOgWcBlyrirvxAClthQ==
   dependencies:
     camelcase "^5.0.0"
     decamelize "^2.0.0"
     global "^4.3.2"
-    inflected "^2.0.4"
-    oda-isomorfic "^1.0.0-25"
+    inflected "^2.0.3"
+    oda-isomorfic "^1.0.0-19"
 
 on-finished@~2.3.0:
   version "2.3.0"
