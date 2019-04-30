@@ -15,20 +15,26 @@ export default new Scalar({
       return makeDate(value);
     },
     parseLiteral: node => {
-      const { kind, value } = node;
-      let result;
-      switch (kind) {
-        case Kind.INT:
-        case Kind.FLOAT:
-          result = new Date(+value);
-          break;
-        case Kind.STRING:
-          result = new Date(value);
-          break;
-        default:
-          throw new GraphQLError(`Expected Data value, but got: ${value}`);
+      if (
+        node.kind === 'IntValue' ||
+        node.kind === 'FloatValue' ||
+        node.kind === 'StringValue'
+      ) {
+        const { kind, value } = node;
+        let result;
+        switch (kind) {
+          case Kind.INT:
+          case Kind.FLOAT:
+            result = new Date(+value);
+            break;
+          case Kind.STRING:
+            result = new Date(value);
+            break;
+        }
+        return result;
+      } else {
+        throw new GraphQLError(`Expected Data value, but got: ${node.kind}`);
       }
-      return result;
     },
   },
 });

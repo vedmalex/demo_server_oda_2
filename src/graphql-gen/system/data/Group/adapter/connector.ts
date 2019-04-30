@@ -1,11 +1,11 @@
-import * as log4js from 'log4js';
-let logger = log4js.getLogger('api:connector:Group');
+import getLogger from 'oda-logger';
+let logger = getLogger('api:connector:Group');
 
 import { MongooseApi } from 'oda-api-graphql-mongoose';
 import { SecurityContext } from 'oda-api-graphql';
 import GroupSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
-import * as Dataloader from 'dataloader';
+import Dataloader from 'dataloader';
 
 import { PartialGroup, Group as DTO } from '../types/model';
 import { GroupConnector } from './interface';

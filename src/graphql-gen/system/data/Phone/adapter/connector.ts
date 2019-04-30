@@ -1,11 +1,11 @@
-import * as log4js from 'log4js';
-let logger = log4js.getLogger('api:connector:Phone');
+import getLogger from 'oda-logger';
+let logger = getLogger('api:connector:Phone');
 
 import { MongooseApi } from 'oda-api-graphql-mongoose';
 import { SecurityContext } from 'oda-api-graphql';
 import PhoneSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
-import * as Dataloader from 'dataloader';
+import Dataloader from 'dataloader';
 
 import { PartialPhone, Phone as DTO } from '../types/model';
 import { PhoneConnector } from './interface';

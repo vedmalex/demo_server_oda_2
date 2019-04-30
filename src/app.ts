@@ -8,7 +8,6 @@ import { pubsub } from './model/pubsub';
 
 async function createContext(schema: object) {
   let db = await dbPool.get('default');
-  debugger;
   let connectors = new RegisterConnectors({
     mongoose: db,
   });
@@ -31,7 +30,6 @@ async function createContext(schema: object) {
   result.userGQL = userGQL.query.bind(userGQL);
 
   return ({ connection }) => {
-    debugger;
     if (connection) {
       return {...connection.context, ...result};
     } else {
@@ -58,8 +56,6 @@ async function runServer() {
   });
   return server.listen();
 }
-
-
 // This `listen` method launches a web-server.  Existing apps
 // can utilize middleware options, which we'll discuss later.
 runServer()

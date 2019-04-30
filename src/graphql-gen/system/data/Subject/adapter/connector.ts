@@ -1,11 +1,11 @@
-import * as log4js from 'log4js';
-let logger = log4js.getLogger('api:connector:Subject');
+import getLogger from 'oda-logger';
+let logger = getLogger('api:connector:Subject');
 
 import { MongooseApi } from 'oda-api-graphql-mongoose';
 import { SecurityContext } from 'oda-api-graphql';
 import SubjectSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
-import * as Dataloader from 'dataloader';
+import Dataloader from 'dataloader';
 
 import { PartialSubject, Subject as DTO } from '../types/model';
 import { SubjectConnector } from './interface';

@@ -1,11 +1,11 @@
-import * as log4js from 'log4js';
-let logger = log4js.getLogger('api:connector:Email');
+import getLogger from 'oda-logger';
+let logger = getLogger('api:connector:Email');
 
 import { MongooseApi } from 'oda-api-graphql-mongoose';
 import { SecurityContext } from 'oda-api-graphql';
 import EmailSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
-import * as Dataloader from 'dataloader';
+import Dataloader from 'dataloader';
 
 import { PartialEmail, Email as DTO } from '../types/model';
 import { EmailConnector } from './interface';

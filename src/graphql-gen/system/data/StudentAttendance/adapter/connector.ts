@@ -1,11 +1,11 @@
-import * as log4js from 'log4js';
-let logger = log4js.getLogger('api:connector:StudentAttendance');
+import getLogger from 'oda-logger';
+let logger = getLogger('api:connector:StudentAttendance');
 
 import { MongooseApi } from 'oda-api-graphql-mongoose';
 import { SecurityContext } from 'oda-api-graphql';
 import StudentAttendanceSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
-import * as Dataloader from 'dataloader';
+import Dataloader from 'dataloader';
 
 import {
   PartialStudentAttendance,

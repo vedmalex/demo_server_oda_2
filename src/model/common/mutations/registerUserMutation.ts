@@ -1,5 +1,5 @@
-import * as log4js from 'log4js';
-let logger = log4js.getLogger('graphql:register:');
+import getLogger from 'oda-logger';
+let logger = getLogger('graphql:register:');
 
 import {
   Mutation,

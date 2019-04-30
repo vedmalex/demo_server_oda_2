@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { get } from 'lodash';
 
 import { RegisterConnectors } from '../../../common';

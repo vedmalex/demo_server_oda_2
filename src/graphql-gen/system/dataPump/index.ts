@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import User from './User';
 import Student from './Student';
 import Curator from './Curator';

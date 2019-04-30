@@ -1,11 +1,11 @@
-import * as log4js from 'log4js';
-let logger = log4js.getLogger('api:connector:Curator');
+import getLogger from 'oda-logger';
+let logger = getLogger('api:connector:Curator');
 
 import { MongooseApi } from 'oda-api-graphql-mongoose';
 import { SecurityContext } from 'oda-api-graphql';
 import CuratorSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
-import * as Dataloader from 'dataloader';
+import Dataloader from 'dataloader';
 
 import { PartialCurator, Curator as DTO } from '../types/model';
 import { CuratorConnector } from './interface';

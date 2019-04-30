@@ -8,6 +8,7 @@ import schema from '../model/schema';
 import { ExecutionResult } from 'graphql';
 import { runQueryLodash } from 'oda-lodash';
 import { dbPool } from './dbPool';
+import { parse } from 'graphql';
 
 let schemas = () => schema.system;
 
@@ -28,10 +29,10 @@ export class UserGQL {
     variables: any;
   }): Promise<ExecutionResult> {
     return await runQueryLodash({
-      query,
-      variables,
+      document: typeof query ==='string' ? parse(query): query,
+      variableValues: variables,
       schema: this.schema,
-      context: this.context
+      contextValue: this.context
     });
   }
 }
@@ -78,10 +79,10 @@ export class SystemGraphQL {
     schema?: any;
   }): Promise<ExecutionResult> {
     return await runQueryLodash({
-      query,
-      variables,
+      document: typeof query ==='string' ? parse(query): query,
+      variableValues: variables,
       schema: schema || SystemGraphQL.schema(),
-      context: context || (await SystemGraphQL.context())
+      contextValue: context || (await SystemGraphQL.context())
     });
   }
 
@@ -97,3 +98,6 @@ export class SystemGraphQL {
     };
   }
 }
+
+
+// npm link oda-api-common oda-api-graphql oda-api-graphql-mongoose oda-gen-common oda-gen-graphql oda-isomorfic oda-lodash oda-model

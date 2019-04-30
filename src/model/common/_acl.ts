@@ -1,8 +1,8 @@
 import { acl } from 'oda-api-graphql';
 import { runtimeMutationAcl } from '../hooks';
 
-import * as log4js from 'log4js';
-let logger = log4js.getLogger('graphql:register:');
+import getLogger from 'oda-logger';
+let logger = getLogger('graphql:register:');
 
 import { Query } from '../../graphql-gen/system/common';
 import gql from 'graphql-tag';
