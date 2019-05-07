@@ -24,7 +24,7 @@ export default async function ensureMeeting({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.meeting);
+      .then(r => r.data && r.data.meeting);
   }
 
   if (!meeting) {
@@ -52,7 +52,13 @@ export default async function ensureMeeting({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createMeeting.meeting.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createMeeting &&
+            r.data.createMeeting.meeting &&
+            r.data.createMeeting.meeting.node,
+        );
     }
   } else {
     // update
@@ -77,7 +83,9 @@ export default async function ensureMeeting({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateMeeting.meeting);
+      .then(
+        r => r.data && r.data.updateMeeting && r.data.updateMeeting.meeting,
+      );
   }
   return meeting;
 }

@@ -30,7 +30,7 @@ export default async function ensureSocialNetwork({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.socialNetwork);
+      .then(r => r.data && r.data.socialNetwork);
   }
 
   if (!socialNetwork) {
@@ -59,7 +59,13 @@ export default async function ensureSocialNetwork({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createSocialNetwork.socialNetwork.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createSocialNetwork &&
+            r.data.createSocialNetwork.socialNetwork &&
+            r.data.createSocialNetwork.socialNetwork.node,
+        );
     }
   } else {
     // update
@@ -85,7 +91,12 @@ export default async function ensureSocialNetwork({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateSocialNetwork.socialNetwork);
+      .then(
+        r =>
+          r.data &&
+          r.data.updateSocialNetwork &&
+          r.data.updateSocialNetwork.socialNetwork,
+      );
   }
   return socialNetwork;
 }

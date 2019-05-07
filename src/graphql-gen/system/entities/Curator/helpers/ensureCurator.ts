@@ -24,7 +24,7 @@ export default async function ensureCurator({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.curator);
+      .then(r => r.data && r.data.curator);
   }
 
   if (!curator) {
@@ -50,7 +50,13 @@ export default async function ensureCurator({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createCurator.curator.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createCurator &&
+            r.data.createCurator.curator &&
+            r.data.createCurator.curator.node,
+        );
     }
   } else {
     // update
@@ -73,7 +79,9 @@ export default async function ensureCurator({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateCurator.curator);
+      .then(
+        r => r.data && r.data.updateCurator && r.data.updateCurator.curator,
+      );
   }
   return curator;
 }

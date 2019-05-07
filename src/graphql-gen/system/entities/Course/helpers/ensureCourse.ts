@@ -30,7 +30,7 @@ export default async function ensureCourse({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.course);
+      .then(r => r.data && r.data.course);
   }
 
   if (!course) {
@@ -57,7 +57,13 @@ export default async function ensureCourse({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createCourse.course.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createCourse &&
+            r.data.createCourse.course &&
+            r.data.createCourse.course.node,
+        );
     }
   } else {
     // update
@@ -81,7 +87,7 @@ export default async function ensureCourse({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateCourse.course);
+      .then(r => r.data && r.data.updateCourse && r.data.updateCourse.course);
   }
   return course;
 }

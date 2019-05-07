@@ -24,7 +24,7 @@ export default async function ensureSubjectCourse({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.subjectCourse);
+      .then(r => r.data && r.data.subjectCourse);
   }
 
   if (!subjectCourse) {
@@ -57,7 +57,13 @@ export default async function ensureSubjectCourse({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createSubjectCourse.subjectCourse.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createSubjectCourse &&
+            r.data.createSubjectCourse.subjectCourse &&
+            r.data.createSubjectCourse.subjectCourse.node,
+        );
     }
   } else {
     // update
@@ -87,7 +93,12 @@ export default async function ensureSubjectCourse({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateSubjectCourse.subjectCourse);
+      .then(
+        r =>
+          r.data &&
+          r.data.updateSubjectCourse &&
+          r.data.updateSubjectCourse.subjectCourse,
+      );
   }
   return subjectCourse;
 }

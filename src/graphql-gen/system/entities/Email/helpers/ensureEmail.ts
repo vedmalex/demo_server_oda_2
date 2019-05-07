@@ -30,7 +30,7 @@ export default async function ensureEmail({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.email);
+      .then(r => r.data && r.data.email);
   }
 
   if (!email) {
@@ -56,7 +56,13 @@ export default async function ensureEmail({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createEmail.email.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createEmail &&
+            r.data.createEmail.email &&
+            r.data.createEmail.email.node,
+        );
     }
   } else {
     // update
@@ -79,7 +85,7 @@ export default async function ensureEmail({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateEmail.email);
+      .then(r => r.data && r.data.updateEmail && r.data.updateEmail.email);
   }
   return email;
 }

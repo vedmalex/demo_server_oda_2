@@ -30,7 +30,7 @@ export default async function ensureGroup({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.group);
+      .then(r => r.data && r.data.group);
   }
 
   if (!group) {
@@ -58,7 +58,13 @@ export default async function ensureGroup({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createGroup.group.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createGroup &&
+            r.data.createGroup.group &&
+            r.data.createGroup.group.node,
+        );
     }
   } else {
     // update
@@ -83,7 +89,7 @@ export default async function ensureGroup({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateGroup.group);
+      .then(r => r.data && r.data.updateGroup && r.data.updateGroup.group);
   }
   return group;
 }

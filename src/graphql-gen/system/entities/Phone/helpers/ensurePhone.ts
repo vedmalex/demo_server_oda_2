@@ -30,7 +30,7 @@ export default async function ensurePhone({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.phone);
+      .then(r => r.data && r.data.phone);
   }
 
   if (!phone) {
@@ -56,7 +56,13 @@ export default async function ensurePhone({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createPhone.phone.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createPhone &&
+            r.data.createPhone.phone &&
+            r.data.createPhone.phone.node,
+        );
     }
   } else {
     // update
@@ -79,7 +85,7 @@ export default async function ensurePhone({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updatePhone.phone);
+      .then(r => r.data && r.data.updatePhone && r.data.updatePhone.phone);
   }
   return phone;
 }

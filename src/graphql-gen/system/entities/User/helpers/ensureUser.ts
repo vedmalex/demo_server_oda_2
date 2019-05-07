@@ -30,7 +30,7 @@ export default async function ensureUser({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.user);
+      .then(r => r.data && r.data.user);
   }
 
   if (!user) {
@@ -59,7 +59,13 @@ export default async function ensureUser({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createUser.user.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createUser &&
+            r.data.createUser.user &&
+            r.data.createUser.user.node,
+        );
     }
   } else {
     // update
@@ -85,7 +91,7 @@ export default async function ensureUser({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateUser.user);
+      .then(r => r.data && r.data.updateUser && r.data.updateUser.user);
   }
   return user;
 }

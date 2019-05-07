@@ -30,7 +30,7 @@ export default async function ensureSubject({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.subject);
+      .then(r => r.data && r.data.subject);
   }
 
   if (!subject) {
@@ -56,7 +56,13 @@ export default async function ensureSubject({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createSubject.subject.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createSubject &&
+            r.data.createSubject.subject &&
+            r.data.createSubject.subject.node,
+        );
     }
   } else {
     // update
@@ -79,7 +85,9 @@ export default async function ensureSubject({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateSubject.subject);
+      .then(
+        r => r.data && r.data.updateSubject && r.data.updateSubject.subject,
+      );
   }
   return subject;
 }

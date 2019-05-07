@@ -28,7 +28,7 @@ export default async function ensureStudentAttendance({
           `,
         variables,
       })
-      .then(r => r.data.studentAttendance);
+      .then(r => r.data && r.data.studentAttendance);
   }
 
   if (!studentAttendance) {
@@ -61,7 +61,13 @@ export default async function ensureStudentAttendance({
             },
           },
         })
-        .then(r => r.data.createStudentAttendance.studentAttendance.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createStudentAttendance &&
+            r.data.createStudentAttendance.studentAttendance &&
+            r.data.createStudentAttendance.studentAttendance.node,
+        );
     }
   } else {
     // update
@@ -91,7 +97,12 @@ export default async function ensureStudentAttendance({
           },
         },
       })
-      .then(r => r.data.updateStudentAttendance.studentAttendance);
+      .then(
+        r =>
+          r.data &&
+          r.data.updateStudentAttendance &&
+          r.data.updateStudentAttendance.studentAttendance,
+      );
   }
   return studentAttendance;
 }

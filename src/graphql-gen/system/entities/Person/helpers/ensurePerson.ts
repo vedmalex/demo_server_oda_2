@@ -36,7 +36,7 @@ export default async function ensurePerson({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.person);
+      .then(r => r.data && r.data.person);
   }
 
   if (!person) {
@@ -70,7 +70,13 @@ export default async function ensurePerson({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createPerson.person.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createPerson &&
+            r.data.createPerson.person &&
+            r.data.createPerson.person.node,
+        );
     }
   } else {
     // update
@@ -101,7 +107,7 @@ export default async function ensurePerson({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updatePerson.person);
+      .then(r => r.data && r.data.updatePerson && r.data.updatePerson.person);
   }
   return person;
 }

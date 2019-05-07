@@ -24,7 +24,7 @@ export default async function ensureStudent({ args, context, create }) {
           `,
         variables,
       })
-      .then(r => r.data.student);
+      .then(r => r.data && r.data.student);
   }
 
   if (!student) {
@@ -51,7 +51,13 @@ export default async function ensureStudent({ args, context, create }) {
             },
           },
         })
-        .then(r => r.data.createStudent.student.node);
+        .then(
+          r =>
+            r.data &&
+            r.data.createStudent &&
+            r.data.createStudent.student &&
+            r.data.createStudent.student.node,
+        );
     }
   } else {
     // update
@@ -75,7 +81,9 @@ export default async function ensureStudent({ args, context, create }) {
           },
         },
       })
-      .then(r => r.data.updateStudent.student);
+      .then(
+        r => r.data && r.data.updateStudent && r.data.updateStudent.student,
+      );
   }
   return student;
 }
