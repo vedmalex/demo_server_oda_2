@@ -7,7 +7,6 @@ export default new Input({
       id: ID
       email: String
       type: CommunicationType
-      person: embedPersonInput
     }
   `,
 });

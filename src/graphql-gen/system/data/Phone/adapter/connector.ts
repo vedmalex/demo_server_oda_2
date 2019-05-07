@@ -7,7 +7,7 @@ import PhoneSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialPhone, Phone as DTO } from '../types/model';
+import { PartialPhone, PartialPhoneInput, Phone as DTO } from '../types/model';
 import { PhoneConnector } from './interface';
 
 export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
@@ -65,7 +65,7 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     };
   }
 
-  public async create(payload: PartialPhone) {
+  public async create(payload: PartialPhone | PartialPhoneInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -73,7 +73,10 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialPhone | PartialPhoneInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -86,7 +89,7 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
 
   public async findOneByPhoneNumberAndUpdate(
     phoneNumber: string,
-    payload: any,
+    payload: PartialPhone | PartialPhoneInput,
   ) {
     logger.trace(`findOneByPhoneNumberAndUpdate`);
     let entity = this.getPayload(payload, true);
@@ -118,19 +121,6 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async addToPerson(args: { phone?: string; person?: string }) {
-    logger.trace(`addToPerson`);
-    let opposite = await this.connectors.Person.findOneById(args.person);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.phone, { person: opposite.id });
-    }
-  }
-
-  public async removeFromPerson(args: { phone?: string; person?: string }) {
-    logger.trace(`removeFromPerson`);
-    await this.findOneByIdAndUpdate(args.phone, { person: null });
-  }
-
   public async findOneById(id?: string) {
     if (id) {
       logger.trace(`findOneById with ${id} `);
@@ -147,7 +137,10 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     }
   }
 
-  public getPayload(args: PartialPhone, update?: boolean): PartialPhone {
+  public getPayload(
+    args: PartialPhone | PartialPhoneInput,
+    update?: boolean,
+  ): PartialPhone {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;
@@ -157,9 +150,6 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     }
     if (args.type !== undefined) {
       entity.type = args.type;
-    }
-    if (args.person !== undefined) {
-      entity.person = args.person;
     }
     if (update) {
       delete entity.id;

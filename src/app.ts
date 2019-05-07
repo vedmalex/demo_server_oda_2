@@ -6,7 +6,7 @@ import { SystemGraphQL, UserGQL } from './model/runQuery';
 import { dbPool } from './model/dbPool';
 import { pubsub } from './model/pubsub';
 
-async function createContext(schema: object) {
+async function createContext(schema: object, resolvers: any) {
   let db = await dbPool.get('default');
   let connectors = new RegisterConnectors({
     mongoose: db,
@@ -21,6 +21,7 @@ async function createContext(schema: object) {
     dbPool,
     pubsub,
     schema,
+    resolvers,
   };
 
   const userGQL = new UserGQL({
@@ -52,7 +53,7 @@ async function runServer() {
     tracing: true,
     introspection: true,
     playground: true,
-    context: await createContext( schema )
+    context: await createContext( schema, sys.resolvers )
   });
   return server.listen();
 }

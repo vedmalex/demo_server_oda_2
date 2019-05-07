@@ -52,7 +52,6 @@ export default async function ensurePhone({ args, context, create }) {
             phone: {
               phoneNumber: args.phoneNumber,
               type: args.type,
-              person: args.person,
               id: args.id,
             },
           },
@@ -76,7 +75,6 @@ export default async function ensurePhone({ args, context, create }) {
           phone: {
             phoneNumber: args.phoneNumber,
             type: args.type,
-            person: args.person,
             id: args.id,
           },
         },

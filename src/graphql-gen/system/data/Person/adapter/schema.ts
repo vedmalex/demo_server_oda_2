@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 
+import SocialNetwork from './../../SocialNetwork/adapter/schema';
+
+import Phone from './../../Phone/adapter/schema';
+
+import Email from './../../Email/adapter/schema';
+
 export default (args?: {
   schema: mongoose.Schema;
   fieldName: () => string;
@@ -34,6 +40,42 @@ export default (args?: {
     user: {
       type: mongoose.Schema.Types.ObjectId,
     },
+  });
+  $Person.add({
+    socialNetworks: [
+      SocialNetwork({
+        schema: $Person,
+        fieldName: () =>
+          args && args.fieldName
+            ? [args.fieldName(), 'socialNetworks'].join('.')
+            : 'socialNetworks',
+        single: false,
+      }),
+    ],
+  });
+  $Person.add({
+    phones: [
+      Phone({
+        schema: $Person,
+        fieldName: () =>
+          args && args.fieldName
+            ? [args.fieldName(), 'phones'].join('.')
+            : 'phones',
+        single: false,
+      }),
+    ],
+  });
+  $Person.add({
+    emails: [
+      Email({
+        schema: $Person,
+        fieldName: () =>
+          args && args.fieldName
+            ? [args.fieldName(), 'emails'].join('.')
+            : 'emails',
+        single: false,
+      }),
+    ],
   });
 
   $Person.index(

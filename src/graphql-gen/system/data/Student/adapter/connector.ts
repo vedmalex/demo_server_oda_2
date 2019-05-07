@@ -7,7 +7,11 @@ import StudentSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialStudent, Student as DTO } from '../types/model';
+import {
+  PartialStudent,
+  PartialStudentInput,
+  Student as DTO,
+} from '../types/model';
 import { StudentConnector } from './interface';
 
 export default class Student
@@ -50,7 +54,7 @@ export default class Student
     };
   }
 
-  public async create(payload: PartialStudent) {
+  public async create(payload: PartialStudent | PartialStudentInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -58,7 +62,10 @@ export default class Student
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialStudent | PartialStudentInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -172,16 +179,27 @@ export default class Student
     }
   }
 
-  public getPayload(args: PartialStudent, update?: boolean): PartialStudent {
+  public getPayload(
+    args: PartialStudent | PartialStudentInput,
+    update?: boolean,
+  ): PartialStudent {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;
     }
     if (args.person !== undefined) {
-      entity.person = args.person;
+      if (typeof args.person === 'object') {
+        entity.person = args.person.id;
+      } else {
+        entity.person = args.person;
+      }
     }
     if (args.group !== undefined) {
-      entity.group = args.group;
+      if (typeof args.group === 'object') {
+        entity.group = args.group.id;
+      } else {
+        entity.group = args.group;
+      }
     }
     if (update) {
       delete entity.id;

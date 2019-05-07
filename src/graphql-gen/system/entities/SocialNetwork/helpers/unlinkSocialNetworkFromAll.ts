@@ -31,9 +31,6 @@ export default async function unlinkSocialNetworkFromAll(
     const unlinkFragment = gql`
       fragment UnlinkSocialNetwork on SocialNetwork {
         id
-        personUnlink: person {
-          id
-        }
       }
     `;
     const input = await context

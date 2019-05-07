@@ -4,8 +4,6 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensurePerson,
-  linkEmailToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -21,7 +19,6 @@ export default new Mutation({
         id?: string;
         email?: string;
         type?: string;
-        person?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -47,22 +44,6 @@ export default new Mutation({
         cursor: result.id,
         node: result,
       };
-
-      if (args.person) {
-        let $item = args.person as { id };
-        if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkEmailToPerson({
-            context,
-            person,
-            email: result,
-          });
-        }
-      }
 
       return {
         email: emailEdge,

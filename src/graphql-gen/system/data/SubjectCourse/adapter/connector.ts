@@ -7,7 +7,11 @@ import SubjectCourseSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialSubjectCourse, SubjectCourse as DTO } from '../types/model';
+import {
+  PartialSubjectCourse,
+  PartialSubjectCourseInput,
+  SubjectCourse as DTO,
+} from '../types/model';
 import { SubjectCourseConnector } from './interface';
 
 export default class SubjectCourse
@@ -50,7 +54,9 @@ export default class SubjectCourse
     };
   }
 
-  public async create(payload: PartialSubjectCourse) {
+  public async create(
+    payload: PartialSubjectCourse | PartialSubjectCourseInput,
+  ) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -58,7 +64,10 @@ export default class SubjectCourse
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialSubjectCourse | PartialSubjectCourseInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -130,7 +139,7 @@ export default class SubjectCourse
   }
 
   public getPayload(
-    args: PartialSubjectCourse,
+    args: PartialSubjectCourse | PartialSubjectCourseInput,
     update?: boolean,
   ): PartialSubjectCourse {
     let entity: any = {};
@@ -147,10 +156,18 @@ export default class SubjectCourse
       entity.course = args.course;
     }
     if (args.subjectLink !== undefined) {
-      entity.subjectLink = args.subjectLink;
+      if (typeof args.subjectLink === 'object') {
+        entity.subjectLink = args.subjectLink.id;
+      } else {
+        entity.subjectLink = args.subjectLink;
+      }
     }
     if (args.courseLink !== undefined) {
-      entity.courseLink = args.courseLink;
+      if (typeof args.courseLink === 'object') {
+        entity.courseLink = args.courseLink.id;
+      } else {
+        entity.courseLink = args.courseLink;
+      }
     }
     if (args.hours !== undefined) {
       entity.hours = args.hours;

@@ -4,9 +4,6 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensurePerson,
-  unlinkSocialNetworkFromPerson,
-  linkSocialNetworkToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -26,9 +23,6 @@ export default new Mutation({
         account?: string;
         url?: string;
         type?: string;
-        person?: object /*Person*/;
-        personUnlink?: object /*Person*/;
-        personCreate?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -72,56 +66,6 @@ export default new Mutation({
             payload: args,
           },
         });
-      }
-
-      if (args.personUnlink) {
-        let $item = args.personUnlink;
-        if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkSocialNetworkFromPerson({
-            context,
-            person,
-            socialNetwork: result,
-          });
-        }
-      }
-
-      if (args.personCreate) {
-        let $item = args.personCreate as { id };
-        if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: true,
-          });
-
-          await linkSocialNetworkToPerson({
-            context,
-            person,
-            socialNetwork: result,
-          });
-        }
-      }
-
-      if (args.person) {
-        let $item = args.person as { id };
-        if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: false,
-          });
-
-          await linkSocialNetworkToPerson({
-            context,
-            person,
-            socialNetwork: result,
-          });
-        }
       }
 
       return {

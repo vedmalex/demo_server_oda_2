@@ -15,7 +15,4 @@ export interface PhoneConnector extends Connector<PartialPhone> {
     payload: PartialPhone,
   ) => Promise<PartialPhone>;
   findOneByPhoneNumberAndRemove: (phoneNumber: string) => Promise<PartialPhone>;
-
-  addToPerson(args: { phone?: string; person?: string }): Promise<void>;
-  removeFromPerson(args: { phone?: string; person?: string }): Promise<void>;
 }

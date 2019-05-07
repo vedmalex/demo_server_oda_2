@@ -4,8 +4,6 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensurePerson,
-  linkSocialNetworkToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 
@@ -24,7 +22,6 @@ export default new Mutation({
         account?: string;
         url?: string;
         type?: string;
-        person?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -50,22 +47,6 @@ export default new Mutation({
         cursor: result.id,
         node: result,
       };
-
-      if (args.person) {
-        let $item = args.person as { id };
-        if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkSocialNetworkToPerson({
-            context,
-            person,
-            socialNetwork: result,
-          });
-        }
-      }
 
       return {
         socialNetwork: socialNetworkEdge,

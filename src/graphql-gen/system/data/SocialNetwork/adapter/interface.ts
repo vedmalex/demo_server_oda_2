@@ -16,10 +16,4 @@ export interface SocialNetworkConnector
     payload: PartialSocialNetwork,
   ) => Promise<PartialSocialNetwork>;
   findOneByAccountAndRemove: (account: string) => Promise<PartialSocialNetwork>;
-
-  addToPerson(args: { socialNetwork?: string; person?: string }): Promise<void>;
-  removeFromPerson(args: {
-    socialNetwork?: string;
-    person?: string;
-  }): Promise<void>;
 }

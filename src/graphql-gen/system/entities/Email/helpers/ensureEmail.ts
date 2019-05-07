@@ -52,7 +52,6 @@ export default async function ensureEmail({ args, context, create }) {
             email: {
               email: args.email,
               type: args.type,
-              person: args.person,
               id: args.id,
             },
           },
@@ -76,7 +75,6 @@ export default async function ensureEmail({ args, context, create }) {
           email: {
             email: args.email,
             type: args.type,
-            person: args.person,
             id: args.id,
           },
         },

@@ -9,7 +9,7 @@ export default new Type({
       node: SocialNetwork!
       payload: SocialNetworkSubscriptionPayload
       updatedFields: [String]
-      previous: UpdateSocialNetworkSubscriptionPayload
+      previous: SocialNetworkSubscriptionPayload
     }
   `,
 });

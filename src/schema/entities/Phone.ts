@@ -1,5 +1,6 @@
 export default {
   name: 'Phone',
+  embedded:true,
   fields: {
     phoneNumber: {
       identity: true,
@@ -8,12 +9,12 @@ export default {
       indexed: true,
       type: 'CommunicationType',
     },
-    person: {
-      indexed: true,
-      relation: {
-        belongsTo: 'Person#',
-        opposite: 'phones',
-      },
-    },
+    // person: {
+    //   indexed: true,
+    //   relation: {
+    //     belongsTo: 'Person#',
+    //     opposite: 'phones',
+    //   },
+    // },
   },
 };

@@ -9,6 +9,7 @@ import Dataloader from 'dataloader';
 
 import {
   PartialStudentAttendance,
+  PartialStudentAttendanceInput,
   StudentAttendance as DTO,
 } from '../types/model';
 import { StudentAttendanceConnector } from './interface';
@@ -53,7 +54,9 @@ export default class StudentAttendance
     };
   }
 
-  public async create(payload: PartialStudentAttendance) {
+  public async create(
+    payload: PartialStudentAttendance | PartialStudentAttendanceInput,
+  ) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -61,7 +64,10 @@ export default class StudentAttendance
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialStudentAttendance | PartialStudentAttendanceInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -133,7 +139,7 @@ export default class StudentAttendance
   }
 
   public getPayload(
-    args: PartialStudentAttendance,
+    args: PartialStudentAttendance | PartialStudentAttendanceInput,
     update?: boolean,
   ): PartialStudentAttendance {
     let entity: any = {};
@@ -147,10 +153,18 @@ export default class StudentAttendance
       entity.student = args.student;
     }
     if (args.meetingLink !== undefined) {
-      entity.meetingLink = args.meetingLink;
+      if (typeof args.meetingLink === 'object') {
+        entity.meetingLink = args.meetingLink.id;
+      } else {
+        entity.meetingLink = args.meetingLink;
+      }
     }
     if (args.studentLink !== undefined) {
-      entity.studentLink = args.studentLink;
+      if (typeof args.studentLink === 'object') {
+        entity.studentLink = args.studentLink.id;
+      } else {
+        entity.studentLink = args.studentLink;
+      }
     }
     if (args.present !== undefined) {
       entity.present = args.present;

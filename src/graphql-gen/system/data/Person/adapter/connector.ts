@@ -7,8 +7,18 @@ import PersonSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialPerson, Person as DTO } from '../types/model';
+import {
+  PartialPerson,
+  PartialPersonInput,
+  Person as DTO,
+} from '../types/model';
 import { PersonConnector } from './interface';
+
+import { PartialSocialNetwork } from './../../SocialNetwork/types/model';
+
+import { PartialPhone } from './../../Phone/types/model';
+
+import { PartialEmail } from './../../Email/types/model';
 
 export default class Person
   extends MongooseApi<RegisterConnectors, PartialPerson>
@@ -80,7 +90,7 @@ export default class Person
     };
   }
 
-  public async create(payload: PartialPerson) {
+  public async create(payload: PartialPerson | PartialPersonInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -88,7 +98,10 @@ export default class Person
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialPerson | PartialPersonInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -101,7 +114,7 @@ export default class Person
 
   public async findOneBySpiritualNameAndUpdate(
     spiritualName: string,
-    payload: any,
+    payload: PartialPerson | PartialPersonInput,
   ) {
     logger.trace(`findOneBySpiritualNameAndUpdate`);
     let entity = this.getPayload(payload, true);
@@ -113,7 +126,10 @@ export default class Person
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByFullNameAndUpdate(fullName: string, payload: any) {
+  public async findOneByFullNameAndUpdate(
+    fullName: string,
+    payload: PartialPerson | PartialPersonInput,
+  ) {
     logger.trace(`findOneByFullNameAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byFullName.load(fullName);
@@ -165,65 +181,6 @@ export default class Person
   public async removeFromUser(args: { person?: string; user?: string }) {
     logger.trace(`removeFromUser`);
     await this.findOneByIdAndUpdate(args.person, { user: null });
-  }
-
-  public async addToSocialNetworks(args: {
-    person?: string;
-    socialNetwork?: string;
-  }) {
-    logger.trace(`addToSocialNetworks`);
-    let current = await this.findOneById(args.person);
-    if (current) {
-      await this.connectors.SocialNetwork.findOneByIdAndUpdate(
-        args.socialNetwork,
-        { person: current.id },
-      );
-    }
-  }
-
-  public async removeFromSocialNetworks(args: {
-    person?: string;
-    socialNetwork?: string;
-  }) {
-    logger.trace(`removeFromSocialNetworks`);
-    await this.connectors.SocialNetwork.findOneByIdAndUpdate(
-      args.socialNetwork,
-      { person: null },
-    );
-  }
-
-  public async addToPhones(args: { person?: string; phone?: string }) {
-    logger.trace(`addToPhones`);
-    let current = await this.findOneById(args.person);
-    if (current) {
-      await this.connectors.Phone.findOneByIdAndUpdate(args.phone, {
-        person: current.id,
-      });
-    }
-  }
-
-  public async removeFromPhones(args: { person?: string; phone?: string }) {
-    logger.trace(`removeFromPhones`);
-    await this.connectors.Phone.findOneByIdAndUpdate(args.phone, {
-      person: null,
-    });
-  }
-
-  public async addToEmails(args: { person?: string; email?: string }) {
-    logger.trace(`addToEmails`);
-    let current = await this.findOneById(args.person);
-    if (current) {
-      await this.connectors.Email.findOneByIdAndUpdate(args.email, {
-        person: current.id,
-      });
-    }
-  }
-
-  public async removeFromEmails(args: { person?: string; email?: string }) {
-    logger.trace(`removeFromEmails`);
-    await this.connectors.Email.findOneByIdAndUpdate(args.email, {
-      person: null,
-    });
   }
 
   public async addToAsStudents(args: { person?: string; student?: string }) {
@@ -290,7 +247,10 @@ export default class Person
     }
   }
 
-  public getPayload(args: PartialPerson, update?: boolean): PartialPerson {
+  public getPayload(
+    args: PartialPerson | PartialPersonInput,
+    update?: boolean,
+  ): PartialPerson {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;
@@ -305,7 +265,20 @@ export default class Person
       entity.dateOfBirth = args.dateOfBirth;
     }
     if (args.user !== undefined) {
-      entity.user = args.user;
+      if (typeof args.user === 'object') {
+        entity.user = args.user.id;
+      } else {
+        entity.user = args.user;
+      }
+    }
+    if (args.socialNetworks !== undefined) {
+      entity.socialNetworks = args.socialNetworks;
+    }
+    if (args.phones !== undefined) {
+      entity.phones = args.phones;
+    }
+    if (args.emails !== undefined) {
+      entity.emails = args.emails;
     }
     if (args.specialNotes !== undefined) {
       entity.specialNotes = args.specialNotes;

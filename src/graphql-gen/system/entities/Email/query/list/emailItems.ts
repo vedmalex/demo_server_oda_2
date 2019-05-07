@@ -34,7 +34,6 @@ export default new Query({
     logger.trace('emails');
     let idMap = {
       id: '_id',
-      person: 'person',
     };
     return await context.connectors.Email.getList({
       ...args,

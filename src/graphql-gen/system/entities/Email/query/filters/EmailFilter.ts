@@ -8,7 +8,6 @@ export default new Input({
       and: [EmailFilterItem]
       email: WhereString
       type: WhereCommunicationType
-      person: WhereID
       id: WhereID
     }
   `,

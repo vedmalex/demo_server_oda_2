@@ -26,8 +26,7 @@ export default {
     relate: {
       SocialNetwork: {
         filter: `
-          id
-          person`,
+          id`,
         uploader: {
           findQuery: {
             id: 'SocialNetwork/findById.graphql',

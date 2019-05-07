@@ -11,6 +11,9 @@ export default new Input({
       dateOfBirth: WhereDate
       ages: WhereFloat
       user: WhereID
+      socialNetworks: SocialNetworkFilter
+      phones: PhoneFilter
+      emails: EmailFilter
       specialNotes: WhereString
       id: WhereID
     }

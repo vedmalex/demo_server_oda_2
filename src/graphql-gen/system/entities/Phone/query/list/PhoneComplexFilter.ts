@@ -7,7 +7,6 @@ export default new Input({
       and: [PhoneComplexFilter]
       phoneNumber: WhereString
       type: WhereCommunicationType
-      person: WhereID
       id: WhereID
     }
   `,

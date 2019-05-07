@@ -7,7 +7,11 @@ import SocialNetworkSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialSocialNetwork, SocialNetwork as DTO } from '../types/model';
+import {
+  PartialSocialNetwork,
+  PartialSocialNetworkInput,
+  SocialNetwork as DTO,
+} from '../types/model';
 import { SocialNetworkConnector } from './interface';
 
 export default class SocialNetwork
@@ -64,7 +68,9 @@ export default class SocialNetwork
     };
   }
 
-  public async create(payload: PartialSocialNetwork) {
+  public async create(
+    payload: PartialSocialNetwork | PartialSocialNetworkInput,
+  ) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -72,7 +78,10 @@ export default class SocialNetwork
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialSocialNetwork | PartialSocialNetworkInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -83,7 +92,10 @@ export default class SocialNetwork
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByAccountAndUpdate(account: string, payload: any) {
+  public async findOneByAccountAndUpdate(
+    account: string,
+    payload: PartialSocialNetwork | PartialSocialNetworkInput,
+  ) {
     logger.trace(`findOneByAccountAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byAccount.load(account);
@@ -114,24 +126,6 @@ export default class SocialNetwork
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async addToPerson(args: { socialNetwork?: string; person?: string }) {
-    logger.trace(`addToPerson`);
-    let opposite = await this.connectors.Person.findOneById(args.person);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.socialNetwork, {
-        person: opposite.id,
-      });
-    }
-  }
-
-  public async removeFromPerson(args: {
-    socialNetwork?: string;
-    person?: string;
-  }) {
-    logger.trace(`removeFromPerson`);
-    await this.findOneByIdAndUpdate(args.socialNetwork, { person: null });
-  }
-
   public async findOneById(id?: string) {
     if (id) {
       logger.trace(`findOneById with ${id} `);
@@ -149,7 +143,7 @@ export default class SocialNetwork
   }
 
   public getPayload(
-    args: PartialSocialNetwork,
+    args: PartialSocialNetwork | PartialSocialNetworkInput,
     update?: boolean,
   ): PartialSocialNetwork {
     let entity: any = {};
@@ -164,9 +158,6 @@ export default class SocialNetwork
     }
     if (args.type !== undefined) {
       entity.type = args.type;
-    }
-    if (args.person !== undefined) {
-      entity.person = args.person;
     }
     if (update) {
       delete entity.id;

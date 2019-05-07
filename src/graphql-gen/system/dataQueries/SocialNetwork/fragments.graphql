@@ -19,7 +19,4 @@ fragment ViewSocialNetworkFull on SocialNetwork {
   account
   url
   type
-  person {
-    ...EmbedPersonWithId
-  }
 }

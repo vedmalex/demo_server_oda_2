@@ -1,0 +1,25 @@
+{
+  "User": [
+    {
+      "id": "000000000000000000000000",
+      "userName": "system",
+      "password": "{\"salt\":\"FdpXrDClMkORNwE3Flkucg==\",\"hash\":\"8Dif88LsOes2/6D1IzYjxSM8H4MqZWfrPJMF6fcWOqtIu6/jcCabSL8pwDPaSvfeIxtQryi/j6sJOSYe2ixCDIva70gKo4avXCG7yMEx4kZaXm0LYKXxb294KklqF2960Lowiu89Rr86/llHa8OIzm5tZU3mBZwsDzJgA56kL32iag+/JWqbZWuHgJpTUawA/cnGbPy/vA3n4e+pCeiZDRxNqpLSLLLq8hWTBTWTC1eVbh2XbQKXwFKzk5UHxCOiA5ROFu5BpFqrUue8ICJRMaSrIkTVCnoDSVzYxovlJrKb2t4K4GztPseC2KV7hzkFk+RbLzaYFEVBoYCG84bM0Sa+4EZQEBxNE2OtzLdhX2hbsD1Tcz0s/0IfGZfTLN6HHv8Ma7d1OmH/lGX9H6lvMF9fg9zEAekmJT0LJHG725DoFmCnYIY+xKo9b2t4fKNZtJaTM/iNasa2VaM89fl3GH4KCYkPV6YXftnmqgaLKPmmu17TeIvsTtPhrzIsdzrMT7YMblAkdeuZLzxRqh2INPDawmzxC2eKa3tEO34lXV0ET8a5xzJsx7DZHHGh1iWxqd7drZWVuO+SgNMaUgrTeu1k6CaFyGNv0NHnYo2rndHsJvLQiM2G3dsSqZIJqZqRJKrk3ZIAwQJLZJbgMWlNBAe2lgGVGZhL71PFZXx4tws=\"}",
+      "isAdmin": true,
+      "isSystem": true,
+      "enabled": true
+    }
+  ],
+  "Student": [],
+  "Curator": [],
+  "Group": [],
+  "Person": [],
+  "SocialNetwork": [],
+  "SocialNetworkType": [],
+  "Email": null,
+  "Phone": null,
+  "Meeting": [],
+  "StudentAttendance": [],
+  "Course": [],
+  "Subject": [],
+  "SubjectCourse": []
+}

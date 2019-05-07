@@ -34,7 +34,6 @@ export default new Subscription({
       ),
       {
         id: 'id',
-        person: 'person',
       },
     ),
   },

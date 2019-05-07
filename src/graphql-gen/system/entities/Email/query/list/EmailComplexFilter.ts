@@ -7,7 +7,6 @@ export default new Input({
       and: [EmailComplexFilter]
       email: WhereString
       type: WhereCommunicationType
-      person: WhereID
       id: WhereID
     }
   `,

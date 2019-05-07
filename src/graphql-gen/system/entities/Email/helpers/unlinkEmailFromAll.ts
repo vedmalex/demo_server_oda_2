@@ -31,9 +31,6 @@ export default async function unlinkEmailFromAll(
     const unlinkFragment = gql`
       fragment UnlinkEmail on Email {
         id
-        personUnlink: person {
-          id
-        }
       }
     `;
     const input = await context

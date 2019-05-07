@@ -7,7 +7,11 @@ import CourseSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialCourse, Course as DTO } from '../types/model';
+import {
+  PartialCourse,
+  PartialCourseInput,
+  Course as DTO,
+} from '../types/model';
 import { CourseConnector } from './interface';
 
 export default class Course
@@ -62,7 +66,7 @@ export default class Course
     };
   }
 
-  public async create(payload: PartialCourse) {
+  public async create(payload: PartialCourse | PartialCourseInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -70,7 +74,10 @@ export default class Course
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialCourse | PartialCourseInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -81,7 +88,10 @@ export default class Course
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByNameAndUpdate(name: string, payload: any) {
+  public async findOneByNameAndUpdate(
+    name: string,
+    payload: PartialCourse | PartialCourseInput,
+  ) {
     logger.trace(`findOneByNameAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byName.load(name);
@@ -201,7 +211,10 @@ export default class Course
     }
   }
 
-  public getPayload(args: PartialCourse, update?: boolean): PartialCourse {
+  public getPayload(
+    args: PartialCourse | PartialCourseInput,
+    update?: boolean,
+  ): PartialCourse {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;

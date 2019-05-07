@@ -34,7 +34,6 @@ export default new Query({
     logger.trace('socialNetworks');
     let idMap = {
       id: '_id',
-      person: 'person',
     };
     return await context.connectors.SocialNetwork.getList({
       ...args,

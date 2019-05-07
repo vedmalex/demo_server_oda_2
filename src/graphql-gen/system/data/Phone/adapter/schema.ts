@@ -23,24 +23,9 @@ export default (args?: {
     },
   });
 
-  $Phone.add({
-    person: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-
   $Phone.index(
     {
       type: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Phone.index(
-    {
-      person: 1,
     },
     {
       sparse: 1,

@@ -7,7 +7,6 @@ export default new Input({
       id: ID
       phoneNumber: String
       type: CommunicationType
-      person: embedPersonInput
     }
   `,
 });

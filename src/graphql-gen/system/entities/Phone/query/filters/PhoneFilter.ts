@@ -8,7 +8,6 @@ export default new Input({
       and: [PhoneFilterItem]
       phoneNumber: WhereString
       type: WhereCommunicationType
-      person: WhereID
       id: WhereID
     }
   `,

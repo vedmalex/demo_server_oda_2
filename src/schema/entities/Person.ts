@@ -23,19 +23,25 @@ export default {
       },
     },
     socialNetworks: {
-      relation: {
-        hasMany: 'SocialNetwork#person',
-      },
+      type: {
+        type: 'entity',
+        name: 'SocialNetwork',
+        multiplicity: 'many'
+      }
     },
     phones: {
-      relation: {
-        hasMany: 'Phone#person',
-      },
+      type: {
+        type: 'entity',
+        name: 'Phone',
+        multiplicity: 'many'
+      }
     },
     emails: {
-      relation: {
-        hasMany: 'Email#person',
-      },
+      type: {
+        type: 'entity',
+        name: 'Email',
+        multiplicity: 'many'
+      }
     },
     asStudents: {
       relation: {

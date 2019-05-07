@@ -7,7 +7,11 @@ import SubjectSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialSubject, Subject as DTO } from '../types/model';
+import {
+  PartialSubject,
+  PartialSubjectInput,
+  Subject as DTO,
+} from '../types/model';
 import { SubjectConnector } from './interface';
 
 export default class Subject
@@ -62,7 +66,7 @@ export default class Subject
     };
   }
 
-  public async create(payload: PartialSubject) {
+  public async create(payload: PartialSubject | PartialSubjectInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -70,7 +74,10 @@ export default class Subject
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialSubject | PartialSubjectInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -81,7 +88,10 @@ export default class Subject
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByNameAndUpdate(name: string, payload: any) {
+  public async findOneByNameAndUpdate(
+    name: string,
+    payload: PartialSubject | PartialSubjectInput,
+  ) {
     logger.trace(`findOneByNameAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byName.load(name);
@@ -195,7 +205,10 @@ export default class Subject
     }
   }
 
-  public getPayload(args: PartialSubject, update?: boolean): PartialSubject {
+  public getPayload(
+    args: PartialSubject | PartialSubjectInput,
+    update?: boolean,
+  ): PartialSubject {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;

@@ -1,6 +1,12 @@
 import { Connector } from 'oda-api-graphql';
 import { PartialPerson } from '../types/model';
 
+import { PartialSocialNetwork } from './../../SocialNetwork/types/model';
+
+import { PartialPhone } from './../../Phone/types/model';
+
+import { PartialEmail } from './../../Email/types/model';
+
 export interface PersonConnector extends Connector<PartialPerson> {
   findOneById: (id: string) => Promise<PartialPerson>;
   findOneByIdAndUpdate: (
@@ -27,21 +33,6 @@ export interface PersonConnector extends Connector<PartialPerson> {
 
   addToUser(args: { person?: string; user?: string }): Promise<void>;
   removeFromUser(args: { person?: string; user?: string }): Promise<void>;
-
-  addToSocialNetworks(args: {
-    person?: string;
-    socialNetwork?: string;
-  }): Promise<void>;
-  removeFromSocialNetworks(args: {
-    person?: string;
-    socialNetwork?: string;
-  }): Promise<void>;
-
-  addToPhones(args: { person?: string; phone?: string }): Promise<void>;
-  removeFromPhones(args: { person?: string; phone?: string }): Promise<void>;
-
-  addToEmails(args: { person?: string; email?: string }): Promise<void>;
-  removeFromEmails(args: { person?: string; email?: string }): Promise<void>;
 
   addToAsStudents(args: { person?: string; student?: string }): Promise<void>;
   removeFromAsStudents(args: {

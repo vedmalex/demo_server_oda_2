@@ -9,7 +9,7 @@ export default new Type({
       node: Email!
       payload: EmailSubscriptionPayload
       updatedFields: [String]
-      previous: UpdateEmailSubscriptionPayload
+      previous: EmailSubscriptionPayload
     }
   `,
 });

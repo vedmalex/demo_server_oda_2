@@ -7,7 +7,7 @@ import UserSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialUser, User as DTO } from '../types/model';
+import { PartialUser, PartialUserInput, User as DTO } from '../types/model';
 import { UserConnector } from './interface';
 
 export default class User extends MongooseApi<RegisterConnectors, PartialUser>
@@ -63,7 +63,7 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
     };
   }
 
-  public async create(payload: PartialUser) {
+  public async create(payload: PartialUser | PartialUserInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -71,7 +71,10 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialUser | PartialUserInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -82,7 +85,10 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByUserNameAndUpdate(userName: string, payload: any) {
+  public async findOneByUserNameAndUpdate(
+    userName: string,
+    payload: PartialUser | PartialUserInput,
+  ) {
     logger.trace(`findOneByUserNameAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byUserName.load(userName);
@@ -129,7 +135,10 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
     }
   }
 
-  public getPayload(args: PartialUser, update?: boolean): PartialUser {
+  public getPayload(
+    args: PartialUser | PartialUserInput,
+    update?: boolean,
+  ): PartialUser {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;

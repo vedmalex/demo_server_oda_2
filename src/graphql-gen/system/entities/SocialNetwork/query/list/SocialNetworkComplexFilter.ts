@@ -8,7 +8,6 @@ export default new Input({
       account: WhereString
       url: WhereString
       type: WhereSocialNetworkType
-      person: WhereID
       id: WhereID
     }
   `,

@@ -7,7 +7,11 @@ import MeetingSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialMeeting, Meeting as DTO } from '../types/model';
+import {
+  PartialMeeting,
+  PartialMeetingInput,
+  Meeting as DTO,
+} from '../types/model';
 import { MeetingConnector } from './interface';
 
 export default class Meeting
@@ -50,7 +54,7 @@ export default class Meeting
     };
   }
 
-  public async create(payload: PartialMeeting) {
+  public async create(payload: PartialMeeting | PartialMeetingInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -58,7 +62,10 @@ export default class Meeting
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialMeeting | PartialMeetingInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -187,7 +194,10 @@ export default class Meeting
     }
   }
 
-  public getPayload(args: PartialMeeting, update?: boolean): PartialMeeting {
+  public getPayload(
+    args: PartialMeeting | PartialMeetingInput,
+    update?: boolean,
+  ): PartialMeeting {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;
@@ -196,10 +206,18 @@ export default class Meeting
       entity.date = args.date;
     }
     if (args.curator !== undefined) {
-      entity.curator = args.curator;
+      if (typeof args.curator === 'object') {
+        entity.curator = args.curator.id;
+      } else {
+        entity.curator = args.curator;
+      }
     }
     if (args.group !== undefined) {
-      entity.group = args.group;
+      if (typeof args.group === 'object') {
+        entity.group = args.group.id;
+      } else {
+        entity.group = args.group;
+      }
     }
     if (update) {
       delete entity.id;

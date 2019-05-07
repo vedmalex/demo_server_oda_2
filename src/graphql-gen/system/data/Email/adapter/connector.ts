@@ -7,7 +7,7 @@ import EmailSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialEmail, Email as DTO } from '../types/model';
+import { PartialEmail, PartialEmailInput, Email as DTO } from '../types/model';
 import { EmailConnector } from './interface';
 
 export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
@@ -63,7 +63,7 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
     };
   }
 
-  public async create(payload: PartialEmail) {
+  public async create(payload: PartialEmail | PartialEmailInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -71,7 +71,10 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialEmail | PartialEmailInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -82,7 +85,10 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByEmailAndUpdate(email: string, payload: any) {
+  public async findOneByEmailAndUpdate(
+    email: string,
+    payload: PartialEmail | PartialEmailInput,
+  ) {
     logger.trace(`findOneByEmailAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byEmail.load(email);
@@ -113,19 +119,6 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async addToPerson(args: { email?: string; person?: string }) {
-    logger.trace(`addToPerson`);
-    let opposite = await this.connectors.Person.findOneById(args.person);
-    if (opposite) {
-      await this.findOneByIdAndUpdate(args.email, { person: opposite.id });
-    }
-  }
-
-  public async removeFromPerson(args: { email?: string; person?: string }) {
-    logger.trace(`removeFromPerson`);
-    await this.findOneByIdAndUpdate(args.email, { person: null });
-  }
-
   public async findOneById(id?: string) {
     if (id) {
       logger.trace(`findOneById with ${id} `);
@@ -142,7 +135,10 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
     }
   }
 
-  public getPayload(args: PartialEmail, update?: boolean): PartialEmail {
+  public getPayload(
+    args: PartialEmail | PartialEmailInput,
+    update?: boolean,
+  ): PartialEmail {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;
@@ -152,9 +148,6 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
     }
     if (args.type !== undefined) {
       entity.type = args.type;
-    }
-    if (args.person !== undefined) {
-      entity.person = args.person;
     }
     if (update) {
       delete entity.id;

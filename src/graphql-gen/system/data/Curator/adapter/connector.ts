@@ -7,7 +7,11 @@ import CuratorSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialCurator, Curator as DTO } from '../types/model';
+import {
+  PartialCurator,
+  PartialCuratorInput,
+  Curator as DTO,
+} from '../types/model';
 import { CuratorConnector } from './interface';
 
 export default class Curator
@@ -50,7 +54,7 @@ export default class Curator
     };
   }
 
-  public async create(payload: PartialCurator) {
+  public async create(payload: PartialCurator | PartialCuratorInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -58,7 +62,10 @@ export default class Curator
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialCurator | PartialCuratorInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -117,13 +124,20 @@ export default class Curator
     }
   }
 
-  public getPayload(args: PartialCurator, update?: boolean): PartialCurator {
+  public getPayload(
+    args: PartialCurator | PartialCuratorInput,
+    update?: boolean,
+  ): PartialCurator {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;
     }
     if (args.person !== undefined) {
-      entity.person = args.person;
+      if (typeof args.person === 'object') {
+        entity.person = args.person.id;
+      } else {
+        entity.person = args.person;
+      }
     }
     if (update) {
       delete entity.id;

@@ -15,7 +15,4 @@ export interface EmailConnector extends Connector<PartialEmail> {
     payload: PartialEmail,
   ) => Promise<PartialEmail>;
   findOneByEmailAndRemove: (email: string) => Promise<PartialEmail>;
-
-  addToPerson(args: { email?: string; person?: string }): Promise<void>;
-  removeFromPerson(args: { email?: string; person?: string }): Promise<void>;
 }

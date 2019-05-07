@@ -8,17 +8,19 @@
     "noImplicitAny": false,
     "baseUrl": "./src",
     "outDir": "./dist",
+    "incremental": true,
+    "tsBuildInfoFile": "./server.tsbuildinfo",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "pretty": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "removeComments": true,
-        "paths": {
-          "@/*": [
-            "./*"
-          ]
-        }
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   },
   "include": [
     "src/**/*"

@@ -26,12 +26,6 @@ export default (args?: {
     },
   });
 
-  $SocialNetwork.add({
-    person: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-
   $SocialNetwork.index(
     {
       url: 1,
@@ -44,15 +38,6 @@ export default (args?: {
   $SocialNetwork.index(
     {
       type: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $SocialNetwork.index(
-    {
-      person: 1,
     },
     {
       sparse: 1,

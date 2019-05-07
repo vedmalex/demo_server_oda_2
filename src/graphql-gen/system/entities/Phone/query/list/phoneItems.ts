@@ -34,7 +34,6 @@ export default new Query({
     logger.trace('phones');
     let idMap = {
       id: '_id',
-      person: 'person',
     };
     return await context.connectors.Phone.getList({
       ...args,

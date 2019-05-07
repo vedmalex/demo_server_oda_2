@@ -11,7 +11,7 @@ const fixupPassword = target => async (
   context: any,
   info: any,
 ) => {
-  debugger;
+
   if (args.input.password) {
     args.input.password = JSON.stringify(
       passport.hashPassword(args.input.password),

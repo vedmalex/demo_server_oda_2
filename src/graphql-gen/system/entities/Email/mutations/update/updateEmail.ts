@@ -4,9 +4,6 @@ import {
   mutateAndGetPayload,
   PubSubEngine,
   Mutation,
-  ensurePerson,
-  unlinkEmailFromPerson,
-  linkEmailToPerson,
 } from '../../../../common';
 import gql from 'graphql-tag';
 import { merge } from 'lodash';
@@ -23,9 +20,6 @@ export default new Mutation({
         id?: string;
         email?: string;
         type?: string;
-        person?: object /*Person*/;
-        personUnlink?: object /*Person*/;
-        personCreate?: object /*Person*/;
       },
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
@@ -67,56 +61,6 @@ export default new Mutation({
             payload: args,
           },
         });
-      }
-
-      if (args.personUnlink) {
-        let $item = args.personUnlink;
-        if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkEmailFromPerson({
-            context,
-            person,
-            email: result,
-          });
-        }
-      }
-
-      if (args.personCreate) {
-        let $item = args.personCreate as { id };
-        if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: true,
-          });
-
-          await linkEmailToPerson({
-            context,
-            person,
-            email: result,
-          });
-        }
-      }
-
-      if (args.person) {
-        let $item = args.person as { id };
-        if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: false,
-          });
-
-          await linkEmailToPerson({
-            context,
-            person,
-            email: result,
-          });
-        }
       }
 
       return {

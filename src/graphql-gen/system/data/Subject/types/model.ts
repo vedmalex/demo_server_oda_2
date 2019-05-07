@@ -1,7 +1,27 @@
+import { CourseInput } from './../../Course/types/model';
+
+export interface ISubjectInput {
+  id: string;
+  name: string;
+  course?: CourseInput[];
+}
+
 export interface ISubject {
   id: string;
   name: string;
   course?: string[];
+}
+
+export class SubjectInput implements ISubjectInput {
+  public __type: 'Subject' = 'Subject';
+  public id: string;
+  public name: string;
+  public course?: CourseInput[];
+  constructor(init: PartialSubjectInput) {
+    this.id = init.id;
+    this.name = init.name;
+    this.course = init.course;
+  }
 }
 
 export class Subject implements ISubject {
@@ -25,6 +45,10 @@ export function isSubject(obj): obj is ISubject {
 }
 
 export type PartialSubject = { [P in keyof ISubject]?: ISubject[P] };
+
+export type PartialSubjectInput = {
+  [P in keyof ISubjectInput]?: ISubjectInput[P]
+};
 
 export interface ISubjectEdge {
   cursor: String;

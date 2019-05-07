@@ -6,7 +6,6 @@ export default new Input({
     input EmailFilterSubscriptionsItem {
       email: WhereString
       type: WhereCommunicationType
-      person: WhereID
       id: WhereID
     }
   `,

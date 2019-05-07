@@ -32,41 +32,11 @@ export default new Type({
       user: User
 
       # # Social Networks
-
-      socialNetworks(
-        after: String
-        first: Int
-        before: String
-        last: Int
-        limit: Int
-        skip: Int
-        orderBy: [SocialNetworkSortOrder]
-        filter: SocialNetworkComplexFilter
-      ): PersonHasManySocialNetworksConnection
+      socialNetworks: [SocialNetwork]
       # # Phones
-
-      phones(
-        after: String
-        first: Int
-        before: String
-        last: Int
-        limit: Int
-        skip: Int
-        orderBy: [PhoneSortOrder]
-        filter: PhoneComplexFilter
-      ): PersonHasManyPhonesConnection
+      phones: [Phone]
       # # Emails
-
-      emails(
-        after: String
-        first: Int
-        before: String
-        last: Int
-        limit: Int
-        skip: Int
-        orderBy: [EmailSortOrder]
-        filter: EmailComplexFilter
-      ): PersonHasManyEmailsConnection
+      emails: [Email]
       # # As Students
 
       asStudents(
@@ -86,6 +56,38 @@ export default new Type({
   `,
   resolver: {
     id: ({ id }) => id,
+    socialNetworks: async (
+      { socialNetworks },
+      args: object,
+      context: { connectors: RegisterConnectors },
+      info,
+    ) => {
+      return socialNetworks.map(
+        context.connectors.SocialNetwork.ensureId.bind(
+          context.connectors.SocialNetwork,
+        ),
+      );
+    },
+    phones: async (
+      { phones },
+      args: object,
+      context: { connectors: RegisterConnectors },
+      info,
+    ) => {
+      return phones.map(
+        context.connectors.Phone.ensureId.bind(context.connectors.Phone),
+      );
+    },
+    emails: async (
+      { emails },
+      args: object,
+      context: { connectors: RegisterConnectors },
+      info,
+    ) => {
+      return emails.map(
+        context.connectors.Email.ensureId.bind(context.connectors.Email),
+      );
+    },
 
     user: async (
       { id }, // owner id
@@ -111,270 +113,6 @@ export default new Type({
       //BelongsTo
       if (person && person.user) {
         result = await context.connectors.User.findOneById(person.user);
-      }
-
-      return result;
-    },
-    socialNetworks: async (
-      { id }, // owner id
-      args: {
-        limit?: number;
-        skip?: number;
-        first?: number;
-        after?: string;
-        last?: number;
-        before?: string;
-        filter?: {
-          [k: string]: any;
-        };
-        orderBy?: string | string[];
-      },
-      context: { connectors: RegisterConnectors },
-      info,
-    ) => {
-      let result;
-      let selectionSet = traverse(info);
-
-      let person = await context.connectors.Person.findOneById(id);
-      //HasMany
-      let idMap = {
-        id: '_id',
-        person: 'person',
-      };
-      if (person && person.id) {
-        if (!args.filter) {
-          args.filter = {};
-        }
-        args.filter.person = {
-          eq: person.id,
-        };
-        let list = get(selectionSet, 'edges.node')
-          ? await context.connectors.SocialNetwork.getList({
-              ...args,
-              idMap,
-            })
-          : [];
-
-        if (list.length > 0) {
-          let cursor = pagination(args);
-          let direction = detectCursorDirection(args)._id;
-          let edges = list.map(l => {
-            return {
-              cursor: l.id,
-              node: l,
-            };
-          });
-
-          let pageInfo = get(selectionSet, 'pageInfo')
-            ? {
-                startCursor: get(selectionSet, 'pageInfo.startCursor')
-                  ? edges[0].cursor
-                  : undefined,
-                endCursor: get(selectionSet, 'pageInfo.endCursor')
-                  ? edges[edges.length - 1].cursor
-                  : undefined,
-                hasPreviousPage: get(selectionSet, 'pageInfo.hasPreviousPage')
-                  ? direction === consts.DIRECTION.BACKWARD
-                    ? list.length === cursor.limit
-                    : false
-                  : undefined,
-                hasNextPage: get(selectionSet, 'pageInfo.hasNextPage')
-                  ? direction === consts.DIRECTION.FORWARD
-                    ? list.length === cursor.limit
-                    : false
-                  : undefined,
-                count: get(selectionSet, 'pageInfo.count')
-                  ? await context.connectors.SocialNetwork.getCount({
-                      ...args,
-                      idMap,
-                    })
-                  : 0,
-              }
-            : null;
-
-          result = {
-            edges,
-            pageInfo,
-          };
-        } else {
-          result = emptyConnection();
-        }
-      }
-
-      return result;
-    },
-    phones: async (
-      { id }, // owner id
-      args: {
-        limit?: number;
-        skip?: number;
-        first?: number;
-        after?: string;
-        last?: number;
-        before?: string;
-        filter?: {
-          [k: string]: any;
-        };
-        orderBy?: string | string[];
-      },
-      context: { connectors: RegisterConnectors },
-      info,
-    ) => {
-      let result;
-      let selectionSet = traverse(info);
-
-      let person = await context.connectors.Person.findOneById(id);
-      //HasMany
-      let idMap = {
-        id: '_id',
-        person: 'person',
-      };
-      if (person && person.id) {
-        if (!args.filter) {
-          args.filter = {};
-        }
-        args.filter.person = {
-          eq: person.id,
-        };
-        let list = get(selectionSet, 'edges.node')
-          ? await context.connectors.Phone.getList({
-              ...args,
-              idMap,
-            })
-          : [];
-
-        if (list.length > 0) {
-          let cursor = pagination(args);
-          let direction = detectCursorDirection(args)._id;
-          let edges = list.map(l => {
-            return {
-              cursor: l.id,
-              node: l,
-            };
-          });
-
-          let pageInfo = get(selectionSet, 'pageInfo')
-            ? {
-                startCursor: get(selectionSet, 'pageInfo.startCursor')
-                  ? edges[0].cursor
-                  : undefined,
-                endCursor: get(selectionSet, 'pageInfo.endCursor')
-                  ? edges[edges.length - 1].cursor
-                  : undefined,
-                hasPreviousPage: get(selectionSet, 'pageInfo.hasPreviousPage')
-                  ? direction === consts.DIRECTION.BACKWARD
-                    ? list.length === cursor.limit
-                    : false
-                  : undefined,
-                hasNextPage: get(selectionSet, 'pageInfo.hasNextPage')
-                  ? direction === consts.DIRECTION.FORWARD
-                    ? list.length === cursor.limit
-                    : false
-                  : undefined,
-                count: get(selectionSet, 'pageInfo.count')
-                  ? await context.connectors.Phone.getCount({
-                      ...args,
-                      idMap,
-                    })
-                  : 0,
-              }
-            : null;
-
-          result = {
-            edges,
-            pageInfo,
-          };
-        } else {
-          result = emptyConnection();
-        }
-      }
-
-      return result;
-    },
-    emails: async (
-      { id }, // owner id
-      args: {
-        limit?: number;
-        skip?: number;
-        first?: number;
-        after?: string;
-        last?: number;
-        before?: string;
-        filter?: {
-          [k: string]: any;
-        };
-        orderBy?: string | string[];
-      },
-      context: { connectors: RegisterConnectors },
-      info,
-    ) => {
-      let result;
-      let selectionSet = traverse(info);
-
-      let person = await context.connectors.Person.findOneById(id);
-      //HasMany
-      let idMap = {
-        id: '_id',
-        person: 'person',
-      };
-      if (person && person.id) {
-        if (!args.filter) {
-          args.filter = {};
-        }
-        args.filter.person = {
-          eq: person.id,
-        };
-        let list = get(selectionSet, 'edges.node')
-          ? await context.connectors.Email.getList({
-              ...args,
-              idMap,
-            })
-          : [];
-
-        if (list.length > 0) {
-          let cursor = pagination(args);
-          let direction = detectCursorDirection(args)._id;
-          let edges = list.map(l => {
-            return {
-              cursor: l.id,
-              node: l,
-            };
-          });
-
-          let pageInfo = get(selectionSet, 'pageInfo')
-            ? {
-                startCursor: get(selectionSet, 'pageInfo.startCursor')
-                  ? edges[0].cursor
-                  : undefined,
-                endCursor: get(selectionSet, 'pageInfo.endCursor')
-                  ? edges[edges.length - 1].cursor
-                  : undefined,
-                hasPreviousPage: get(selectionSet, 'pageInfo.hasPreviousPage')
-                  ? direction === consts.DIRECTION.BACKWARD
-                    ? list.length === cursor.limit
-                    : false
-                  : undefined,
-                hasNextPage: get(selectionSet, 'pageInfo.hasNextPage')
-                  ? direction === consts.DIRECTION.FORWARD
-                    ? list.length === cursor.limit
-                    : false
-                  : undefined,
-                count: get(selectionSet, 'pageInfo.count')
-                  ? await context.connectors.Email.getCount({
-                      ...args,
-                      idMap,
-                    })
-                  : 0,
-              }
-            : null;
-
-          result = {
-            edges,
-            pageInfo,
-          };
-        } else {
-          result = emptyConnection();
-        }
       }
 
       return result;

@@ -9,7 +9,7 @@ export default new Type({
       node: Phone!
       payload: PhoneSubscriptionPayload
       updatedFields: [String]
-      previous: UpdatePhoneSubscriptionPayload
+      previous: PhoneSubscriptionPayload
     }
   `,
 });

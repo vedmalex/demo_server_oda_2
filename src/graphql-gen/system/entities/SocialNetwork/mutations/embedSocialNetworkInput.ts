@@ -8,7 +8,6 @@ export default new Input({
       account: String
       url: String
       type: SocialNetworkType
-      person: embedPersonInput
     }
   `,
 });

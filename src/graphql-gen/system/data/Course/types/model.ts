@@ -1,8 +1,32 @@
+import { SubjectInput } from './../../Subject/types/model';
+import { GroupInput } from './../../Group/types/model';
+
+export interface ICourseInput {
+  id: string;
+  name: string;
+  subjects?: SubjectInput[];
+  groups?: GroupInput[];
+}
+
 export interface ICourse {
   id: string;
   name: string;
   subjects?: string[];
   groups?: string[];
+}
+
+export class CourseInput implements ICourseInput {
+  public __type: 'Course' = 'Course';
+  public id: string;
+  public name: string;
+  public subjects?: SubjectInput[];
+  public groups?: GroupInput[];
+  constructor(init: PartialCourseInput) {
+    this.id = init.id;
+    this.name = init.name;
+    this.subjects = init.subjects;
+    this.groups = init.groups;
+  }
 }
 
 export class Course implements ICourse {
@@ -28,6 +52,10 @@ export function isCourse(obj): obj is ICourse {
 }
 
 export type PartialCourse = { [P in keyof ICourse]?: ICourse[P] };
+
+export type PartialCourseInput = {
+  [P in keyof ICourseInput]?: ICourseInput[P]
+};
 
 export interface ICourseEdge {
   cursor: String;

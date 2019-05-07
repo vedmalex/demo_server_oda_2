@@ -27,8 +27,7 @@ export default {
     relate: {
       Phone: {
         filter: `
-          id
-          person`,
+          id`,
         uploader: {
           findQuery: {
             id: 'Phone/findById.graphql',

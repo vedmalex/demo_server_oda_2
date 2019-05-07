@@ -6,6 +6,9 @@ import {
   Mutation,
 } from '../../../common';
 import gql from 'graphql-tag';
+import { PartialSocialNetwork } from '../../../data/SocialNetwork/types/model';
+import { PartialPhone } from '../../../data/Phone/types/model';
+import { PartialEmail } from '../../../data/Email/types/model';
 
 export default new Mutation({
   schema: gql`

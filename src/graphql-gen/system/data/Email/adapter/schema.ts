@@ -23,24 +23,9 @@ export default (args?: {
     },
   });
 
-  $Email.add({
-    person: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  });
-
   $Email.index(
     {
       type: 1,
-    },
-    {
-      sparse: 1,
-    },
-  );
-
-  $Email.index(
-    {
-      person: 1,
     },
     {
       sparse: 1,

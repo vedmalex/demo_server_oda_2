@@ -6,12 +6,6 @@ import {
   Mutation,
   ensureUser,
   linkPersonToUser,
-  ensureSocialNetwork,
-  linkPersonToSocialNetworks,
-  ensurePhone,
-  linkPersonToPhones,
-  ensureEmail,
-  linkPersonToEmails,
   ensureStudent,
   linkPersonToAsStudents,
   ensureCurator,
@@ -78,64 +72,6 @@ export default new Mutation({
             user,
             person: result,
           });
-        }
-      }
-
-      if (
-        args.socialNetworks &&
-        Array.isArray(args.socialNetworks) &&
-        args.socialNetworks.length > 0
-      ) {
-        for (let i = 0, len = args.socialNetworks.length; i < len; i++) {
-          let $item = args.socialNetworks[i] as { id };
-          if ($item) {
-            let socialNetworks = await ensureSocialNetwork({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkPersonToSocialNetworks({
-              context,
-              socialNetworks,
-              person: result,
-            });
-          }
-        }
-      }
-
-      if (args.phones && Array.isArray(args.phones) && args.phones.length > 0) {
-        for (let i = 0, len = args.phones.length; i < len; i++) {
-          let $item = args.phones[i] as { id };
-          if ($item) {
-            let phones = await ensurePhone({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkPersonToPhones({
-              context,
-              phones,
-              person: result,
-            });
-          }
-        }
-      }
-
-      if (args.emails && Array.isArray(args.emails) && args.emails.length > 0) {
-        for (let i = 0, len = args.emails.length; i < len; i++) {
-          let $item = args.emails[i] as { id };
-          if ($item) {
-            let emails = await ensureEmail({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkPersonToEmails({
-              context,
-              emails,
-              person: result,
-            });
-          }
         }
       }
 

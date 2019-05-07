@@ -7,7 +7,7 @@ import GroupSchema from './schema';
 import RegisterConnectors from '../../registerConnectors';
 import Dataloader from 'dataloader';
 
-import { PartialGroup, Group as DTO } from '../types/model';
+import { PartialGroup, PartialGroupInput, Group as DTO } from '../types/model';
 import { GroupConnector } from './interface';
 
 export default class Group extends MongooseApi<RegisterConnectors, PartialGroup>
@@ -61,7 +61,7 @@ export default class Group extends MongooseApi<RegisterConnectors, PartialGroup>
     };
   }
 
-  public async create(payload: PartialGroup) {
+  public async create(payload: PartialGroup | PartialGroupInput) {
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
@@ -69,7 +69,10 @@ export default class Group extends MongooseApi<RegisterConnectors, PartialGroup>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByIdAndUpdate(id: string, payload: any) {
+  public async findOneByIdAndUpdate(
+    id: string,
+    payload: PartialGroup | PartialGroupInput,
+  ) {
     logger.trace(`findOneByIdAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byId.load(id);
@@ -80,7 +83,10 @@ export default class Group extends MongooseApi<RegisterConnectors, PartialGroup>
     return this.ensureId(result && result.toJSON ? result.toJSON() : result);
   }
 
-  public async findOneByNameAndUpdate(name: string, payload: any) {
+  public async findOneByNameAndUpdate(
+    name: string,
+    payload: PartialGroup | PartialGroupInput,
+  ) {
     logger.trace(`findOneByNameAndUpdate`);
     let entity = this.getPayload(payload, true);
     let result = await this.loaders.byName.load(name);
@@ -170,7 +176,10 @@ export default class Group extends MongooseApi<RegisterConnectors, PartialGroup>
     }
   }
 
-  public getPayload(args: PartialGroup, update?: boolean): PartialGroup {
+  public getPayload(
+    args: PartialGroup | PartialGroupInput,
+    update?: boolean,
+  ): PartialGroup {
     let entity: any = {};
     if (args.id !== undefined) {
       entity.id = args.id;
@@ -179,10 +188,18 @@ export default class Group extends MongooseApi<RegisterConnectors, PartialGroup>
       entity.name = args.name;
     }
     if (args.course !== undefined) {
-      entity.course = args.course;
+      if (typeof args.course === 'object') {
+        entity.course = args.course.id;
+      } else {
+        entity.course = args.course;
+      }
     }
     if (args.curator !== undefined) {
-      entity.curator = args.curator;
+      if (typeof args.curator === 'object') {
+        entity.curator = args.curator.id;
+      } else {
+        entity.curator = args.curator;
+      }
     }
     if (update) {
       delete entity.id;

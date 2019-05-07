@@ -1,0 +1,10 @@
+{
+  "User": [{
+    "id": "VXNlcjpmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmY=",
+    "userName": "system",
+    "password": "{\"salt\":\"CEAlF4feGuSFRjHm5N8dTw==\",\"hash\":\"vVIxoDZEINBHbz+PZMpRv/EW4cR8IlvZls48vZX/PwIEt0+jcV0tzIKm6BM4PgvVkln+YnK8qtF1wBK69kTSr+MXW/FTqKdN0n9kncDfbrqTn6KfUGD1zqxfA0SzlppCKI6O8BMZee8C4m0oBM1sSkPcOr+8jxdjg3475gUoBXIRKjkBLRJBBhZGV2+7Japk80wZEdeYlLGxxQ05lktak3HlOZOd0i4D0XwuSqc9hHnOxlS0QGPP1Ssf4PUyXtTdfN2/BtUIVd/Pp/EmDpGTEvkilnS49ZbujehpxNzrTe6FDQhUrT7WwXsoh7NjFThEnSiVKZRNVpk4xl0Pu/H0mSLPih54ONOq9TbKw2y+rra59GGWZml5A8zN9nXuQcGZ8lvBlQZX1ZEYBbXI6cgTO83IP6vpTtx/CgEAk9E46OK6jfPFLil3JaxbFoRHCGZmurghzZrHlXE9CqIDxgeroqTUx5jDY/4sBfFtHg1mBVreJyXzmva+Fy35N8qOxU+LSa31Eex+7RTRaqQNnwoFw1dd27tizl8gP+tmti/pJqe8eRKew1ecHCiqn+oPQm57PpyjjvpHXPmrkNiBDvedZoI2p22bTsIVMqT4hPXoGPJzvWB5Gg0AI+ko4aAqU6WLiWtupjyrhWPIeCUMoZ0B6HJBSOSfEua54dOm4rrcSS8=\"}",
+    "isAdmin": true,
+    "isSystem": true,
+    "enabled": true
+  }]
+}

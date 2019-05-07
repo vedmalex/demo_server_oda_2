@@ -1,0 +1,12 @@
+{
+  "User": [
+    {
+      "id": "000000000000000000000000",
+      "userName": "system",
+      "password": "123456",
+      "isAdmin": true,
+      "isSystem": true,
+      "enabled": true
+    }
+  ]
+}

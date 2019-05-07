@@ -24,8 +24,7 @@ export default {
     relate: {
       Email: {
         filter: `
-          id
-          person`,
+          id`,
         uploader: {
           findQuery: {
             id: 'Email/findById.graphql',

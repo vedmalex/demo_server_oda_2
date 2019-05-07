@@ -13,14 +13,8 @@ export default new Input({
       userUnlink: embedUserInput
       userCreate: createUserInput
       socialNetworks: [embedSocialNetworkInput]
-      socialNetworksUnlink: [embedSocialNetworkInput]
-      socialNetworksCreate: [createSocialNetworkInput]
       phones: [embedPhoneInput]
-      phonesUnlink: [embedPhoneInput]
-      phonesCreate: [createPhoneInput]
       emails: [embedEmailInput]
-      emailsUnlink: [embedEmailInput]
-      emailsCreate: [createEmailInput]
       asStudents: [embedStudentInput]
       asStudentsUnlink: [embedStudentInput]
       asStudentsCreate: [createStudentInput]

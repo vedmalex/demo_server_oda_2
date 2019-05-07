@@ -1,5 +1,6 @@
 export default {
   name: 'SocialNetwork',
+  embedded:true,
   fields: {
     account: {
       identity: true,
@@ -11,12 +12,12 @@ export default {
       indexed: true,
       type: 'SocialNetworkType',
     },
-    person: {
-      indexed: true,
-      relation: {
-        belongsTo: 'Person#',
-        opposite: 'socialNetworks',
-      },
-    },
+    // person: {
+    //   indexed: true,
+    //   relation: {
+    //     belongsTo: 'Person#',
+    //     opposite: 'socialNetworks',
+    //   },
+    // },
   },
 };
