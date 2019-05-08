@@ -53,22 +53,24 @@ export default new Mutation({
         node: result,
       };
 
+      let resActions = [];
       if (args.course) {
         let $item = args.course as { id };
         if ($item) {
-          let course = await ensureCourse({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkGroupToCourse({
-            context,
-            course,
-            group: result,
+          resActions.push(async () => {
+            let course = await ensureCourse({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkGroupToCourse({
+              context,
+              course,
+              group: result,
+            });
           });
         }
       }
-
       if (
         args.students &&
         Array.isArray(args.students) &&
@@ -77,36 +79,41 @@ export default new Mutation({
         for (let i = 0, len = args.students.length; i < len; i++) {
           let $item = args.students[i] as { id };
           if ($item) {
-            let students = await ensureStudent({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkGroupToStudents({
-              context,
-              students,
-              group: result,
+            resActions.push(async () => {
+              let students = await ensureStudent({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkGroupToStudents({
+                context,
+                students,
+                group: result,
+              });
             });
           }
         }
       }
-
       if (args.curator) {
         let $item = args.curator as { id };
         if ($item) {
-          let curator = await ensureCurator({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkGroupToCurator({
-            context,
-            curator,
-            group: result,
+          resActions.push(async () => {
+            let curator = await ensureCurator({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkGroupToCurator({
+              context,
+              curator,
+              group: result,
+            });
           });
         }
       }
-
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         group: groupEdge,
       };

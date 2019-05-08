@@ -49,40 +49,46 @@ export default new Mutation({
         node: result,
       };
 
+      let resActions = [];
       if (args.person) {
         let $item = args.person as { id };
         if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkCuratorToPerson({
-            context,
-            person,
-            curator: result,
-          });
-        }
-      }
-
-      if (args.groups && Array.isArray(args.groups) && args.groups.length > 0) {
-        for (let i = 0, len = args.groups.length; i < len; i++) {
-          let $item = args.groups[i] as { id };
-          if ($item) {
-            let groups = await ensureGroup({
+          resActions.push(async () => {
+            let person = await ensurePerson({
               args: $item,
               context,
               create: true,
             });
-            await linkCuratorToGroups({
+            return linkCuratorToPerson({
               context,
-              groups,
+              person,
               curator: result,
+            });
+          });
+        }
+      }
+      if (args.groups && Array.isArray(args.groups) && args.groups.length > 0) {
+        for (let i = 0, len = args.groups.length; i < len; i++) {
+          let $item = args.groups[i] as { id };
+          if ($item) {
+            resActions.push(async () => {
+              let groups = await ensureGroup({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkCuratorToGroups({
+                context,
+                groups,
+                curator: result,
+              });
             });
           }
         }
       }
-
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         curator: curatorEdge,
       };

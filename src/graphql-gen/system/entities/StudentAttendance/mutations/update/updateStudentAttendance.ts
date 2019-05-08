@@ -77,18 +77,21 @@ export default new Mutation({
         });
       }
 
+      let resActions = [];
       if (args.meetingLinkUnlink) {
         let $item = args.meetingLinkUnlink;
         if ($item) {
-          let meetingLink = await ensureMeeting({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkStudentAttendanceFromMeetingLink({
-            context,
-            meetingLink,
-            studentAttendance: result,
+          resActions.push(async () => {
+            let meetingLink = await ensureMeeting({
+              args: $item,
+              context,
+              create: false,
+            });
+            return unlinkStudentAttendanceFromMeetingLink({
+              context,
+              meetingLink,
+              studentAttendance: result,
+            });
           });
         }
       }
@@ -96,16 +99,18 @@ export default new Mutation({
       if (args.meetingLinkCreate) {
         let $item = args.meetingLinkCreate as { id };
         if ($item) {
-          let meetingLink = await ensureMeeting({
-            args: $item,
-            context,
-            create: true,
-          });
+          resActions.push(async () => {
+            let meetingLink = await ensureMeeting({
+              args: $item,
+              context,
+              create: true,
+            });
 
-          await linkStudentAttendanceToMeetingLink({
-            context,
-            meetingLink,
-            studentAttendance: result,
+            return linkStudentAttendanceToMeetingLink({
+              context,
+              meetingLink,
+              studentAttendance: result,
+            });
           });
         }
       }
@@ -113,16 +118,18 @@ export default new Mutation({
       if (args.meetingLink) {
         let $item = args.meetingLink as { id };
         if ($item) {
-          let meetingLink = await ensureMeeting({
-            args: $item,
-            context,
-            create: false,
-          });
+          resActions.push(async () => {
+            let meetingLink = await ensureMeeting({
+              args: $item,
+              context,
+              create: false,
+            });
 
-          await linkStudentAttendanceToMeetingLink({
-            context,
-            meetingLink,
-            studentAttendance: result,
+            return linkStudentAttendanceToMeetingLink({
+              context,
+              meetingLink,
+              studentAttendance: result,
+            });
           });
         }
       }
@@ -130,15 +137,17 @@ export default new Mutation({
       if (args.studentLinkUnlink) {
         let $item = args.studentLinkUnlink;
         if ($item) {
-          let studentLink = await ensureStudent({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkStudentAttendanceFromStudentLink({
-            context,
-            studentLink,
-            studentAttendance: result,
+          resActions.push(async () => {
+            let studentLink = await ensureStudent({
+              args: $item,
+              context,
+              create: false,
+            });
+            return unlinkStudentAttendanceFromStudentLink({
+              context,
+              studentLink,
+              studentAttendance: result,
+            });
           });
         }
       }
@@ -146,16 +155,18 @@ export default new Mutation({
       if (args.studentLinkCreate) {
         let $item = args.studentLinkCreate as { id };
         if ($item) {
-          let studentLink = await ensureStudent({
-            args: $item,
-            context,
-            create: true,
-          });
+          resActions.push(async () => {
+            let studentLink = await ensureStudent({
+              args: $item,
+              context,
+              create: true,
+            });
 
-          await linkStudentAttendanceToStudentLink({
-            context,
-            studentLink,
-            studentAttendance: result,
+            return linkStudentAttendanceToStudentLink({
+              context,
+              studentLink,
+              studentAttendance: result,
+            });
           });
         }
       }
@@ -163,20 +174,25 @@ export default new Mutation({
       if (args.studentLink) {
         let $item = args.studentLink as { id };
         if ($item) {
-          let studentLink = await ensureStudent({
-            args: $item,
-            context,
-            create: false,
-          });
+          resActions.push(async () => {
+            let studentLink = await ensureStudent({
+              args: $item,
+              context,
+              create: false,
+            });
 
-          await linkStudentAttendanceToStudentLink({
-            context,
-            studentLink,
-            studentAttendance: result,
+            return linkStudentAttendanceToStudentLink({
+              context,
+              studentLink,
+              studentAttendance: result,
+            });
           });
         }
       }
 
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         studentAttendance: result,
       };

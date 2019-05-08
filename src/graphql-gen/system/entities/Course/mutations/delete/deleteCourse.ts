@@ -29,35 +29,46 @@ export default new Mutation({
     ) => {
       logger.trace('deleteCourse');
       let result;
+      let deletePromise = [];
       if (args.id) {
-        await unlinkCourseFromAll(
-          [
-            {
-              key: 'id',
-              type: 'ID',
-              value: args.id,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkCourseFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Course.findOneByIdAndRemove(args.id);
+        deletePromise.push(
+          context.connectors.Course.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
       } else if (args.name) {
-        await unlinkCourseFromAll(
-          [
-            {
-              key: 'name',
-              type: 'String',
-              value: args.name,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkCourseFromAll(
+            [
+              {
+                key: 'name',
+                type: 'String',
+                value: args.name,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Course.findOneByNameAndRemove(
-          args.name,
+        deletePromise.push(
+          context.connectors.Course.findOneByNameAndRemove(args.name).then(
+            res => (result = res),
+          ),
         );
       }
+
+      await Promise.all(deletePromise);
 
       if (!result) {
         throw new Error('item of type Course is not found for delete');

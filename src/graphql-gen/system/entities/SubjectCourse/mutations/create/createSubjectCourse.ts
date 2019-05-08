@@ -56,38 +56,44 @@ export default new Mutation({
         node: result,
       };
 
+      let resActions = [];
       if (args.subjectLink) {
         let $item = args.subjectLink as { id };
         if ($item) {
-          let subjectLink = await ensureSubject({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkSubjectCourseToSubjectLink({
-            context,
-            subjectLink,
-            subjectCourse: result,
+          resActions.push(async () => {
+            let subjectLink = await ensureSubject({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkSubjectCourseToSubjectLink({
+              context,
+              subjectLink,
+              subjectCourse: result,
+            });
           });
         }
       }
-
       if (args.courseLink) {
         let $item = args.courseLink as { id };
         if ($item) {
-          let courseLink = await ensureCourse({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkSubjectCourseToCourseLink({
-            context,
-            courseLink,
-            subjectCourse: result,
+          resActions.push(async () => {
+            let courseLink = await ensureCourse({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkSubjectCourseToCourseLink({
+              context,
+              courseLink,
+              subjectCourse: result,
+            });
           });
         }
       }
-
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         subjectCourse: subjectCourseEdge,
       };

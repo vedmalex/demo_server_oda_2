@@ -59,22 +59,24 @@ export default new Mutation({
         node: result,
       };
 
+      let resActions = [];
       if (args.user) {
         let $item = args.user as { id };
         if ($item) {
-          let user = await ensureUser({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkPersonToUser({
-            context,
-            user,
-            person: result,
+          resActions.push(async () => {
+            let user = await ensureUser({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkPersonToUser({
+              context,
+              user,
+              person: result,
+            });
           });
         }
       }
-
       if (
         args.asStudents &&
         Array.isArray(args.asStudents) &&
@@ -83,36 +85,41 @@ export default new Mutation({
         for (let i = 0, len = args.asStudents.length; i < len; i++) {
           let $item = args.asStudents[i] as { id };
           if ($item) {
-            let asStudents = await ensureStudent({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkPersonToAsStudents({
-              context,
-              asStudents,
-              person: result,
+            resActions.push(async () => {
+              let asStudents = await ensureStudent({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkPersonToAsStudents({
+                context,
+                asStudents,
+                person: result,
+              });
             });
           }
         }
       }
-
       if (args.asCurator) {
         let $item = args.asCurator as { id };
         if ($item) {
-          let asCurator = await ensureCurator({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkPersonToAsCurator({
-            context,
-            asCurator,
-            person: result,
+          resActions.push(async () => {
+            let asCurator = await ensureCurator({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkPersonToAsCurator({
+              context,
+              asCurator,
+              person: result,
+            });
           });
         }
       }
-
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         person: personEdge,
       };

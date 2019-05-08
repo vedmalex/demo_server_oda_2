@@ -53,38 +53,41 @@ export default new Mutation({
         node: result,
       };
 
+      let resActions = [];
       if (args.curator) {
         let $item = args.curator as { id };
         if ($item) {
-          let curator = await ensureCurator({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkMeetingToCurator({
-            context,
-            curator,
-            meeting: result,
+          resActions.push(async () => {
+            let curator = await ensureCurator({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkMeetingToCurator({
+              context,
+              curator,
+              meeting: result,
+            });
           });
         }
       }
-
       if (args.group) {
         let $item = args.group as { id };
         if ($item) {
-          let group = await ensureGroup({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkMeetingToGroup({
-            context,
-            group,
-            meeting: result,
+          resActions.push(async () => {
+            let group = await ensureGroup({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkMeetingToGroup({
+              context,
+              group,
+              meeting: result,
+            });
           });
         }
       }
-
       if (
         args.students &&
         Array.isArray(args.students) &&
@@ -98,23 +101,27 @@ export default new Mutation({
             superpuper;
           };
           if ($item) {
-            let students = await ensureStudent({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkMeetingToStudents({
-              context,
-              students,
-              meeting: result,
-              present: $item.present,
-              specialNotes: $item.specialNotes,
-              superpuper: $item.superpuper,
+            resActions.push(async () => {
+              let students = await ensureStudent({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkMeetingToStudents({
+                context,
+                students,
+                meeting: result,
+                present: $item.present,
+                specialNotes: $item.specialNotes,
+                superpuper: $item.superpuper,
+              });
             });
           }
         }
       }
-
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         meeting: meetingEdge,
       };

@@ -66,18 +66,21 @@ export default new Mutation({
         });
       }
 
+      let resActions = [];
       if (args.personUnlink) {
         let $item = args.personUnlink;
         if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: false,
-          });
-          await unlinkCuratorFromPerson({
-            context,
-            person,
-            curator: result,
+          resActions.push(async () => {
+            let person = await ensurePerson({
+              args: $item,
+              context,
+              create: false,
+            });
+            return unlinkCuratorFromPerson({
+              context,
+              person,
+              curator: result,
+            });
           });
         }
       }
@@ -85,16 +88,18 @@ export default new Mutation({
       if (args.personCreate) {
         let $item = args.personCreate as { id };
         if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: true,
-          });
+          resActions.push(async () => {
+            let person = await ensurePerson({
+              args: $item,
+              context,
+              create: true,
+            });
 
-          await linkCuratorToPerson({
-            context,
-            person,
-            curator: result,
+            return linkCuratorToPerson({
+              context,
+              person,
+              curator: result,
+            });
           });
         }
       }
@@ -102,16 +107,18 @@ export default new Mutation({
       if (args.person) {
         let $item = args.person as { id };
         if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: false,
-          });
+          resActions.push(async () => {
+            let person = await ensurePerson({
+              args: $item,
+              context,
+              create: false,
+            });
 
-          await linkCuratorToPerson({
-            context,
-            person,
-            curator: result,
+            return linkCuratorToPerson({
+              context,
+              person,
+              curator: result,
+            });
           });
         }
       }
@@ -124,15 +131,17 @@ export default new Mutation({
         for (let i = 0, len = args.groupsUnlink.length; i < len; i++) {
           let $item = args.groupsUnlink[i];
           if ($item) {
-            let groups = await ensureGroup({
-              args: $item,
-              context,
-              create: false,
-            });
-            await unlinkCuratorFromGroups({
-              context,
-              groups,
-              curator: result,
+            resActions.push(async () => {
+              let groups = await ensureGroup({
+                args: $item,
+                context,
+                create: false,
+              });
+              return unlinkCuratorFromGroups({
+                context,
+                groups,
+                curator: result,
+              });
             });
           }
         }
@@ -146,16 +155,18 @@ export default new Mutation({
         for (let i = 0, len = args.groupsCreate.length; i < len; i++) {
           let $item = args.groupsCreate[i] as { id };
           if ($item) {
-            let groups = await ensureGroup({
-              args: $item,
-              context,
-              create: true,
-            });
+            resActions.push(async () => {
+              let groups = await ensureGroup({
+                args: $item,
+                context,
+                create: true,
+              });
 
-            await linkCuratorToGroups({
-              context,
-              groups,
-              curator: result,
+              return linkCuratorToGroups({
+                context,
+                groups,
+                curator: result,
+              });
             });
           }
         }
@@ -165,21 +176,26 @@ export default new Mutation({
         for (let i = 0, len = args.groups.length; i < len; i++) {
           let $item = args.groups[i] as { id };
           if ($item) {
-            let groups = await ensureGroup({
-              args: $item,
-              context,
-              create: false,
-            });
+            resActions.push(async () => {
+              let groups = await ensureGroup({
+                args: $item,
+                context,
+                create: false,
+              });
 
-            await linkCuratorToGroups({
-              context,
-              groups,
-              curator: result,
+              return linkCuratorToGroups({
+                context,
+                groups,
+                curator: result,
+              });
             });
           }
         }
       }
 
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         curator: result,
       };

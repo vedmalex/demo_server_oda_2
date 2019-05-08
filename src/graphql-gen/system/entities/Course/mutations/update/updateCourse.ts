@@ -74,6 +74,7 @@ export default new Mutation({
         });
       }
 
+      let resActions = [];
       if (
         args.subjectsUnlink &&
         Array.isArray(args.subjectsUnlink) &&
@@ -82,15 +83,17 @@ export default new Mutation({
         for (let i = 0, len = args.subjectsUnlink.length; i < len; i++) {
           let $item = args.subjectsUnlink[i];
           if ($item) {
-            let subjects = await ensureSubject({
-              args: $item,
-              context,
-              create: false,
-            });
-            await unlinkCourseFromSubjects({
-              context,
-              subjects,
-              course: result,
+            resActions.push(async () => {
+              let subjects = await ensureSubject({
+                args: $item,
+                context,
+                create: false,
+              });
+              return unlinkCourseFromSubjects({
+                context,
+                subjects,
+                course: result,
+              });
             });
           }
         }
@@ -104,16 +107,18 @@ export default new Mutation({
         for (let i = 0, len = args.subjectsCreate.length; i < len; i++) {
           let $item = args.subjectsCreate[i] as { id };
           if ($item) {
-            let subjects = await ensureSubject({
-              args: $item,
-              context,
-              create: true,
-            });
+            resActions.push(async () => {
+              let subjects = await ensureSubject({
+                args: $item,
+                context,
+                create: true,
+              });
 
-            await linkCourseToSubjects({
-              context,
-              subjects,
-              course: result,
+              return linkCourseToSubjects({
+                context,
+                subjects,
+                course: result,
+              });
             });
           }
         }
@@ -127,16 +132,18 @@ export default new Mutation({
         for (let i = 0, len = args.subjects.length; i < len; i++) {
           let $item = args.subjects[i] as { id };
           if ($item) {
-            let subjects = await ensureSubject({
-              args: $item,
-              context,
-              create: false,
-            });
+            resActions.push(async () => {
+              let subjects = await ensureSubject({
+                args: $item,
+                context,
+                create: false,
+              });
 
-            await linkCourseToSubjects({
-              context,
-              subjects,
-              course: result,
+              return linkCourseToSubjects({
+                context,
+                subjects,
+                course: result,
+              });
             });
           }
         }
@@ -150,15 +157,17 @@ export default new Mutation({
         for (let i = 0, len = args.groupsUnlink.length; i < len; i++) {
           let $item = args.groupsUnlink[i];
           if ($item) {
-            let groups = await ensureGroup({
-              args: $item,
-              context,
-              create: false,
-            });
-            await unlinkCourseFromGroups({
-              context,
-              groups,
-              course: result,
+            resActions.push(async () => {
+              let groups = await ensureGroup({
+                args: $item,
+                context,
+                create: false,
+              });
+              return unlinkCourseFromGroups({
+                context,
+                groups,
+                course: result,
+              });
             });
           }
         }
@@ -172,16 +181,18 @@ export default new Mutation({
         for (let i = 0, len = args.groupsCreate.length; i < len; i++) {
           let $item = args.groupsCreate[i] as { id };
           if ($item) {
-            let groups = await ensureGroup({
-              args: $item,
-              context,
-              create: true,
-            });
+            resActions.push(async () => {
+              let groups = await ensureGroup({
+                args: $item,
+                context,
+                create: true,
+              });
 
-            await linkCourseToGroups({
-              context,
-              groups,
-              course: result,
+              return linkCourseToGroups({
+                context,
+                groups,
+                course: result,
+              });
             });
           }
         }
@@ -191,21 +202,26 @@ export default new Mutation({
         for (let i = 0, len = args.groups.length; i < len; i++) {
           let $item = args.groups[i] as { id };
           if ($item) {
-            let groups = await ensureGroup({
-              args: $item,
-              context,
-              create: false,
-            });
+            resActions.push(async () => {
+              let groups = await ensureGroup({
+                args: $item,
+                context,
+                create: false,
+              });
 
-            await linkCourseToGroups({
-              context,
-              groups,
-              course: result,
+              return linkCourseToGroups({
+                context,
+                groups,
+                course: result,
+              });
             });
           }
         }
       }
 
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         course: result,
       };

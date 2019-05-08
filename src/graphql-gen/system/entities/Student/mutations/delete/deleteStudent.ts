@@ -28,20 +28,28 @@ export default new Mutation({
     ) => {
       logger.trace('deleteStudent');
       let result;
+      let deletePromise = [];
       if (args.id) {
-        await unlinkStudentFromAll(
-          [
-            {
-              key: 'id',
-              type: 'ID',
-              value: args.id,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkStudentFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Student.findOneByIdAndRemove(args.id);
+        deletePromise.push(
+          context.connectors.Student.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
       }
+
+      await Promise.all(deletePromise);
 
       if (!result) {
         throw new Error('item of type Student is not found for delete');

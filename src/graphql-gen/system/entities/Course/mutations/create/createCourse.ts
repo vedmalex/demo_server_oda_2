@@ -50,6 +50,7 @@ export default new Mutation({
         node: result,
       };
 
+      let resActions = [];
       if (
         args.subjects &&
         Array.isArray(args.subjects) &&
@@ -58,38 +59,43 @@ export default new Mutation({
         for (let i = 0, len = args.subjects.length; i < len; i++) {
           let $item = args.subjects[i] as { id };
           if ($item) {
-            let subjects = await ensureSubject({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkCourseToSubjects({
-              context,
-              subjects,
-              course: result,
+            resActions.push(async () => {
+              let subjects = await ensureSubject({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkCourseToSubjects({
+                context,
+                subjects,
+                course: result,
+              });
             });
           }
         }
       }
-
       if (args.groups && Array.isArray(args.groups) && args.groups.length > 0) {
         for (let i = 0, len = args.groups.length; i < len; i++) {
           let $item = args.groups[i] as { id };
           if ($item) {
-            let groups = await ensureGroup({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkCourseToGroups({
-              context,
-              groups,
-              course: result,
+            resActions.push(async () => {
+              let groups = await ensureGroup({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkCourseToGroups({
+                context,
+                groups,
+                course: result,
+              });
             });
           }
         }
       }
-
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         course: courseEdge,
       };

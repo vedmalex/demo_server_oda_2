@@ -28,20 +28,28 @@ export default new Mutation({
     ) => {
       logger.trace('deleteCurator');
       let result;
+      let deletePromise = [];
       if (args.id) {
-        await unlinkCuratorFromAll(
-          [
-            {
-              key: 'id',
-              type: 'ID',
-              value: args.id,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkCuratorFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Curator.findOneByIdAndRemove(args.id);
+        deletePromise.push(
+          context.connectors.Curator.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
       }
+
+      await Promise.all(deletePromise);
 
       if (!result) {
         throw new Error('item of type Curator is not found for delete');

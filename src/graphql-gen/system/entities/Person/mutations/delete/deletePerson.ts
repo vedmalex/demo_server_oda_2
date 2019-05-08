@@ -30,50 +30,64 @@ export default new Mutation({
     ) => {
       logger.trace('deletePerson');
       let result;
+      let deletePromise = [];
       if (args.id) {
-        await unlinkPersonFromAll(
-          [
-            {
-              key: 'id',
-              type: 'ID',
-              value: args.id,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkPersonFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Person.findOneByIdAndRemove(args.id);
+        deletePromise.push(
+          context.connectors.Person.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
       } else if (args.spiritualName) {
-        await unlinkPersonFromAll(
-          [
-            {
-              key: 'spiritualName',
-              type: 'String',
-              value: args.spiritualName,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkPersonFromAll(
+            [
+              {
+                key: 'spiritualName',
+                type: 'String',
+                value: args.spiritualName,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Person.findOneBySpiritualNameAndRemove(
-          args.spiritualName,
+        deletePromise.push(
+          context.connectors.Person.findOneBySpiritualNameAndRemove(
+            args.spiritualName,
+          ).then(res => (result = res)),
         );
       } else if (args.fullName) {
-        await unlinkPersonFromAll(
-          [
-            {
-              key: 'fullName',
-              type: 'String',
-              value: args.fullName,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkPersonFromAll(
+            [
+              {
+                key: 'fullName',
+                type: 'String',
+                value: args.fullName,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Person.findOneByFullNameAndRemove(
-          args.fullName,
+        deletePromise.push(
+          context.connectors.Person.findOneByFullNameAndRemove(
+            args.fullName,
+          ).then(res => (result = res)),
         );
       }
+
+      await Promise.all(deletePromise);
 
       if (!result) {
         throw new Error('item of type Person is not found for delete');

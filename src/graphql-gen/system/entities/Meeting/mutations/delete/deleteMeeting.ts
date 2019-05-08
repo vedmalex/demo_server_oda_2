@@ -28,20 +28,28 @@ export default new Mutation({
     ) => {
       logger.trace('deleteMeeting');
       let result;
+      let deletePromise = [];
       if (args.id) {
-        await unlinkMeetingFromAll(
-          [
-            {
-              key: 'id',
-              type: 'ID',
-              value: args.id,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkMeetingFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Meeting.findOneByIdAndRemove(args.id);
+        deletePromise.push(
+          context.connectors.Meeting.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
       }
+
+      await Promise.all(deletePromise);
 
       if (!result) {
         throw new Error('item of type Meeting is not found for delete');

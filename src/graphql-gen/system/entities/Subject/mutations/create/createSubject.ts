@@ -47,26 +47,31 @@ export default new Mutation({
         node: result,
       };
 
+      let resActions = [];
       if (args.course && Array.isArray(args.course) && args.course.length > 0) {
         for (let i = 0, len = args.course.length; i < len; i++) {
           let $item = args.course[i] as { id; hours; level };
           if ($item) {
-            let course = await ensureCourse({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkSubjectToCourse({
-              context,
-              course,
-              subject: result,
-              hours: $item.hours,
-              level: $item.level,
+            resActions.push(async () => {
+              let course = await ensureCourse({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkSubjectToCourse({
+                context,
+                course,
+                subject: result,
+                hours: $item.hours,
+                level: $item.level,
+              });
             });
           }
         }
       }
-
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         subject: subjectEdge,
       };

@@ -52,38 +52,41 @@ export default new Mutation({
         node: result,
       };
 
+      let resActions = [];
       if (args.person) {
         let $item = args.person as { id };
         if ($item) {
-          let person = await ensurePerson({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkStudentToPerson({
-            context,
-            person,
-            student: result,
+          resActions.push(async () => {
+            let person = await ensurePerson({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkStudentToPerson({
+              context,
+              person,
+              student: result,
+            });
           });
         }
       }
-
       if (args.group) {
         let $item = args.group as { id };
         if ($item) {
-          let group = await ensureGroup({
-            args: $item,
-            context,
-            create: true,
-          });
-          await linkStudentToGroup({
-            context,
-            group,
-            student: result,
+          resActions.push(async () => {
+            let group = await ensureGroup({
+              args: $item,
+              context,
+              create: true,
+            });
+            return linkStudentToGroup({
+              context,
+              group,
+              student: result,
+            });
           });
         }
       }
-
       if (
         args.meetings &&
         Array.isArray(args.meetings) &&
@@ -92,20 +95,24 @@ export default new Mutation({
         for (let i = 0, len = args.meetings.length; i < len; i++) {
           let $item = args.meetings[i] as { id };
           if ($item) {
-            let meetings = await ensureMeeting({
-              args: $item,
-              context,
-              create: true,
-            });
-            await linkStudentToMeetings({
-              context,
-              meetings,
-              student: result,
+            resActions.push(async () => {
+              let meetings = await ensureMeeting({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkStudentToMeetings({
+                context,
+                meetings,
+                student: result,
+              });
             });
           }
         }
       }
-
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
       return {
         student: studentEdge,
       };

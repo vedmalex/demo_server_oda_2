@@ -30,22 +30,28 @@ export default new Mutation({
     ) => {
       logger.trace('deleteStudentAttendance');
       let result;
+      let deletePromise = [];
       if (args.id) {
-        await unlinkStudentAttendanceFromAll(
-          [
-            {
-              key: 'id',
-              type: 'ID',
-              value: args.id,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkStudentAttendanceFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.StudentAttendance.findOneByIdAndRemove(
-          args.id,
+        deletePromise.push(
+          context.connectors.StudentAttendance.findOneByIdAndRemove(
+            args.id,
+          ).then(res => (result = res)),
         );
       }
+
+      await Promise.all(deletePromise);
 
       if (!result) {
         throw new Error(

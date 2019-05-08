@@ -29,35 +29,46 @@ export default new Mutation({
     ) => {
       logger.trace('deleteEmail');
       let result;
+      let deletePromise = [];
       if (args.id) {
-        await unlinkEmailFromAll(
-          [
-            {
-              key: 'id',
-              type: 'ID',
-              value: args.id,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkEmailFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Email.findOneByIdAndRemove(args.id);
+        deletePromise.push(
+          context.connectors.Email.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
       } else if (args.email) {
-        await unlinkEmailFromAll(
-          [
-            {
-              key: 'email',
-              type: 'String',
-              value: args.email,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkEmailFromAll(
+            [
+              {
+                key: 'email',
+                type: 'String',
+                value: args.email,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Email.findOneByEmailAndRemove(
-          args.email,
+        deletePromise.push(
+          context.connectors.Email.findOneByEmailAndRemove(args.email).then(
+            res => (result = res),
+          ),
         );
       }
+
+      await Promise.all(deletePromise);
 
       if (!result) {
         throw new Error('item of type Email is not found for delete');

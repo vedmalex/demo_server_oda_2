@@ -29,35 +29,46 @@ export default new Mutation({
     ) => {
       logger.trace('deleteGroup');
       let result;
+      let deletePromise = [];
       if (args.id) {
-        await unlinkGroupFromAll(
-          [
-            {
-              key: 'id',
-              type: 'ID',
-              value: args.id,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkGroupFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Group.findOneByIdAndRemove(args.id);
+        deletePromise.push(
+          context.connectors.Group.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
       } else if (args.name) {
-        await unlinkGroupFromAll(
-          [
-            {
-              key: 'name',
-              type: 'String',
-              value: args.name,
-            },
-          ],
-          context,
+        deletePromise.push(
+          unlinkGroupFromAll(
+            [
+              {
+                key: 'name',
+                type: 'String',
+                value: args.name,
+              },
+            ],
+            context,
+          ),
         );
-
-        result = await context.connectors.Group.findOneByNameAndRemove(
-          args.name,
+        deletePromise.push(
+          context.connectors.Group.findOneByNameAndRemove(args.name).then(
+            res => (result = res),
+          ),
         );
       }
+
+      await Promise.all(deletePromise);
 
       if (!result) {
         throw new Error('item of type Group is not found for delete');
