@@ -69,8 +69,12 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
-    this.storeToCache([result]);
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    if (result) {
+      this.storeToCache([result]);
+      return this.ensureId(result.toJSON ? result.toJSON() : result);
+    } else {
+      throw new Error(`can't create item due to some issue`);
+    }
   }
 
   public async findOneByIdAndUpdate(
@@ -83,8 +87,10 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByPhoneNumberAndUpdate(
@@ -97,8 +103,10 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByIdAndRemove(id: string) {
@@ -107,8 +115,10 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByPhoneNumberAndRemove(phoneNumber: string) {
@@ -117,15 +127,21 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneById(id?: string) {
     if (id) {
       logger.trace(`findOneById with ${id} `);
       let result = await this.loaders.byId.load(id);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneById with ${id}`);
+      }
     }
   }
 
@@ -133,7 +149,11 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     if (phoneNumber) {
       logger.trace(`findOneByPhoneNumber with ${phoneNumber} `);
       let result = await this.loaders.byPhoneNumber.load(phoneNumber);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneByPhoneNumber with ${phoneNumber}`);
+      }
     }
   }
 

@@ -58,8 +58,12 @@ export default class Curator
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
-    this.storeToCache([result]);
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    if (result) {
+      this.storeToCache([result]);
+      return this.ensureId(result.toJSON ? result.toJSON() : result);
+    } else {
+      throw new Error(`can't create item due to some issue`);
+    }
   }
 
   public async findOneByIdAndUpdate(
@@ -72,8 +76,10 @@ export default class Curator
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByIdAndRemove(id: string) {
@@ -82,8 +88,10 @@ export default class Curator
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async addToPerson(args: { curator?: string; person?: string }) {
@@ -91,6 +99,8 @@ export default class Curator
     let opposite = await this.connectors.Person.findOneById(args.person);
     if (opposite) {
       await this.findOneByIdAndUpdate(args.curator, { person: opposite.id });
+    } else {
+      throw new Error(`can't addToPerson opposite not found`);
     }
   }
 
@@ -106,6 +116,8 @@ export default class Curator
       await this.connectors.Group.findOneByIdAndUpdate(args.group, {
         curator: current.id,
       });
+    } else {
+      throw new Error(`can't addToGroups item not found`);
     }
   }
 
@@ -120,7 +132,11 @@ export default class Curator
     if (id) {
       logger.trace(`findOneById with ${id} `);
       let result = await this.loaders.byId.load(id);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneById with ${id}`);
+      }
     }
   }
 

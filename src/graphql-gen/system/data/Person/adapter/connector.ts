@@ -94,8 +94,12 @@ export default class Person
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
-    this.storeToCache([result]);
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    if (result) {
+      this.storeToCache([result]);
+      return this.ensureId(result.toJSON ? result.toJSON() : result);
+    } else {
+      throw new Error(`can't create item due to some issue`);
+    }
   }
 
   public async findOneByIdAndUpdate(
@@ -108,8 +112,10 @@ export default class Person
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneBySpiritualNameAndUpdate(
@@ -122,8 +128,10 @@ export default class Person
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByFullNameAndUpdate(
@@ -136,8 +144,10 @@ export default class Person
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByIdAndRemove(id: string) {
@@ -146,8 +156,10 @@ export default class Person
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneBySpiritualNameAndRemove(spiritualName: string) {
@@ -156,8 +168,10 @@ export default class Person
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByFullNameAndRemove(fullName: string) {
@@ -166,8 +180,10 @@ export default class Person
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async addToUser(args: { person?: string; user?: string }) {
@@ -175,6 +191,8 @@ export default class Person
     let opposite = await this.connectors.User.findOneById(args.user);
     if (opposite) {
       await this.findOneByIdAndUpdate(args.person, { user: opposite.id });
+    } else {
+      throw new Error(`can't addToUser opposite not found`);
     }
   }
 
@@ -190,6 +208,8 @@ export default class Person
       await this.connectors.Student.findOneByIdAndUpdate(args.student, {
         person: current.id,
       });
+    } else {
+      throw new Error(`can't addToAsStudents item not found`);
     }
   }
 
@@ -210,6 +230,8 @@ export default class Person
       await this.connectors.Curator.findOneByIdAndUpdate(args.curator, {
         person: current.id,
       });
+    } else {
+      throw new Error(`can't addToAsCurator item not found`);
     }
   }
 
@@ -227,7 +249,11 @@ export default class Person
     if (id) {
       logger.trace(`findOneById with ${id} `);
       let result = await this.loaders.byId.load(id);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneById with ${id}`);
+      }
     }
   }
 
@@ -235,7 +261,11 @@ export default class Person
     if (spiritualName) {
       logger.trace(`findOneBySpiritualName with ${spiritualName} `);
       let result = await this.loaders.bySpiritualName.load(spiritualName);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneBySpiritualName with ${spiritualName}`);
+      }
     }
   }
 
@@ -243,7 +273,11 @@ export default class Person
     if (fullName) {
       logger.trace(`findOneByFullName with ${fullName} `);
       let result = await this.loaders.byFullName.load(fullName);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneByFullName with ${fullName}`);
+      }
     }
   }
 

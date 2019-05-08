@@ -70,8 +70,12 @@ export default class Course
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
-    this.storeToCache([result]);
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    if (result) {
+      this.storeToCache([result]);
+      return this.ensureId(result.toJSON ? result.toJSON() : result);
+    } else {
+      throw new Error(`can't create item due to some issue`);
+    }
   }
 
   public async findOneByIdAndUpdate(
@@ -84,8 +88,10 @@ export default class Course
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByNameAndUpdate(
@@ -98,8 +104,10 @@ export default class Course
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByIdAndRemove(id: string) {
@@ -108,8 +116,10 @@ export default class Course
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByNameAndRemove(name: string) {
@@ -118,8 +128,10 @@ export default class Course
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async addToSubjects(args: { course?: string; subject?: string }) {
@@ -151,6 +163,9 @@ export default class Course
       } else {
         await this.connectors.SubjectCourse.create(update);
       }
+    } else {
+      if (!opposite) throw new Error(`can't addToSubjects opposite not found`);
+      if (!current) throw new Error(`can't addToSubjects item not found`);
     }
   }
 
@@ -175,6 +190,10 @@ export default class Course
           connection[0].id,
         );
       }
+    } else {
+      if (!opposite)
+        throw new Error(`can't removeFromSubjects opposite not found`);
+      if (!current) throw new Error(`can't removeFromSubjects item not found`);
     }
   }
 
@@ -185,6 +204,8 @@ export default class Course
       await this.connectors.Group.findOneByIdAndUpdate(args.group, {
         course: current.id,
       });
+    } else {
+      throw new Error(`can't addToGroups item not found`);
     }
   }
 
@@ -199,7 +220,11 @@ export default class Course
     if (id) {
       logger.trace(`findOneById with ${id} `);
       let result = await this.loaders.byId.load(id);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneById with ${id}`);
+      }
     }
   }
 
@@ -207,7 +232,11 @@ export default class Course
     if (name) {
       logger.trace(`findOneByName with ${name} `);
       let result = await this.loaders.byName.load(name);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneByName with ${name}`);
+      }
     }
   }
 

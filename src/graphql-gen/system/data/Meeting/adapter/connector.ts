@@ -58,8 +58,12 @@ export default class Meeting
     logger.trace('create');
     let entity = this.getPayload(payload);
     let result = await this.createSecure(entity);
-    this.storeToCache([result]);
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    if (result) {
+      this.storeToCache([result]);
+      return this.ensureId(result.toJSON ? result.toJSON() : result);
+    } else {
+      throw new Error(`can't create item due to some issue`);
+    }
   }
 
   public async findOneByIdAndUpdate(
@@ -72,8 +76,10 @@ export default class Meeting
     if (result) {
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't update item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async findOneByIdAndRemove(id: string) {
@@ -82,8 +88,10 @@ export default class Meeting
     if (result) {
       result = await this.removeSecure(result);
       this.storeToCache([result]);
+    } else {
+      throw new Error(`can't remove item due to some issue`);
     }
-    return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+    return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
 
   public async addToCurator(args: { meeting?: string; curator?: string }) {
@@ -91,6 +99,8 @@ export default class Meeting
     let opposite = await this.connectors.Curator.findOneById(args.curator);
     if (opposite) {
       await this.findOneByIdAndUpdate(args.meeting, { curator: opposite.id });
+    } else {
+      throw new Error(`can't addToCurator opposite not found`);
     }
   }
 
@@ -104,6 +114,8 @@ export default class Meeting
     let opposite = await this.connectors.Group.findOneById(args.group);
     if (opposite) {
       await this.findOneByIdAndUpdate(args.meeting, { group: opposite.id });
+    } else {
+      throw new Error(`can't addToGroup opposite not found`);
     }
   }
 
@@ -156,6 +168,9 @@ export default class Meeting
       } else {
         await this.connectors.StudentAttendance.create(update);
       }
+    } else {
+      if (!opposite) throw new Error(`can't addToStudents opposite not found`);
+      if (!current) throw new Error(`can't addToStudents item not found`);
     }
   }
 
@@ -183,6 +198,10 @@ export default class Meeting
           connection[0].id,
         );
       }
+    } else {
+      if (!opposite)
+        throw new Error(`can't removeFromStudents opposite not found`);
+      if (!current) throw new Error(`can't removeFromStudents item not found`);
     }
   }
 
@@ -190,7 +209,11 @@ export default class Meeting
     if (id) {
       logger.trace(`findOneById with ${id} `);
       let result = await this.loaders.byId.load(id);
-      return this.ensureId(result && result.toJSON ? result.toJSON() : result);
+      if (result) {
+        return this.ensureId(result.toJSON ? result.toJSON() : result);
+      } else {
+        throw new Error(`can't findOneById with ${id}`);
+      }
     }
   }
 
