@@ -23,31 +23,44 @@ export default new Mutation({
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
     ) => {
+      const needCommit = await context.connectors.ensureTransaction();
+      const txn = await context.connectors.transaction;
       logger.trace('createEmail');
-      let create = context.connectors.Email.getPayload(args, false);
+      try {
+        let create = context.connectors.Email.getPayload(args, false);
 
-      let result = await context.connectors.Email.create(create);
+        let result = await context.connectors.Email.create(create);
 
-      if (context.pubsub) {
-        context.pubsub.publish('Email', {
-          Email: {
-            mutation: 'CREATE',
-            node: result,
-            previous: null,
-            updatedFields: [],
-            payload: args,
-          },
-        });
+        if (context.pubsub) {
+          context.pubsub.publish('Email', {
+            Email: {
+              mutation: 'CREATE',
+              node: result,
+              previous: null,
+              updatedFields: [],
+              payload: args,
+            },
+          });
+        }
+
+        let emailEdge = {
+          cursor: result.id,
+          node: result,
+        };
+
+        if (needCommit) {
+          return txn.commit().then(() => ({
+            email: emailEdge,
+          }));
+        } else {
+          return {
+            email: emailEdge,
+          };
+        }
+      } catch (e) {
+        await txn.abort();
+        throw e;
       }
-
-      let emailEdge = {
-        cursor: result.id,
-        node: result,
-      };
-
-      return {
-        email: emailEdge,
-      };
     },
   ),
 });

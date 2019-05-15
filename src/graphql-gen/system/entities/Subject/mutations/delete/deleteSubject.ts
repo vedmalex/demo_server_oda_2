@@ -27,69 +27,83 @@ export default new Mutation({
       },
       info,
     ) => {
+      const needCommit = await context.connectors.ensureTransaction();
+      const txn = await context.connectors.transaction;
       logger.trace('deleteSubject');
-      let result;
-      let deletePromise = [];
-      if (args.id) {
-        deletePromise.push(
-          unlinkSubjectFromAll(
-            [
-              {
-                key: 'id',
-                type: 'ID',
-                value: args.id,
-              },
-            ],
-            context,
-          ),
-        );
-        deletePromise.push(
-          context.connectors.Subject.findOneByIdAndRemove(args.id).then(
-            res => (result = res),
-          ),
-        );
-      } else if (args.name) {
-        deletePromise.push(
-          unlinkSubjectFromAll(
-            [
-              {
-                key: 'name',
-                type: 'String',
-                value: args.name,
-              },
-            ],
-            context,
-          ),
-        );
-        deletePromise.push(
-          context.connectors.Subject.findOneByNameAndRemove(args.name).then(
-            res => (result = res),
-          ),
-        );
+      try {
+        let result;
+        let deletePromise = [];
+        if (args.id) {
+          deletePromise.push(
+            unlinkSubjectFromAll(
+              [
+                {
+                  key: 'id',
+                  type: 'ID',
+                  value: args.id,
+                },
+              ],
+              context,
+            ),
+          );
+          deletePromise.push(
+            context.connectors.Subject.findOneByIdAndRemove(args.id).then(
+              res => (result = res),
+            ),
+          );
+        } else if (args.name) {
+          deletePromise.push(
+            unlinkSubjectFromAll(
+              [
+                {
+                  key: 'name',
+                  type: 'String',
+                  value: args.name,
+                },
+              ],
+              context,
+            ),
+          );
+          deletePromise.push(
+            context.connectors.Subject.findOneByNameAndRemove(args.name).then(
+              res => (result = res),
+            ),
+          );
+        }
+
+        await Promise.all(deletePromise);
+
+        if (!result) {
+          throw new Error('item of type Subject is not found for delete');
+        }
+
+        if (context.pubsub) {
+          context.pubsub.publish('Subject', {
+            Subject: {
+              mutation: 'DELETE',
+              node: result,
+              previous: null,
+              updatedFields: [],
+              payload: args,
+            },
+          });
+        }
+
+        if (needCommit) {
+          return txn.commit().then(() => ({
+            deletedItemId: result.id,
+            subject: result,
+          }));
+        } else {
+          return {
+            deletedItemId: result.id,
+            subject: result,
+          };
+        }
+      } catch (e) {
+        await txn.abort();
+        throw e;
       }
-
-      await Promise.all(deletePromise);
-
-      if (!result) {
-        throw new Error('item of type Subject is not found for delete');
-      }
-
-      if (context.pubsub) {
-        context.pubsub.publish('Subject', {
-          Subject: {
-            mutation: 'DELETE',
-            node: result,
-            previous: null,
-            updatedFields: [],
-            payload: args,
-          },
-        });
-      }
-
-      return {
-        deletedItemId: result.id,
-        subject: result,
-      };
     },
   ),
 });

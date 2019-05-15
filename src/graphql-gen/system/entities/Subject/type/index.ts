@@ -55,6 +55,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Subject.course');
       let result;
       let selectionSet = traverse(info);
 
@@ -110,6 +111,13 @@ export default new Type({
                 level: link.level,
               });
             } else {
+              // inconsistent link
+              if (!result) {
+                logger.warn(
+                  'Possibly inconsistent link connection for Subject.course with id %s',
+                  id,
+                );
+              }
               return false;
             }
           },

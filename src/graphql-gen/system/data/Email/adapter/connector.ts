@@ -36,20 +36,24 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
     };
 
     const byId = async keys => {
+      logger.trace('loader Id start with %o', keys);
       let result = await this._getList({ filter: { id: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.id] = item;
         return _map;
       }, {});
+      logger.trace('loader Id finish with %o', map);
       return keys.map(id => map[id]);
     };
 
     const byEmail = async keys => {
+      logger.trace('loader Email start with %o', keys);
       let result = await this._getList({ filter: { email: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.email] = item;
         return _map;
       }, {});
+      logger.trace('loader Email finish with %o', map);
       return keys.map(id => map[id]);
     };
 
@@ -71,7 +75,9 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
       this.storeToCache([result]);
       return this.ensureId(result.toJSON ? result.toJSON() : result);
     } else {
-      throw new Error(`can't create item due to some issue`);
+      const err = `connector for 'Email': can't create item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -86,7 +92,9 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Email': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -102,7 +110,9 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Email': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -114,7 +124,9 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Email': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -126,7 +138,9 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Email': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -137,8 +151,6 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
       let result = await this.loaders.byId.load(id);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneById with ${id}`);
       }
     }
   }
@@ -149,8 +161,6 @@ export default class Email extends MongooseApi<RegisterConnectors, PartialEmail>
       let result = await this.loaders.byEmail.load(email);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneByEmail with ${email}`);
       }
     }
   }

@@ -59,6 +59,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Curator.person');
       let result;
       let selectionSet = traverse(info);
 
@@ -66,6 +67,13 @@ export default new Type({
       //BelongsTo
       if (curator && curator.person) {
         result = await context.connectors.Person.findOneById(curator.person);
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for Curator.person with id %s to %s',
+            id,
+            curator.person,
+          );
+        }
       }
 
       return result;
@@ -87,6 +95,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Curator.groups');
       let result;
       let selectionSet = traverse(info);
 
@@ -165,6 +174,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Curator.spiritualName');
       let result;
 
       // let curator = await context.connectors.Curator.findOneById(id);
@@ -179,6 +189,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Curator.fullName');
       let result;
 
       // let curator = await context.connectors.Curator.findOneById(id);

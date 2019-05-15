@@ -41,20 +41,24 @@ export default class Course
     };
 
     const byId = async keys => {
+      logger.trace('loader Id start with %o', keys);
       let result = await this._getList({ filter: { id: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.id] = item;
         return _map;
       }, {});
+      logger.trace('loader Id finish with %o', map);
       return keys.map(id => map[id]);
     };
 
     const byName = async keys => {
+      logger.trace('loader Name start with %o', keys);
       let result = await this._getList({ filter: { name: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.name] = item;
         return _map;
       }, {});
+      logger.trace('loader Name finish with %o', map);
       return keys.map(id => map[id]);
     };
 
@@ -74,7 +78,9 @@ export default class Course
       this.storeToCache([result]);
       return this.ensureId(result.toJSON ? result.toJSON() : result);
     } else {
-      throw new Error(`can't create item due to some issue`);
+      const err = `connector for 'Course': can't create item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -89,7 +95,9 @@ export default class Course
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Course': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -105,7 +113,9 @@ export default class Course
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Course': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -117,7 +127,9 @@ export default class Course
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Course': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -129,7 +141,9 @@ export default class Course
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Course': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -164,8 +178,18 @@ export default class Course
         await this.connectors.SubjectCourse.create(update);
       }
     } else {
-      if (!opposite) throw new Error(`can't addToSubjects opposite not found`);
-      if (!current) throw new Error(`can't addToSubjects item not found`);
+      let err, err2;
+      if (!opposite) {
+        err = `connector for 'Course': can't addToSubjects opposite not found`;
+        logger.error(err);
+      }
+      if (!current) {
+        err2 = `connector for 'Course': can't create item due to some issue`;
+        logger.error(err2);
+      }
+      if (err || err2) {
+        throw new Error([err, err2].filter(e => e).join('\n'));
+      }
     }
   }
 
@@ -191,9 +215,18 @@ export default class Course
         );
       }
     } else {
-      if (!opposite)
-        throw new Error(`can't removeFromSubjects opposite not found`);
-      if (!current) throw new Error(`can't removeFromSubjects item not found`);
+      let err, err2;
+      if (!opposite) {
+        err = `connector for 'Course': can't removeFromSubjects opposite not found`;
+        logger.error(err);
+      }
+      if (!current) {
+        err2 = `connector for 'Course': can't removeFromSubjects item not found`;
+        logger.error(err2);
+      }
+      if (err || err2) {
+        throw new Error([err, err2].filter(e => e).join('\n'));
+      }
     }
   }
 
@@ -205,7 +238,9 @@ export default class Course
         course: current.id,
       });
     } else {
-      throw new Error(`can't addToGroups item not found`);
+      const err = `connector for 'Course': can't addToGroups item not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -222,8 +257,6 @@ export default class Course
       let result = await this.loaders.byId.load(id);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneById with ${id}`);
       }
     }
   }
@@ -234,8 +267,6 @@ export default class Course
       let result = await this.loaders.byName.load(name);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneByName with ${name}`);
       }
     }
   }

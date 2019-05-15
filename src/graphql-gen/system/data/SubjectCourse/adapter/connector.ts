@@ -39,11 +39,13 @@ export default class SubjectCourse
     };
 
     const byId = async keys => {
+      logger.trace('loader Id start with %o', keys);
       let result = await this._getList({ filter: { id: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.id] = item;
         return _map;
       }, {});
+      logger.trace('loader Id finish with %o', map);
       return keys.map(id => map[id]);
     };
 
@@ -64,7 +66,9 @@ export default class SubjectCourse
       this.storeToCache([result]);
       return this.ensureId(result.toJSON ? result.toJSON() : result);
     } else {
-      throw new Error(`can't create item due to some issue`);
+      const err = `connector for 'SubjectCourse': can't create item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -79,7 +83,9 @@ export default class SubjectCourse
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'SubjectCourse': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -91,7 +97,9 @@ export default class SubjectCourse
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'SubjectCourse': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -107,7 +115,9 @@ export default class SubjectCourse
         subject: opposite.id,
       });
     } else {
-      throw new Error(`can't addToSubjectLink opposite not found`);
+      const err = `connector for 'SubjectCourse': can't addToSubjectLink opposite not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -130,7 +140,9 @@ export default class SubjectCourse
         course: opposite.id,
       });
     } else {
-      throw new Error(`can't addToCourseLink opposite not found`);
+      const err = `connector for 'SubjectCourse': can't addToCourseLink opposite not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -148,8 +160,6 @@ export default class SubjectCourse
       let result = await this.loaders.byId.load(id);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneById with ${id}`);
       }
     }
   }

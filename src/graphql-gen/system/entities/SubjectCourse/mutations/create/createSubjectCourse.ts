@@ -34,69 +34,82 @@ export default new Mutation({
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
     ) => {
+      const needCommit = await context.connectors.ensureTransaction();
+      const txn = await context.connectors.transaction;
       logger.trace('createSubjectCourse');
-      let create = context.connectors.SubjectCourse.getPayload(args, false);
+      try {
+        let create = context.connectors.SubjectCourse.getPayload(args, false);
 
-      let result = await context.connectors.SubjectCourse.create(create);
+        let result = await context.connectors.SubjectCourse.create(create);
 
-      if (context.pubsub) {
-        context.pubsub.publish('SubjectCourse', {
-          SubjectCourse: {
-            mutation: 'CREATE',
-            node: result,
-            previous: null,
-            updatedFields: [],
-            payload: args,
-          },
-        });
-      }
-
-      let subjectCourseEdge = {
-        cursor: result.id,
-        node: result,
-      };
-
-      let resActions = [];
-      if (args.subjectLink) {
-        let $item = args.subjectLink as { id };
-        if ($item) {
-          resActions.push(async () => {
-            let subjectLink = await ensureSubject({
-              args: $item,
-              context,
-              create: true,
-            });
-            return linkSubjectCourseToSubjectLink({
-              context,
-              subjectLink,
-              subjectCourse: result,
-            });
+        if (context.pubsub) {
+          context.pubsub.publish('SubjectCourse', {
+            SubjectCourse: {
+              mutation: 'CREATE',
+              node: result,
+              previous: null,
+              updatedFields: [],
+              payload: args,
+            },
           });
         }
-      }
-      if (args.courseLink) {
-        let $item = args.courseLink as { id };
-        if ($item) {
-          resActions.push(async () => {
-            let courseLink = await ensureCourse({
-              args: $item,
-              context,
-              create: true,
+
+        let subjectCourseEdge = {
+          cursor: result.id,
+          node: result,
+        };
+
+        let resActions = [];
+        if (args.subjectLink) {
+          let $item = args.subjectLink as { id };
+          if ($item) {
+            resActions.push(async () => {
+              let subjectLink = await ensureSubject({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkSubjectCourseToSubjectLink({
+                context,
+                subjectLink,
+                subjectCourse: result,
+              });
             });
-            return linkSubjectCourseToCourseLink({
-              context,
-              courseLink,
-              subjectCourse: result,
-            });
-          });
+          }
         }
+        if (args.courseLink) {
+          let $item = args.courseLink as { id };
+          if ($item) {
+            resActions.push(async () => {
+              let courseLink = await ensureCourse({
+                args: $item,
+                context,
+                create: true,
+              });
+              return linkSubjectCourseToCourseLink({
+                context,
+                courseLink,
+                subjectCourse: result,
+              });
+            });
+          }
+        }
+        if (resActions.length > 0) {
+          await Promise.all(resActions);
+        }
+        if (needCommit) {
+          return txn.commit().then(() => ({
+            subjectCourse: subjectCourseEdge,
+          }));
+        } else {
+          return {
+            subjectCourse: subjectCourseEdge,
+          };
+        }
+      } catch (e) {
+        await txn.abort();
+        throw e;
       }
-      if (resActions.length > 0) {
-        await Promise.all(resActions);
-      }
-      return {
-        subjectCourse: subjectCourseEdge,
-      };
     },
   ),
 });

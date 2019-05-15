@@ -36,20 +36,24 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
     };
 
     const byId = async keys => {
+      logger.trace('loader Id start with %o', keys);
       let result = await this._getList({ filter: { id: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.id] = item;
         return _map;
       }, {});
+      logger.trace('loader Id finish with %o', map);
       return keys.map(id => map[id]);
     };
 
     const byUserName = async keys => {
+      logger.trace('loader UserName start with %o', keys);
       let result = await this._getList({ filter: { userName: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.userName] = item;
         return _map;
       }, {});
+      logger.trace('loader UserName finish with %o', map);
       return keys.map(id => map[id]);
     };
 
@@ -71,7 +75,9 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
       this.storeToCache([result]);
       return this.ensureId(result.toJSON ? result.toJSON() : result);
     } else {
-      throw new Error(`can't create item due to some issue`);
+      const err = `connector for 'User': can't create item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -86,7 +92,9 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'User': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -102,7 +110,9 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'User': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -114,7 +124,9 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'User': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -126,7 +138,9 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'User': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -137,8 +151,6 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
       let result = await this.loaders.byId.load(id);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneById with ${id}`);
       }
     }
   }
@@ -149,8 +161,6 @@ export default class User extends MongooseApi<RegisterConnectors, PartialUser>
       let result = await this.loaders.byUserName.load(userName);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneByUserName with ${userName}`);
       }
     }
   }

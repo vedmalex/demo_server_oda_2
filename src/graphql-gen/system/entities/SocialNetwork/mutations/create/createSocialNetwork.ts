@@ -26,31 +26,44 @@ export default new Mutation({
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
     ) => {
+      const needCommit = await context.connectors.ensureTransaction();
+      const txn = await context.connectors.transaction;
       logger.trace('createSocialNetwork');
-      let create = context.connectors.SocialNetwork.getPayload(args, false);
+      try {
+        let create = context.connectors.SocialNetwork.getPayload(args, false);
 
-      let result = await context.connectors.SocialNetwork.create(create);
+        let result = await context.connectors.SocialNetwork.create(create);
 
-      if (context.pubsub) {
-        context.pubsub.publish('SocialNetwork', {
-          SocialNetwork: {
-            mutation: 'CREATE',
-            node: result,
-            previous: null,
-            updatedFields: [],
-            payload: args,
-          },
-        });
+        if (context.pubsub) {
+          context.pubsub.publish('SocialNetwork', {
+            SocialNetwork: {
+              mutation: 'CREATE',
+              node: result,
+              previous: null,
+              updatedFields: [],
+              payload: args,
+            },
+          });
+        }
+
+        let socialNetworkEdge = {
+          cursor: result.id,
+          node: result,
+        };
+
+        if (needCommit) {
+          return txn.commit().then(() => ({
+            socialNetwork: socialNetworkEdge,
+          }));
+        } else {
+          return {
+            socialNetwork: socialNetworkEdge,
+          };
+        }
+      } catch (e) {
+        await txn.abort();
+        throw e;
       }
-
-      let socialNetworkEdge = {
-        cursor: result.id,
-        node: result,
-      };
-
-      return {
-        socialNetwork: socialNetworkEdge,
-      };
     },
   ),
 });

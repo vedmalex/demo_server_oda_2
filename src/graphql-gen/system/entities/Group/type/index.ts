@@ -60,6 +60,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Group.course');
       let result;
       let selectionSet = traverse(info);
 
@@ -67,6 +68,13 @@ export default new Type({
       //BelongsTo
       if (group && group.course) {
         result = await context.connectors.Course.findOneById(group.course);
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for Group.course with id %s to %s',
+            id,
+            group.course,
+          );
+        }
       }
 
       return result;
@@ -88,6 +96,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Group.students');
       let result;
       let selectionSet = traverse(info);
 
@@ -177,6 +186,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Group.curator');
       let result;
       let selectionSet = traverse(info);
 
@@ -184,6 +194,13 @@ export default new Type({
       //BelongsTo
       if (group && group.curator) {
         result = await context.connectors.Curator.findOneById(group.curator);
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for Group.curator with id %s to %s',
+            id,
+            group.curator,
+          );
+        }
       }
 
       return result;

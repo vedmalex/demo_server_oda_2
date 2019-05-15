@@ -26,31 +26,44 @@ export default new Mutation({
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
     ) => {
+      const needCommit = await context.connectors.ensureTransaction();
+      const txn = await context.connectors.transaction;
       logger.trace('createUser');
-      let create = context.connectors.User.getPayload(args, false);
+      try {
+        let create = context.connectors.User.getPayload(args, false);
 
-      let result = await context.connectors.User.create(create);
+        let result = await context.connectors.User.create(create);
 
-      if (context.pubsub) {
-        context.pubsub.publish('User', {
-          User: {
-            mutation: 'CREATE',
-            node: result,
-            previous: null,
-            updatedFields: [],
-            payload: args,
-          },
-        });
+        if (context.pubsub) {
+          context.pubsub.publish('User', {
+            User: {
+              mutation: 'CREATE',
+              node: result,
+              previous: null,
+              updatedFields: [],
+              payload: args,
+            },
+          });
+        }
+
+        let userEdge = {
+          cursor: result.id,
+          node: result,
+        };
+
+        if (needCommit) {
+          return txn.commit().then(() => ({
+            user: userEdge,
+          }));
+        } else {
+          return {
+            user: userEdge,
+          };
+        }
+      } catch (e) {
+        await txn.abort();
+        throw e;
       }
-
-      let userEdge = {
-        cursor: result.id,
-        node: result,
-      };
-
-      return {
-        user: userEdge,
-      };
     },
   ),
 });

@@ -39,11 +39,13 @@ export default class Student
     };
 
     const byId = async keys => {
+      logger.trace('loader Id start with %o', keys);
       let result = await this._getList({ filter: { id: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.id] = item;
         return _map;
       }, {});
+      logger.trace('loader Id finish with %o', map);
       return keys.map(id => map[id]);
     };
 
@@ -62,7 +64,9 @@ export default class Student
       this.storeToCache([result]);
       return this.ensureId(result.toJSON ? result.toJSON() : result);
     } else {
-      throw new Error(`can't create item due to some issue`);
+      const err = `connector for 'Student': can't create item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -77,7 +81,9 @@ export default class Student
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Student': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -89,7 +95,9 @@ export default class Student
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Student': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -100,7 +108,9 @@ export default class Student
     if (opposite) {
       await this.findOneByIdAndUpdate(args.student, { person: opposite.id });
     } else {
-      throw new Error(`can't addToPerson opposite not found`);
+      const err = `connector for 'Student': can't addToPerson opposite not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -115,7 +125,9 @@ export default class Student
     if (opposite) {
       await this.findOneByIdAndUpdate(args.student, { group: opposite.id });
     } else {
-      throw new Error(`can't addToGroup opposite not found`);
+      const err = `connector for 'Student': can't addToGroup opposite not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -154,8 +166,18 @@ export default class Student
         await this.connectors.StudentAttendance.create(update);
       }
     } else {
-      if (!opposite) throw new Error(`can't addToMeetings opposite not found`);
-      if (!current) throw new Error(`can't addToMeetings item not found`);
+      let err, err2;
+      if (!opposite) {
+        err = `connector for 'Student': can't addToMeetings opposite not found`;
+        logger.error(err);
+      }
+      if (!current) {
+        err2 = `connector for 'Student': can't create item due to some issue`;
+        logger.error(err2);
+      }
+      if (err || err2) {
+        throw new Error([err, err2].filter(e => e).join('\n'));
+      }
     }
   }
 
@@ -184,9 +206,18 @@ export default class Student
         );
       }
     } else {
-      if (!opposite)
-        throw new Error(`can't removeFromMeetings opposite not found`);
-      if (!current) throw new Error(`can't removeFromMeetings item not found`);
+      let err, err2;
+      if (!opposite) {
+        err = `connector for 'Student': can't removeFromMeetings opposite not found`;
+        logger.error(err);
+      }
+      if (!current) {
+        err2 = `connector for 'Student': can't removeFromMeetings item not found`;
+        logger.error(err2);
+      }
+      if (err || err2) {
+        throw new Error([err, err2].filter(e => e).join('\n'));
+      }
     }
   }
 
@@ -196,8 +227,6 @@ export default class Student
       let result = await this.loaders.byId.load(id);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneById with ${id}`);
       }
     }
   }

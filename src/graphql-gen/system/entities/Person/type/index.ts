@@ -62,6 +62,8 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Person.socialNetworks');
+
       return socialNetworks.map(
         context.connectors.SocialNetwork.ensureId.bind(
           context.connectors.SocialNetwork,
@@ -74,6 +76,8 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Person.phones');
+
       return phones.map(
         context.connectors.Phone.ensureId.bind(context.connectors.Phone),
       );
@@ -84,6 +88,8 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Person.emails');
+
       return emails.map(
         context.connectors.Email.ensureId.bind(context.connectors.Email),
       );
@@ -106,6 +112,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Person.user');
       let result;
       let selectionSet = traverse(info);
 
@@ -113,6 +120,13 @@ export default new Type({
       //BelongsTo
       if (person && person.user) {
         result = await context.connectors.User.findOneById(person.user);
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for Person.user with id %s to %s',
+            id,
+            person.user,
+          );
+        }
       }
 
       return result;
@@ -134,6 +148,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Person.asStudents');
       let result;
       let selectionSet = traverse(info);
 
@@ -223,6 +238,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Person.asCurator');
       let result;
       let selectionSet = traverse(info);
 
@@ -247,6 +263,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Person.ages');
       let result;
 
       // let person = await context.connectors.Person.findOneById(id);

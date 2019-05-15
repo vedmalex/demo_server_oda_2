@@ -49,6 +49,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('StudentAttendance.meetingLink');
       let result;
       let selectionSet = traverse(info);
 
@@ -60,6 +61,13 @@ export default new Type({
         result = await context.connectors.Meeting.findOneById(
           studentAttendance.meeting,
         );
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for StudentAttendance.meetingLink with id %s to %s',
+            id,
+            studentAttendance.meeting,
+          );
+        }
       }
 
       return result;
@@ -81,6 +89,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('StudentAttendance.studentLink');
       let result;
       let selectionSet = traverse(info);
 
@@ -92,6 +101,13 @@ export default new Type({
         result = await context.connectors.Student.findOneById(
           studentAttendance.student,
         );
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for StudentAttendance.studentLink with id %s to %s',
+            id,
+            studentAttendance.student,
+          );
+        }
       }
 
       return result;

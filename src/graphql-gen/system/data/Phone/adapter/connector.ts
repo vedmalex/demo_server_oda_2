@@ -36,15 +36,18 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
     };
 
     const byId = async keys => {
+      logger.trace('loader Id start with %o', keys);
       let result = await this._getList({ filter: { id: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.id] = item;
         return _map;
       }, {});
+      logger.trace('loader Id finish with %o', map);
       return keys.map(id => map[id]);
     };
 
     const byPhoneNumber = async keys => {
+      logger.trace('loader PhoneNumber start with %o', keys);
       let result = await this._getList({
         filter: { phoneNumber: { in: keys } },
       });
@@ -52,6 +55,7 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
         _map[item.phoneNumber] = item;
         return _map;
       }, {});
+      logger.trace('loader PhoneNumber finish with %o', map);
       return keys.map(id => map[id]);
     };
 
@@ -73,7 +77,9 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
       this.storeToCache([result]);
       return this.ensureId(result.toJSON ? result.toJSON() : result);
     } else {
-      throw new Error(`can't create item due to some issue`);
+      const err = `connector for 'Phone': can't create item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -88,7 +94,9 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Phone': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -104,7 +112,9 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Phone': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -116,7 +126,9 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Phone': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -128,7 +140,9 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Phone': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -139,8 +153,6 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
       let result = await this.loaders.byId.load(id);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneById with ${id}`);
       }
     }
   }
@@ -151,8 +163,6 @@ export default class Phone extends MongooseApi<RegisterConnectors, PartialPhone>
       let result = await this.loaders.byPhoneNumber.load(phoneNumber);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneByPhoneNumber with ${phoneNumber}`);
       }
     }
   }

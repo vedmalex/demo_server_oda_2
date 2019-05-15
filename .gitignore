@@ -5,5 +5,8 @@ node_modules
 data/schema.json
 data/schema.graphql
 data/seed-queries.json
+data/27017
+data/27018
+data/27019
 ./logs
 *.tsbuildinfo

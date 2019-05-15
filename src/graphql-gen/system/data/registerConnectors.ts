@@ -39,7 +39,9 @@ import { SubjectCourseConnector } from './SubjectCourse/adapter/interface';
 
 import { acl, ACLCheck, SecurityContext } from 'oda-api-graphql';
 
-export default class RegisterConnectors {
+import { RegisterConnectorsBase } from 'oda-api-graphql';
+
+export default class RegisterConnectors extends RegisterConnectorsBase {
   public get User(): UserConnector {
     return this.InitUser();
   }
@@ -249,8 +251,6 @@ export default class RegisterConnectors {
   protected _Subject: SubjectConnector;
   protected _SubjectCourse: SubjectCourseConnector;
 
-  public mongoose;
-  public sequelize;
   public userGQL;
   public systemGQL;
 
@@ -307,6 +307,7 @@ export default class RegisterConnectors {
     userGQL?;
     systemGQL?;
   }) {
+    super();
     this.securityContext = {
       user,
       group: userGroup,

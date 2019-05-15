@@ -63,6 +63,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Meeting.curator');
       let result;
       let selectionSet = traverse(info);
 
@@ -70,6 +71,13 @@ export default new Type({
       //BelongsTo
       if (meeting && meeting.curator) {
         result = await context.connectors.Curator.findOneById(meeting.curator);
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for Meeting.curator with id %s to %s',
+            id,
+            meeting.curator,
+          );
+        }
       }
 
       return result;
@@ -91,6 +99,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Meeting.group');
       let result;
       let selectionSet = traverse(info);
 
@@ -98,6 +107,13 @@ export default new Type({
       //BelongsTo
       if (meeting && meeting.group) {
         result = await context.connectors.Group.findOneById(meeting.group);
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for Meeting.group with id %s to %s',
+            id,
+            meeting.group,
+          );
+        }
       }
 
       return result;
@@ -119,6 +135,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Meeting.students');
       let result;
       let selectionSet = traverse(info);
 
@@ -177,6 +194,13 @@ export default new Type({
                 superpuper: link.superpuper,
               });
             } else {
+              // inconsistent link
+              if (!result) {
+                logger.warn(
+                  'Possibly inconsistent link connection for Meeting.students with id %s',
+                  id,
+                );
+              }
               return false;
             }
           },

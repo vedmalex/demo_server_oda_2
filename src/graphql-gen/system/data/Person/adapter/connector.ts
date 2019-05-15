@@ -49,15 +49,18 @@ export default class Person
     };
 
     const byId = async keys => {
+      logger.trace('loader Id start with %o', keys);
       let result = await this._getList({ filter: { id: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.id] = item;
         return _map;
       }, {});
+      logger.trace('loader Id finish with %o', map);
       return keys.map(id => map[id]);
     };
 
     const bySpiritualName = async keys => {
+      logger.trace('loader SpiritualName start with %o', keys);
       let result = await this._getList({
         filter: { spiritualName: { in: keys } },
       });
@@ -65,15 +68,18 @@ export default class Person
         _map[item.spiritualName] = item;
         return _map;
       }, {});
+      logger.trace('loader SpiritualName finish with %o', map);
       return keys.map(id => map[id]);
     };
 
     const byFullName = async keys => {
+      logger.trace('loader FullName start with %o', keys);
       let result = await this._getList({ filter: { fullName: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.fullName] = item;
         return _map;
       }, {});
+      logger.trace('loader FullName finish with %o', map);
       return keys.map(id => map[id]);
     };
 
@@ -98,7 +104,9 @@ export default class Person
       this.storeToCache([result]);
       return this.ensureId(result.toJSON ? result.toJSON() : result);
     } else {
-      throw new Error(`can't create item due to some issue`);
+      const err = `connector for 'Person': can't create item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -113,7 +121,9 @@ export default class Person
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Person': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -129,7 +139,9 @@ export default class Person
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Person': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -145,7 +157,9 @@ export default class Person
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Person': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -157,7 +171,9 @@ export default class Person
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Person': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -169,7 +185,9 @@ export default class Person
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Person': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -181,7 +199,9 @@ export default class Person
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Person': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -192,7 +212,9 @@ export default class Person
     if (opposite) {
       await this.findOneByIdAndUpdate(args.person, { user: opposite.id });
     } else {
-      throw new Error(`can't addToUser opposite not found`);
+      const err = `connector for 'Person': can't addToUser opposite not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -209,7 +231,9 @@ export default class Person
         person: current.id,
       });
     } else {
-      throw new Error(`can't addToAsStudents item not found`);
+      const err = `connector for 'Person': can't addToAsStudents item not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -231,7 +255,9 @@ export default class Person
         person: current.id,
       });
     } else {
-      throw new Error(`can't addToAsCurator item not found`);
+      const err = `connector for 'Person': can't addToAsCurator item not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -251,8 +277,6 @@ export default class Person
       let result = await this.loaders.byId.load(id);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneById with ${id}`);
       }
     }
   }
@@ -263,8 +287,6 @@ export default class Person
       let result = await this.loaders.bySpiritualName.load(spiritualName);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneBySpiritualName with ${spiritualName}`);
       }
     }
   }
@@ -275,8 +297,6 @@ export default class Person
       let result = await this.loaders.byFullName.load(fullName);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneByFullName with ${fullName}`);
       }
     }
   }

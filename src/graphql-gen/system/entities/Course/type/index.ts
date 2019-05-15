@@ -67,6 +67,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Course.subjects');
       let result;
       let selectionSet = traverse(info);
 
@@ -185,6 +186,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Course.groups');
       let result;
       let selectionSet = traverse(info);
 

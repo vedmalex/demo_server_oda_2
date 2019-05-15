@@ -61,6 +61,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Student.person');
       let result;
       let selectionSet = traverse(info);
 
@@ -68,6 +69,13 @@ export default new Type({
       //BelongsTo
       if (student && student.person) {
         result = await context.connectors.Person.findOneById(student.person);
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for Student.person with id %s to %s',
+            id,
+            student.person,
+          );
+        }
       }
 
       return result;
@@ -89,6 +97,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Student.group');
       let result;
       let selectionSet = traverse(info);
 
@@ -96,6 +105,13 @@ export default new Type({
       //BelongsTo
       if (student && student.group) {
         result = await context.connectors.Group.findOneById(student.group);
+        if (!result) {
+          logger.warn(
+            'Possibly inconsistent connection for Student.group with id %s to %s',
+            id,
+            student.group,
+          );
+        }
       }
 
       return result;
@@ -117,6 +133,7 @@ export default new Type({
       context: { connectors: RegisterConnectors },
       info,
     ) => {
+      logger.trace('Student.meetings');
       let result;
       let selectionSet = traverse(info);
 

@@ -39,11 +39,13 @@ export default class Curator
     };
 
     const byId = async keys => {
+      logger.trace('loader Id start with %o', keys);
       let result = await this._getList({ filter: { id: { in: keys } } });
       let map = result.reduce((_map, item) => {
         _map[item.id] = item;
         return _map;
       }, {});
+      logger.trace('loader Id finish with %o', map);
       return keys.map(id => map[id]);
     };
 
@@ -62,7 +64,9 @@ export default class Curator
       this.storeToCache([result]);
       return this.ensureId(result.toJSON ? result.toJSON() : result);
     } else {
-      throw new Error(`can't create item due to some issue`);
+      const err = `connector for 'Curator': can't create item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -77,7 +81,9 @@ export default class Curator
       result = await this.updateSecure(result, entity);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't update item due to some issue`);
+      const err = `connector for 'Curator': can't update item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -89,7 +95,9 @@ export default class Curator
       result = await this.removeSecure(result);
       this.storeToCache([result]);
     } else {
-      throw new Error(`can't remove item due to some issue`);
+      const err = `connector for 'Curator': can't remove item due to some issue`;
+      logger.error(err);
+      throw new Error(err);
     }
     return this.ensureId(result.toJSON ? result.toJSON() : result);
   }
@@ -100,7 +108,9 @@ export default class Curator
     if (opposite) {
       await this.findOneByIdAndUpdate(args.curator, { person: opposite.id });
     } else {
-      throw new Error(`can't addToPerson opposite not found`);
+      const err = `connector for 'Curator': can't addToPerson opposite not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -117,7 +127,9 @@ export default class Curator
         curator: current.id,
       });
     } else {
-      throw new Error(`can't addToGroups item not found`);
+      const err = `connector for 'Curator': can't addToGroups item not found`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 
@@ -134,8 +146,6 @@ export default class Curator
       let result = await this.loaders.byId.load(id);
       if (result) {
         return this.ensureId(result.toJSON ? result.toJSON() : result);
-      } else {
-        throw new Error(`can't findOneById with ${id}`);
       }
     }
   }

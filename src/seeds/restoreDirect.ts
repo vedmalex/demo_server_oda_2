@@ -21,12 +21,55 @@ let fn = process.argv[2]
 import { dbPool } from '../model/dbPool';
 import { SystemGraphQL, UserGQL } from '../model/runQuery';
 import { pubsub } from '../model/pubsub';
+import getLogger from 'oda-logger';
 
+let contextLogger = getLogger('restore:context');
 async function createContext({ schema }) {
   let db = await dbPool.get('system');
   let connectors = new RegisterConnectors({
     mongoose: db,
   });
+
+  const ensureTransaction = () => {
+  contextLogger.trace('create transaction');
+  return async (context, options) => {
+    contextLogger.trace('ensure transaction');
+    if (!context.transaction) {
+      contextLogger.trace('create transaction');
+      const session = await db.startSession();
+      await session.startTransaction(options);
+      context.transaction = true;
+      context.session = ({
+        commit: async () => {
+          if (context.session) {
+            contextLogger.trace('commit transaction');
+            await session.commitTransaction();
+            session.endSession();
+            context.transaction = false;
+            delete context.session;
+          } else {
+            contextLogger.trace('commit transaction');
+          }
+        },
+        abort: async () => {
+          if (context.session) {
+            contextLogger.trace('abort transaction');
+            await session.abortTransaction();
+            session.endSession();
+            context.transaction = false;
+            delete context.session;
+          } else {
+            contextLogger.trace('abort transaction');
+          }
+        }
+      });
+      return true;
+    } else {
+      contextLogger.trace('use existing transaction');
+      return false
+    }
+  }
+  }
   const result = {
     connectors,
     systemConnectors: await SystemGraphQL.connectors(),
@@ -37,6 +80,7 @@ async function createContext({ schema }) {
     // owner: passport.systemUser(),
     dbPool,
     pubsub,
+    ensureTransaction: undefined
   };
 
   const userGQL = new UserGQL({
@@ -45,7 +89,8 @@ async function createContext({ schema }) {
   });
 
   result.userGQL = userGQL.query.bind(userGQL);
-
+  result.ensureTransaction = ensureTransaction();
+  
   return result;
 }
 

@@ -26,51 +26,65 @@ export default new Mutation({
       },
       info,
     ) => {
+      const needCommit = await context.connectors.ensureTransaction();
+      const txn = await context.connectors.transaction;
       logger.trace('deleteMeeting');
-      let result;
-      let deletePromise = [];
-      if (args.id) {
-        deletePromise.push(
-          unlinkMeetingFromAll(
-            [
-              {
-                key: 'id',
-                type: 'ID',
-                value: args.id,
-              },
-            ],
-            context,
-          ),
-        );
-        deletePromise.push(
-          context.connectors.Meeting.findOneByIdAndRemove(args.id).then(
-            res => (result = res),
-          ),
-        );
+      try {
+        let result;
+        let deletePromise = [];
+        if (args.id) {
+          deletePromise.push(
+            unlinkMeetingFromAll(
+              [
+                {
+                  key: 'id',
+                  type: 'ID',
+                  value: args.id,
+                },
+              ],
+              context,
+            ),
+          );
+          deletePromise.push(
+            context.connectors.Meeting.findOneByIdAndRemove(args.id).then(
+              res => (result = res),
+            ),
+          );
+        }
+
+        await Promise.all(deletePromise);
+
+        if (!result) {
+          throw new Error('item of type Meeting is not found for delete');
+        }
+
+        if (context.pubsub) {
+          context.pubsub.publish('Meeting', {
+            Meeting: {
+              mutation: 'DELETE',
+              node: result,
+              previous: null,
+              updatedFields: [],
+              payload: args,
+            },
+          });
+        }
+
+        if (needCommit) {
+          return txn.commit().then(() => ({
+            deletedItemId: result.id,
+            meeting: result,
+          }));
+        } else {
+          return {
+            deletedItemId: result.id,
+            meeting: result,
+          };
+        }
+      } catch (e) {
+        await txn.abort();
+        throw e;
       }
-
-      await Promise.all(deletePromise);
-
-      if (!result) {
-        throw new Error('item of type Meeting is not found for delete');
-      }
-
-      if (context.pubsub) {
-        context.pubsub.publish('Meeting', {
-          Meeting: {
-            mutation: 'DELETE',
-            node: result,
-            previous: null,
-            updatedFields: [],
-            payload: args,
-          },
-        });
-      }
-
-      return {
-        deletedItemId: result.id,
-        meeting: result,
-      };
     },
   ),
 });
