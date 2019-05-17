@@ -14,6 +14,7 @@ import {
   detectCursorDirection,
   consts,
   mutateAndGetPayload,
+  mutateSafe,
   Filter,
 } from 'oda-api-graphql';
 import { lib } from 'oda-gen-common';
@@ -113,4 +114,5 @@ export {
   Filter,
   pubsub,
   mutateAndGetPayload,
+  mutateSafe,
 };

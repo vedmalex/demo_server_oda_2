@@ -10,7 +10,7 @@ import gql from 'graphql-tag';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       deleteStudent(input: deleteStudentInput!): deleteStudentPayload
     }
   `,
@@ -26,65 +26,51 @@ export default new Mutation({
       },
       info,
     ) => {
-      const needCommit = await context.connectors.ensureTransaction();
-      const txn = await context.connectors.transaction;
       logger.trace('deleteStudent');
-      try {
-        let result;
-        let deletePromise = [];
-        if (args.id) {
-          deletePromise.push(
-            unlinkStudentFromAll(
-              [
-                {
-                  key: 'id',
-                  type: 'ID',
-                  value: args.id,
-                },
-              ],
-              context,
-            ),
-          );
-          deletePromise.push(
-            context.connectors.Student.findOneByIdAndRemove(args.id).then(
-              res => (result = res),
-            ),
-          );
-        }
-
-        await Promise.all(deletePromise);
-
-        if (!result) {
-          throw new Error('item of type Student is not found for delete');
-        }
-
-        if (context.pubsub) {
-          context.pubsub.publish('Student', {
-            Student: {
-              mutation: 'DELETE',
-              node: result,
-              previous: null,
-              updatedFields: [],
-              payload: args,
-            },
-          });
-        }
-
-        if (needCommit) {
-          return txn.commit().then(() => ({
-            deletedItemId: result.id,
-            student: result,
-          }));
-        } else {
-          return {
-            deletedItemId: result.id,
-            student: result,
-          };
-        }
-      } catch (e) {
-        await txn.abort();
-        throw e;
+      let result;
+      let deletePromise = [];
+      if (args.id) {
+        deletePromise.push(
+          unlinkStudentFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
+        );
+        deletePromise.push(
+          context.connectors.Student.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
       }
+
+      await Promise.all(deletePromise);
+
+      if (!result) {
+        throw new Error('item of type Student is not found for delete');
+      }
+
+      if (context.pubsub) {
+        context.pubsub.publish('Student', {
+          Student: {
+            mutation: 'DELETE',
+            node: result,
+            previous: null,
+            updatedFields: [],
+            payload: args,
+          },
+        });
+      }
+
+      return {
+        deletedItemId: result.id,
+        student: result,
+      };
     },
   ),
 });

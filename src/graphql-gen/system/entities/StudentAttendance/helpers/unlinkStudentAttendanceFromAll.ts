@@ -67,6 +67,10 @@ export default async function unlinkStudentAttendanceFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'StudentAttendance': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

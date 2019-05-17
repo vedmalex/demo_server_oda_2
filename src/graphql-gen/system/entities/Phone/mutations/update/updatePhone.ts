@@ -10,7 +10,7 @@ import { merge } from 'lodash';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       updatePhone(input: updatePhoneInput!): updatePhonePayload
     }
   `,
@@ -24,63 +24,50 @@ export default new Mutation({
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
     ) => {
-      const needCommit = await context.connectors.ensureTransaction();
-      const txn = await context.connectors.transaction;
       logger.trace('updatePhone');
-      try {
-        let payload = context.connectors.Phone.getPayload(args);
+      let payload = context.connectors.Phone.getPayload(args);
 
-        let result;
-        let previous;
+      let result;
+      let previous;
 
-        if (args.id) {
-          previous = await context.connectors.Phone.findOneById(args.id);
-          result = await context.connectors.Phone.findOneByIdAndUpdate(
-            args.id,
-            merge({}, previous, payload),
-          );
-        } else if (args.phoneNumber) {
-          delete payload.phoneNumber;
-          previous = await context.connectors.Phone.findOneByPhoneNumber(
-            args.phoneNumber,
-          );
-          result = await context.connectors.Phone.findOneByPhoneNumberAndUpdate(
-            args.phoneNumber,
-            merge({}, previous, payload),
-          );
-        }
-
-        if (!result) {
-          throw new Error('item of type Phone is not found for update');
-        }
-
-        if (context.pubsub) {
-          context.pubsub.publish('Phone', {
-            Phone: {
-              mutation: 'UPDATE',
-              node: result,
-              previous,
-              updatedFields: Object.keys(payload).filter(
-                f => payload[f] !== undefined,
-              ),
-              payload: args,
-            },
-          });
-        }
-
-        if (needCommit) {
-          return txn.commit().then(() => ({
-            phone: result,
-          }));
-        } else {
-          return {
-            phone: result,
-          };
-        }
-      } catch (e) {
-        await txn.abort();
-        throw e;
+      if (args.id) {
+        previous = await context.connectors.Phone.findOneById(args.id);
+        result = await context.connectors.Phone.findOneByIdAndUpdate(
+          args.id,
+          merge({}, previous, payload),
+        );
+      } else if (args.phoneNumber) {
+        delete payload.phoneNumber;
+        previous = await context.connectors.Phone.findOneByPhoneNumber(
+          args.phoneNumber,
+        );
+        result = await context.connectors.Phone.findOneByPhoneNumberAndUpdate(
+          args.phoneNumber,
+          merge({}, previous, payload),
+        );
       }
+
+      if (!result) {
+        throw new Error('item of type Phone is not found for update');
+      }
+
+      if (context.pubsub) {
+        context.pubsub.publish('Phone', {
+          Phone: {
+            mutation: 'UPDATE',
+            node: result,
+            previous,
+            updatedFields: Object.keys(payload).filter(
+              f => payload[f] !== undefined,
+            ),
+            payload: args,
+          },
+        });
+      }
+
+      return {
+        phone: result,
+      };
     },
   ),
 });

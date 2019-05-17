@@ -24,8 +24,8 @@ export default new Schema({
   name: 'password.hooks',
   hooks: [
     {
-      'RootMutation.createUser': fixupPassword,
-      'RootMutation.updateUser': fixupPassword,
+      'Mutation.createUser': fixupPassword,
+      'Mutation.updateUser': fixupPassword,
     },
   ],
 });

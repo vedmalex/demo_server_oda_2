@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       loginUser(input: loginUserInput!): loginUserPayload
     }
   `,

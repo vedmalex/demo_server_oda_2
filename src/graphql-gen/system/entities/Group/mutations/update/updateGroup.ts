@@ -19,7 +19,7 @@ import { merge } from 'lodash';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       updateGroup(input: updateGroupInput!): updateGroupPayload
     }
   `,
@@ -41,251 +41,238 @@ export default new Mutation({
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
     ) => {
-      const needCommit = await context.connectors.ensureTransaction();
-      const txn = await context.connectors.transaction;
       logger.trace('updateGroup');
-      try {
-        let payload = context.connectors.Group.getPayload(args);
+      let payload = context.connectors.Group.getPayload(args);
 
-        let result;
-        let previous;
+      let result;
+      let previous;
 
-        if (args.id) {
-          previous = await context.connectors.Group.findOneById(args.id);
-          result = await context.connectors.Group.findOneByIdAndUpdate(
-            args.id,
-            merge({}, previous, payload),
-          );
-        } else if (args.name) {
-          delete payload.name;
-          previous = await context.connectors.Group.findOneByName(args.name);
-          result = await context.connectors.Group.findOneByNameAndUpdate(
-            args.name,
-            merge({}, previous, payload),
-          );
-        }
+      if (args.id) {
+        previous = await context.connectors.Group.findOneById(args.id);
+        result = await context.connectors.Group.findOneByIdAndUpdate(
+          args.id,
+          merge({}, previous, payload),
+        );
+      } else if (args.name) {
+        delete payload.name;
+        previous = await context.connectors.Group.findOneByName(args.name);
+        result = await context.connectors.Group.findOneByNameAndUpdate(
+          args.name,
+          merge({}, previous, payload),
+        );
+      }
 
-        if (!result) {
-          throw new Error('item of type Group is not found for update');
-        }
+      if (!result) {
+        throw new Error('item of type Group is not found for update');
+      }
 
-        if (context.pubsub) {
-          context.pubsub.publish('Group', {
-            Group: {
-              mutation: 'UPDATE',
-              node: result,
-              previous,
-              updatedFields: Object.keys(payload).filter(
-                f => payload[f] !== undefined,
-              ),
-              payload: args,
-            },
+      if (context.pubsub) {
+        context.pubsub.publish('Group', {
+          Group: {
+            mutation: 'UPDATE',
+            node: result,
+            previous,
+            updatedFields: Object.keys(payload).filter(
+              f => payload[f] !== undefined,
+            ),
+            payload: args,
+          },
+        });
+      }
+
+      let resActions = [];
+      if (args.courseUnlink) {
+        let $item = args.courseUnlink;
+        if ($item) {
+          resActions.push(async () => {
+            let course = await ensureCourse({
+              args: $item,
+              context,
+              create: false,
+            });
+            return unlinkGroupFromCourse({
+              context,
+              course,
+              group: result,
+            });
           });
         }
-
-        let resActions = [];
-        if (args.courseUnlink) {
-          let $item = args.courseUnlink;
-          if ($item) {
-            resActions.push(async () => {
-              let course = await ensureCourse({
-                args: $item,
-                context,
-                create: false,
-              });
-              return unlinkGroupFromCourse({
-                context,
-                course,
-                group: result,
-              });
-            });
-          }
-        }
-
-        if (args.courseCreate) {
-          let $item = args.courseCreate as { id };
-          if ($item) {
-            resActions.push(async () => {
-              let course = await ensureCourse({
-                args: $item,
-                context,
-                create: true,
-              });
-
-              return linkGroupToCourse({
-                context,
-                course,
-                group: result,
-              });
-            });
-          }
-        }
-
-        if (args.course) {
-          let $item = args.course as { id };
-          if ($item) {
-            resActions.push(async () => {
-              let course = await ensureCourse({
-                args: $item,
-                context,
-                create: false,
-              });
-
-              return linkGroupToCourse({
-                context,
-                course,
-                group: result,
-              });
-            });
-          }
-        }
-
-        if (
-          args.studentsUnlink &&
-          Array.isArray(args.studentsUnlink) &&
-          args.studentsUnlink.length > 0
-        ) {
-          for (let i = 0, len = args.studentsUnlink.length; i < len; i++) {
-            let $item = args.studentsUnlink[i];
-            if ($item) {
-              resActions.push(async () => {
-                let students = await ensureStudent({
-                  args: $item,
-                  context,
-                  create: false,
-                });
-                return unlinkGroupFromStudents({
-                  context,
-                  students,
-                  group: result,
-                });
-              });
-            }
-          }
-        }
-
-        if (
-          args.studentsCreate &&
-          Array.isArray(args.studentsCreate) &&
-          args.studentsCreate.length > 0
-        ) {
-          for (let i = 0, len = args.studentsCreate.length; i < len; i++) {
-            let $item = args.studentsCreate[i] as { id };
-            if ($item) {
-              resActions.push(async () => {
-                let students = await ensureStudent({
-                  args: $item,
-                  context,
-                  create: true,
-                });
-
-                return linkGroupToStudents({
-                  context,
-                  students,
-                  group: result,
-                });
-              });
-            }
-          }
-        }
-
-        if (
-          args.students &&
-          Array.isArray(args.students) &&
-          args.students.length > 0
-        ) {
-          for (let i = 0, len = args.students.length; i < len; i++) {
-            let $item = args.students[i] as { id };
-            if ($item) {
-              resActions.push(async () => {
-                let students = await ensureStudent({
-                  args: $item,
-                  context,
-                  create: false,
-                });
-
-                return linkGroupToStudents({
-                  context,
-                  students,
-                  group: result,
-                });
-              });
-            }
-          }
-        }
-
-        if (args.curatorUnlink) {
-          let $item = args.curatorUnlink;
-          if ($item) {
-            resActions.push(async () => {
-              let curator = await ensureCurator({
-                args: $item,
-                context,
-                create: false,
-              });
-              return unlinkGroupFromCurator({
-                context,
-                curator,
-                group: result,
-              });
-            });
-          }
-        }
-
-        if (args.curatorCreate) {
-          let $item = args.curatorCreate as { id };
-          if ($item) {
-            resActions.push(async () => {
-              let curator = await ensureCurator({
-                args: $item,
-                context,
-                create: true,
-              });
-
-              return linkGroupToCurator({
-                context,
-                curator,
-                group: result,
-              });
-            });
-          }
-        }
-
-        if (args.curator) {
-          let $item = args.curator as { id };
-          if ($item) {
-            resActions.push(async () => {
-              let curator = await ensureCurator({
-                args: $item,
-                context,
-                create: false,
-              });
-
-              return linkGroupToCurator({
-                context,
-                curator,
-                group: result,
-              });
-            });
-          }
-        }
-
-        if (resActions.length > 0) {
-          await Promise.all(resActions);
-        }
-        if (needCommit) {
-          return txn.commit().then(() => ({
-            group: result,
-          }));
-        } else {
-          return {
-            group: result,
-          };
-        }
-      } catch (e) {
-        await txn.abort();
-        throw e;
       }
+
+      if (args.courseCreate) {
+        let $item = args.courseCreate as { id };
+        if ($item) {
+          resActions.push(async () => {
+            let course = await ensureCourse({
+              args: $item,
+              context,
+              create: true,
+            });
+
+            return linkGroupToCourse({
+              context,
+              course,
+              group: result,
+            });
+          });
+        }
+      }
+
+      if (args.course) {
+        let $item = args.course as { id };
+        if ($item) {
+          resActions.push(async () => {
+            let course = await ensureCourse({
+              args: $item,
+              context,
+              create: false,
+            });
+
+            return linkGroupToCourse({
+              context,
+              course,
+              group: result,
+            });
+          });
+        }
+      }
+
+      if (
+        args.studentsUnlink &&
+        Array.isArray(args.studentsUnlink) &&
+        args.studentsUnlink.length > 0
+      ) {
+        for (let i = 0, len = args.studentsUnlink.length; i < len; i++) {
+          let $item = args.studentsUnlink[i];
+          if ($item) {
+            resActions.push(async () => {
+              let students = await ensureStudent({
+                args: $item,
+                context,
+                create: false,
+              });
+              return unlinkGroupFromStudents({
+                context,
+                students,
+                group: result,
+              });
+            });
+          }
+        }
+      }
+
+      if (
+        args.studentsCreate &&
+        Array.isArray(args.studentsCreate) &&
+        args.studentsCreate.length > 0
+      ) {
+        for (let i = 0, len = args.studentsCreate.length; i < len; i++) {
+          let $item = args.studentsCreate[i] as { id };
+          if ($item) {
+            resActions.push(async () => {
+              let students = await ensureStudent({
+                args: $item,
+                context,
+                create: true,
+              });
+
+              return linkGroupToStudents({
+                context,
+                students,
+                group: result,
+              });
+            });
+          }
+        }
+      }
+
+      if (
+        args.students &&
+        Array.isArray(args.students) &&
+        args.students.length > 0
+      ) {
+        for (let i = 0, len = args.students.length; i < len; i++) {
+          let $item = args.students[i] as { id };
+          if ($item) {
+            resActions.push(async () => {
+              let students = await ensureStudent({
+                args: $item,
+                context,
+                create: false,
+              });
+
+              return linkGroupToStudents({
+                context,
+                students,
+                group: result,
+              });
+            });
+          }
+        }
+      }
+
+      if (args.curatorUnlink) {
+        let $item = args.curatorUnlink;
+        if ($item) {
+          resActions.push(async () => {
+            let curator = await ensureCurator({
+              args: $item,
+              context,
+              create: false,
+            });
+            return unlinkGroupFromCurator({
+              context,
+              curator,
+              group: result,
+            });
+          });
+        }
+      }
+
+      if (args.curatorCreate) {
+        let $item = args.curatorCreate as { id };
+        if ($item) {
+          resActions.push(async () => {
+            let curator = await ensureCurator({
+              args: $item,
+              context,
+              create: true,
+            });
+
+            return linkGroupToCurator({
+              context,
+              curator,
+              group: result,
+            });
+          });
+        }
+      }
+
+      if (args.curator) {
+        let $item = args.curator as { id };
+        if ($item) {
+          resActions.push(async () => {
+            let curator = await ensureCurator({
+              args: $item,
+              context,
+              create: false,
+            });
+
+            return linkGroupToCurator({
+              context,
+              curator,
+              group: result,
+            });
+          });
+        }
+      }
+
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
+      return {
+        group: result,
+      };
     },
   ),
 });

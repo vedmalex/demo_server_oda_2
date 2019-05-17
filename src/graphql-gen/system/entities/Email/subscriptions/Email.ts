@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 export default new Subscription({
   type: ModelType.type,
   schema: gql`
-    extend type RootSubscription {
+    extend type Subscription {
       Email(filter: EmailFilterSubscriptions): EmailSubscription
     }
   `,

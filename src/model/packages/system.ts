@@ -15,9 +15,9 @@ export default new Schema({
   items: [SystemGenerated, CommonExtends, Overrides],
   schema: gql`
     schema {
-      query: RootQuery
-      mutation: RootMutation
-      subscription: RootSubscription
+      query: Query
+      mutation: Mutation
+      subscription: Subscription
     }
   `,
 });

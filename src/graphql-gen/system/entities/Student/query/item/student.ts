@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 export default new Query({
   schema: gql`
-    extend type RootQuery {
+    extend type Query {
       student(id: ID): Student
     }
   `,

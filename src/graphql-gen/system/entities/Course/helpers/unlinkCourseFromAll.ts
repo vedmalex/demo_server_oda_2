@@ -75,6 +75,10 @@ export default async function unlinkCourseFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'Course': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

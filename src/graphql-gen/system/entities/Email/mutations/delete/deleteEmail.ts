@@ -10,7 +10,7 @@ import gql from 'graphql-tag';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       deleteEmail(input: deleteEmailInput!): deleteEmailPayload
     }
   `,
@@ -27,83 +27,69 @@ export default new Mutation({
       },
       info,
     ) => {
-      const needCommit = await context.connectors.ensureTransaction();
-      const txn = await context.connectors.transaction;
       logger.trace('deleteEmail');
-      try {
-        let result;
-        let deletePromise = [];
-        if (args.id) {
-          deletePromise.push(
-            unlinkEmailFromAll(
-              [
-                {
-                  key: 'id',
-                  type: 'ID',
-                  value: args.id,
-                },
-              ],
-              context,
-            ),
-          );
-          deletePromise.push(
-            context.connectors.Email.findOneByIdAndRemove(args.id).then(
-              res => (result = res),
-            ),
-          );
-        } else if (args.email) {
-          deletePromise.push(
-            unlinkEmailFromAll(
-              [
-                {
-                  key: 'email',
-                  type: 'String',
-                  value: args.email,
-                },
-              ],
-              context,
-            ),
-          );
-          deletePromise.push(
-            context.connectors.Email.findOneByEmailAndRemove(args.email).then(
-              res => (result = res),
-            ),
-          );
-        }
-
-        await Promise.all(deletePromise);
-
-        if (!result) {
-          throw new Error('item of type Email is not found for delete');
-        }
-
-        if (context.pubsub) {
-          context.pubsub.publish('Email', {
-            Email: {
-              mutation: 'DELETE',
-              node: result,
-              previous: null,
-              updatedFields: [],
-              payload: args,
-            },
-          });
-        }
-
-        if (needCommit) {
-          return txn.commit().then(() => ({
-            deletedItemId: result.id,
-            email: result,
-          }));
-        } else {
-          return {
-            deletedItemId: result.id,
-            email: result,
-          };
-        }
-      } catch (e) {
-        await txn.abort();
-        throw e;
+      let result;
+      let deletePromise = [];
+      if (args.id) {
+        deletePromise.push(
+          unlinkEmailFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
+        );
+        deletePromise.push(
+          context.connectors.Email.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
+      } else if (args.email) {
+        deletePromise.push(
+          unlinkEmailFromAll(
+            [
+              {
+                key: 'email',
+                type: 'String',
+                value: args.email,
+              },
+            ],
+            context,
+          ),
+        );
+        deletePromise.push(
+          context.connectors.Email.findOneByEmailAndRemove(args.email).then(
+            res => (result = res),
+          ),
+        );
       }
+
+      await Promise.all(deletePromise);
+
+      if (!result) {
+        throw new Error('item of type Email is not found for delete');
+      }
+
+      if (context.pubsub) {
+        context.pubsub.publish('Email', {
+          Email: {
+            mutation: 'DELETE',
+            node: result,
+            previous: null,
+            updatedFields: [],
+            payload: args,
+          },
+        });
+      }
+
+      return {
+        deletedItemId: result.id,
+        email: result,
+      };
     },
   ),
 });

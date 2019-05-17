@@ -61,6 +61,10 @@ export default async function unlinkEmailFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'Email': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

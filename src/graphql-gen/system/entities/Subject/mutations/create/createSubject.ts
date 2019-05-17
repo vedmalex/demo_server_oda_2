@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       createSubject(input: createSubjectInput!): createSubjectPayload
     }
   `,
@@ -25,73 +25,57 @@ export default new Mutation({
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
     ) => {
-      const needCommit = await context.connectors.ensureTransaction();
-      const txn = await context.connectors.transaction;
       logger.trace('createSubject');
-      try {
-        let create = context.connectors.Subject.getPayload(args, false);
+      let create = context.connectors.Subject.getPayload(args, false);
 
-        let result = await context.connectors.Subject.create(create);
+      let result = await context.connectors.Subject.create(create);
 
-        if (context.pubsub) {
-          context.pubsub.publish('Subject', {
-            Subject: {
-              mutation: 'CREATE',
-              node: result,
-              previous: null,
-              updatedFields: [],
-              payload: args,
-            },
-          });
-        }
+      if (context.pubsub) {
+        context.pubsub.publish('Subject', {
+          Subject: {
+            mutation: 'CREATE',
+            node: result,
+            previous: null,
+            updatedFields: [],
+            payload: args,
+          },
+        });
+      }
 
-        let subjectEdge = {
-          cursor: result.id,
-          node: result,
-        };
+      let subjectEdge = {
+        cursor: result.id,
+        node: result,
+      };
 
-        let resActions = [];
-        if (
-          args.course &&
-          Array.isArray(args.course) &&
-          args.course.length > 0
-        ) {
-          for (let i = 0, len = args.course.length; i < len; i++) {
-            let $item = args.course[i] as { id; hours; level };
-            if ($item) {
-              resActions.push(async () => {
-                let course = await ensureCourse({
-                  args: $item,
-                  context,
-                  create: true,
-                });
-                return linkSubjectToCourse({
-                  context,
-                  course,
-                  subject: result,
-                  hours: $item.hours,
-                  level: $item.level,
-                });
+      let resActions = [];
+      if (args.course && Array.isArray(args.course) && args.course.length > 0) {
+        for (let i = 0, len = args.course.length; i < len; i++) {
+          let $item = args.course[i] as { id; hours; level };
+          if ($item) {
+            resActions.push(async () => {
+              let course = await ensureCourse({
+                args: $item,
+                context,
+                create: true,
               });
-            }
+              return linkSubjectToCourse({
+                context,
+                course,
+                subject: result,
+                hours: $item.hours,
+                level: $item.level,
+              });
+            });
           }
         }
-        if (resActions.length > 0) {
-          await Promise.all(resActions);
-        }
-        if (needCommit) {
-          return txn.commit().then(() => ({
-            subject: subjectEdge,
-          }));
-        } else {
-          return {
-            subject: subjectEdge,
-          };
-        }
-      } catch (e) {
-        await txn.abort();
-        throw e;
       }
+      if (resActions.length > 0) {
+        await Promise.all(resActions);
+      }
+
+      return {
+        subject: subjectEdge,
+      };
     },
   ),
 });

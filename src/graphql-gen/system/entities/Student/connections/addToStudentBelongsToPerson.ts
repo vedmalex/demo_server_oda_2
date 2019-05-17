@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       addToStudentBelongsToPerson(
         input: addToStudentBelongsToPersonInput
       ): addToStudentBelongsToPersonPayload

@@ -74,6 +74,10 @@ export default async function unlinkGroupFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'Group': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

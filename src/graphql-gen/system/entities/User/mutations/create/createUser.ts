@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       createUser(input: createUserInput!): createUserPayload
     }
   `,
@@ -26,44 +26,31 @@ export default new Mutation({
       context: { connectors: RegisterConnectors; pubsub: PubSubEngine },
       info,
     ) => {
-      const needCommit = await context.connectors.ensureTransaction();
-      const txn = await context.connectors.transaction;
       logger.trace('createUser');
-      try {
-        let create = context.connectors.User.getPayload(args, false);
+      let create = context.connectors.User.getPayload(args, false);
 
-        let result = await context.connectors.User.create(create);
+      let result = await context.connectors.User.create(create);
 
-        if (context.pubsub) {
-          context.pubsub.publish('User', {
-            User: {
-              mutation: 'CREATE',
-              node: result,
-              previous: null,
-              updatedFields: [],
-              payload: args,
-            },
-          });
-        }
-
-        let userEdge = {
-          cursor: result.id,
-          node: result,
-        };
-
-        if (needCommit) {
-          return txn.commit().then(() => ({
-            user: userEdge,
-          }));
-        } else {
-          return {
-            user: userEdge,
-          };
-        }
-      } catch (e) {
-        await txn.abort();
-        throw e;
+      if (context.pubsub) {
+        context.pubsub.publish('User', {
+          User: {
+            mutation: 'CREATE',
+            node: result,
+            previous: null,
+            updatedFields: [],
+            payload: args,
+          },
+        });
       }
+
+      let userEdge = {
+        cursor: result.id,
+        node: result,
+      };
+
+      return {
+        user: userEdge,
+      };
     },
   ),
 });

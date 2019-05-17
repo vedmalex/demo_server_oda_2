@@ -61,6 +61,10 @@ export default async function unlinkSocialNetworkFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'SocialNetwork': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

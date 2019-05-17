@@ -5,38 +5,42 @@ import RegisterConnectors from './model/connectors';
 import { SystemGraphQL, UserGQL } from './model/runQuery';
 import { dbPool } from './model/dbPool';
 import { pubsub } from './model/pubsub';
+import getLogger from 'oda-logger';
+let logger = getLogger('app:server');
 
 async function createContext(schema: object, resolvers: any) {
   let db = await dbPool.get('default');
-  let connectors = new RegisterConnectors({
-    mongoose: db,
-  });
-
-  const result = {
-    connectors,
-    systemConnectors: await SystemGraphQL.connectors(),
-    systemGQL: SystemGraphQL.query,
-    userGQL: undefined,
-    db,
-    dbPool,
-    pubsub,
-    schema,
-    resolvers,
-  };
-
-  const userGQL = new UserGQL({
-    context: result,
-    schema,
-  });
-  result.userGQL = userGQL.query.bind(userGQL);
-
+  let systemConnectors = await SystemGraphQL.connectors();
   return ({ connection }) => {
+    logger.trace('init context');
+    let connectors = new RegisterConnectors({
+      mongoose: db,
+    });
+    
+    const result = {
+      connectors,
+      systemConnectors,
+      systemGQL: SystemGraphQL.query,
+      userGQL: undefined,
+      db,
+      dbPool,
+      pubsub,
+      schema,
+      resolvers,
+    };
+    
+    const userGQL = new UserGQL({
+      context: result,
+      schema,
+    });
+    result.userGQL = userGQL.query.bind(userGQL);
+    
     if (connection) {
       return {...connection.context, ...result};
     } else {
       return result;
     }
-  };
+  }
 }
 
 async function runServer() {

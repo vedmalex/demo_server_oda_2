@@ -74,6 +74,10 @@ export default async function unlinkMeetingFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'Meeting': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

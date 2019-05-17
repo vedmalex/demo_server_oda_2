@@ -12,7 +12,7 @@ import { PartialEmail } from '../../../data/Email/types/model';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       addToPersonHasManyAsStudents(
         input: addToPersonHasManyAsStudentsInput
       ): addToPersonHasManyAsStudentsPayload

@@ -10,7 +10,7 @@ import gql from 'graphql-tag';
 
 export default new Mutation({
   schema: gql`
-    extend type RootMutation {
+    extend type Mutation {
       deleteUser(input: deleteUserInput!): deleteUserPayload
     }
   `,
@@ -27,83 +27,69 @@ export default new Mutation({
       },
       info,
     ) => {
-      const needCommit = await context.connectors.ensureTransaction();
-      const txn = await context.connectors.transaction;
       logger.trace('deleteUser');
-      try {
-        let result;
-        let deletePromise = [];
-        if (args.id) {
-          deletePromise.push(
-            unlinkUserFromAll(
-              [
-                {
-                  key: 'id',
-                  type: 'ID',
-                  value: args.id,
-                },
-              ],
-              context,
-            ),
-          );
-          deletePromise.push(
-            context.connectors.User.findOneByIdAndRemove(args.id).then(
-              res => (result = res),
-            ),
-          );
-        } else if (args.userName) {
-          deletePromise.push(
-            unlinkUserFromAll(
-              [
-                {
-                  key: 'userName',
-                  type: 'String',
-                  value: args.userName,
-                },
-              ],
-              context,
-            ),
-          );
-          deletePromise.push(
-            context.connectors.User.findOneByUserNameAndRemove(
-              args.userName,
-            ).then(res => (result = res)),
-          );
-        }
-
-        await Promise.all(deletePromise);
-
-        if (!result) {
-          throw new Error('item of type User is not found for delete');
-        }
-
-        if (context.pubsub) {
-          context.pubsub.publish('User', {
-            User: {
-              mutation: 'DELETE',
-              node: result,
-              previous: null,
-              updatedFields: [],
-              payload: args,
-            },
-          });
-        }
-
-        if (needCommit) {
-          return txn.commit().then(() => ({
-            deletedItemId: result.id,
-            user: result,
-          }));
-        } else {
-          return {
-            deletedItemId: result.id,
-            user: result,
-          };
-        }
-      } catch (e) {
-        await txn.abort();
-        throw e;
+      let result;
+      let deletePromise = [];
+      if (args.id) {
+        deletePromise.push(
+          unlinkUserFromAll(
+            [
+              {
+                key: 'id',
+                type: 'ID',
+                value: args.id,
+              },
+            ],
+            context,
+          ),
+        );
+        deletePromise.push(
+          context.connectors.User.findOneByIdAndRemove(args.id).then(
+            res => (result = res),
+          ),
+        );
+      } else if (args.userName) {
+        deletePromise.push(
+          unlinkUserFromAll(
+            [
+              {
+                key: 'userName',
+                type: 'String',
+                value: args.userName,
+              },
+            ],
+            context,
+          ),
+        );
+        deletePromise.push(
+          context.connectors.User.findOneByUserNameAndRemove(
+            args.userName,
+          ).then(res => (result = res)),
+        );
       }
+
+      await Promise.all(deletePromise);
+
+      if (!result) {
+        throw new Error('item of type User is not found for delete');
+      }
+
+      if (context.pubsub) {
+        context.pubsub.publish('User', {
+          User: {
+            mutation: 'DELETE',
+            node: result,
+            previous: null,
+            updatedFields: [],
+            payload: args,
+          },
+        });
+      }
+
+      return {
+        deletedItemId: result.id,
+        user: result,
+      };
     },
   ),
 });

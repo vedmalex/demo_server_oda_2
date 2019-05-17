@@ -68,6 +68,10 @@ export default async function unlinkSubjectFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'Subject': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

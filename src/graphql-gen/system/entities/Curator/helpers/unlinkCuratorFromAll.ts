@@ -71,6 +71,10 @@ export default async function unlinkCuratorFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'Curator': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

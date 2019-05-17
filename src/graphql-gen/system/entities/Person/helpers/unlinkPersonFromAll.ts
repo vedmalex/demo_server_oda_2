@@ -95,6 +95,10 @@ export default async function unlinkPersonFromAll(
         `,
         variables: { input },
       });
+    } else {
+      const err = `connector for 'Person': can't unlink from not existing item`;
+      logger.error(err);
+      throw new Error(err);
     }
   }
 }

@@ -31,7 +31,7 @@ export const registerUserPayload = new Type({
 
 export const registerUserMutation = new Mutation({
   schema: gql`
-    type RootMutation {
+    type Mutation {
       registerUser(input: registerUserInput!): registerUserPayload
     }
   `,

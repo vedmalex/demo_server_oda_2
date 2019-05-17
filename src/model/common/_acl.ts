@@ -27,7 +27,7 @@ const check = (mutations, group) => {
 
 export default new Query({
   schema: gql`
-    type RootQuery {
+    type Query {
       _acl(mutation: [String!]): JSON
     }
   `,

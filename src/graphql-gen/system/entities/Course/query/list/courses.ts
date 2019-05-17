@@ -14,7 +14,7 @@ import gql from 'graphql-tag';
 
 export default new Query({
   schema: gql`
-    extend type RootQuery {
+    extend type Query {
       courses(
         after: String
         first: Int
