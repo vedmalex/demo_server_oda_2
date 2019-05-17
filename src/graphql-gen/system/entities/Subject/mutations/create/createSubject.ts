@@ -58,13 +58,19 @@ export default new Mutation({
                 context,
                 create: true,
               });
-              return linkSubjectToCourse({
-                context,
-                course,
-                subject: result,
-                hours: $item.hours,
-                level: $item.level,
-              });
+              if (course) {
+                return linkSubjectToCourse({
+                  context,
+                  course,
+                  subject: result,
+                  hours: $item.hours,
+                  level: $item.level,
+                });
+              } else {
+                const err = `can't linkSubjectToCourse item not created`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }

@@ -63,11 +63,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkMeetingToCurator({
-              context,
-              curator,
-              meeting: result,
-            });
+            if (curator) {
+              return linkMeetingToCurator({
+                context,
+                curator,
+                meeting: result,
+              });
+            } else {
+              const err = `can't linkMeetingToCurator item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -80,11 +86,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkMeetingToGroup({
-              context,
-              group,
-              meeting: result,
-            });
+            if (group) {
+              return linkMeetingToGroup({
+                context,
+                group,
+                meeting: result,
+              });
+            } else {
+              const err = `can't linkMeetingToGroup item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -107,14 +119,20 @@ export default new Mutation({
                 context,
                 create: true,
               });
-              return linkMeetingToStudents({
-                context,
-                students,
-                meeting: result,
-                present: $item.present,
-                specialNotes: $item.specialNotes,
-                superpuper: $item.superpuper,
-              });
+              if (students) {
+                return linkMeetingToStudents({
+                  context,
+                  students,
+                  meeting: result,
+                  present: $item.present,
+                  specialNotes: $item.specialNotes,
+                  superpuper: $item.superpuper,
+                });
+              } else {
+                const err = `can't linkMeetingToStudents item not created`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }

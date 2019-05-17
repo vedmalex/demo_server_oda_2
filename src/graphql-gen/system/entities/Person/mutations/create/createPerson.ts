@@ -69,11 +69,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkPersonToUser({
-              context,
-              user,
-              person: result,
-            });
+            if (user) {
+              return linkPersonToUser({
+                context,
+                user,
+                person: result,
+              });
+            } else {
+              const err = `can't linkPersonToUser item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -91,11 +97,17 @@ export default new Mutation({
                 context,
                 create: true,
               });
-              return linkPersonToAsStudents({
-                context,
-                asStudents,
-                person: result,
-              });
+              if (asStudents) {
+                return linkPersonToAsStudents({
+                  context,
+                  asStudents,
+                  person: result,
+                });
+              } else {
+                const err = `can't linkPersonToAsStudents item not created`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -109,11 +121,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkPersonToAsCurator({
-              context,
-              asCurator,
-              person: result,
-            });
+            if (asCurator) {
+              return linkPersonToAsCurator({
+                context,
+                asCurator,
+                person: result,
+              });
+            } else {
+              const err = `can't linkPersonToAsCurator item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }

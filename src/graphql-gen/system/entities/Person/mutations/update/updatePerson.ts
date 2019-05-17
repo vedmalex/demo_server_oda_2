@@ -113,11 +113,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkPersonFromUser({
-              context,
-              user,
-              person: result,
-            });
+            if (user) {
+              return unlinkPersonFromUser({
+                context,
+                user,
+                person: result,
+              });
+            } else {
+              const err = `can't unlinkPersonToUser item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -132,11 +138,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkPersonToUser({
-              context,
-              user,
-              person: result,
-            });
+            if (user) {
+              return linkPersonToUser({
+                context,
+                user,
+                person: result,
+              });
+            } else {
+              const err = `can't linkPersonToUser item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -151,11 +163,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkPersonToUser({
-              context,
-              user,
-              person: result,
-            });
+            if (user) {
+              return linkPersonToUser({
+                context,
+                user,
+                person: result,
+              });
+            } else {
+              const err = `can't linkPersonToUser item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -174,11 +192,17 @@ export default new Mutation({
                 context,
                 create: false,
               });
-              return unlinkPersonFromAsStudents({
-                context,
-                asStudents,
-                person: result,
-              });
+              if (asStudents) {
+                return unlinkPersonFromAsStudents({
+                  context,
+                  asStudents,
+                  person: result,
+                });
+              } else {
+                const err = `can't unlinkPersonToAsStudents item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -199,11 +223,17 @@ export default new Mutation({
                 create: true,
               });
 
-              return linkPersonToAsStudents({
-                context,
-                asStudents,
-                person: result,
-              });
+              if (asStudents) {
+                return linkPersonToAsStudents({
+                  context,
+                  asStudents,
+                  person: result,
+                });
+              } else {
+                const err = `can't linkPersonToAsStudents item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -224,11 +254,17 @@ export default new Mutation({
                 create: false,
               });
 
-              return linkPersonToAsStudents({
-                context,
-                asStudents,
-                person: result,
-              });
+              if (asStudents) {
+                return linkPersonToAsStudents({
+                  context,
+                  asStudents,
+                  person: result,
+                });
+              } else {
+                const err = `can't linkPersonToAsStudents item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -243,11 +279,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkPersonFromAsCurator({
-              context,
-              asCurator,
-              person: result,
-            });
+            if (asCurator) {
+              return unlinkPersonFromAsCurator({
+                context,
+                asCurator,
+                person: result,
+              });
+            } else {
+              const err = `can't unlinkPersonToAsCurator item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -262,11 +304,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkPersonToAsCurator({
-              context,
-              asCurator,
-              person: result,
-            });
+            if (asCurator) {
+              return linkPersonToAsCurator({
+                context,
+                asCurator,
+                person: result,
+              });
+            } else {
+              const err = `can't linkPersonToAsCurator item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -281,11 +329,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkPersonToAsCurator({
-              context,
-              asCurator,
-              person: result,
-            });
+            if (asCurator) {
+              return linkPersonToAsCurator({
+                context,
+                asCurator,
+                person: result,
+              });
+            } else {
+              const err = `can't linkPersonToAsCurator item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }

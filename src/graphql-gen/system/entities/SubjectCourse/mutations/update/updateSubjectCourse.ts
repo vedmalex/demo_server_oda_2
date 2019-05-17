@@ -83,11 +83,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkSubjectCourseFromSubjectLink({
-              context,
-              subjectLink,
-              subjectCourse: result,
-            });
+            if (subjectLink) {
+              return unlinkSubjectCourseFromSubjectLink({
+                context,
+                subjectLink,
+                subjectCourse: result,
+              });
+            } else {
+              const err = `can't unlinkSubjectCourseToSubjectLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -102,11 +108,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkSubjectCourseToSubjectLink({
-              context,
-              subjectLink,
-              subjectCourse: result,
-            });
+            if (subjectLink) {
+              return linkSubjectCourseToSubjectLink({
+                context,
+                subjectLink,
+                subjectCourse: result,
+              });
+            } else {
+              const err = `can't linkSubjectCourseToSubjectLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -121,11 +133,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkSubjectCourseToSubjectLink({
-              context,
-              subjectLink,
-              subjectCourse: result,
-            });
+            if (subjectLink) {
+              return linkSubjectCourseToSubjectLink({
+                context,
+                subjectLink,
+                subjectCourse: result,
+              });
+            } else {
+              const err = `can't linkSubjectCourseToSubjectLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -139,11 +157,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkSubjectCourseFromCourseLink({
-              context,
-              courseLink,
-              subjectCourse: result,
-            });
+            if (courseLink) {
+              return unlinkSubjectCourseFromCourseLink({
+                context,
+                courseLink,
+                subjectCourse: result,
+              });
+            } else {
+              const err = `can't unlinkSubjectCourseToCourseLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -158,11 +182,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkSubjectCourseToCourseLink({
-              context,
-              courseLink,
-              subjectCourse: result,
-            });
+            if (courseLink) {
+              return linkSubjectCourseToCourseLink({
+                context,
+                courseLink,
+                subjectCourse: result,
+              });
+            } else {
+              const err = `can't linkSubjectCourseToCourseLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -177,11 +207,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkSubjectCourseToCourseLink({
-              context,
-              courseLink,
-              subjectCourse: result,
-            });
+            if (courseLink) {
+              return linkSubjectCourseToCourseLink({
+                context,
+                courseLink,
+                subjectCourse: result,
+              });
+            } else {
+              const err = `can't linkSubjectCourseToCourseLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }

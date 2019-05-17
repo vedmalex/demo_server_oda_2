@@ -62,11 +62,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkStudentToPerson({
-              context,
-              person,
-              student: result,
-            });
+            if (person) {
+              return linkStudentToPerson({
+                context,
+                person,
+                student: result,
+              });
+            } else {
+              const err = `can't linkStudentToPerson item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -79,11 +85,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkStudentToGroup({
-              context,
-              group,
-              student: result,
-            });
+            if (group) {
+              return linkStudentToGroup({
+                context,
+                group,
+                student: result,
+              });
+            } else {
+              const err = `can't linkStudentToGroup item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -101,11 +113,17 @@ export default new Mutation({
                 context,
                 create: true,
               });
-              return linkStudentToMeetings({
-                context,
-                meetings,
-                student: result,
-              });
+              if (meetings) {
+                return linkStudentToMeetings({
+                  context,
+                  meetings,
+                  student: result,
+                });
+              } else {
+                const err = `can't linkStudentToMeetings item not created`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }

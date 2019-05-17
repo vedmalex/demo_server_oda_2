@@ -66,11 +66,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkSubjectCourseToSubjectLink({
-              context,
-              subjectLink,
-              subjectCourse: result,
-            });
+            if (subjectLink) {
+              return linkSubjectCourseToSubjectLink({
+                context,
+                subjectLink,
+                subjectCourse: result,
+              });
+            } else {
+              const err = `can't linkSubjectCourseToSubjectLink item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -83,11 +89,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkSubjectCourseToCourseLink({
-              context,
-              courseLink,
-              subjectCourse: result,
-            });
+            if (courseLink) {
+              return linkSubjectCourseToCourseLink({
+                context,
+                courseLink,
+                subjectCourse: result,
+              });
+            } else {
+              const err = `can't linkSubjectCourseToCourseLink item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }

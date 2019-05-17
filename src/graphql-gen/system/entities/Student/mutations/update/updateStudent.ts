@@ -82,11 +82,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkStudentFromPerson({
-              context,
-              person,
-              student: result,
-            });
+            if (person) {
+              return unlinkStudentFromPerson({
+                context,
+                person,
+                student: result,
+              });
+            } else {
+              const err = `can't unlinkStudentToPerson item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -101,11 +107,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkStudentToPerson({
-              context,
-              person,
-              student: result,
-            });
+            if (person) {
+              return linkStudentToPerson({
+                context,
+                person,
+                student: result,
+              });
+            } else {
+              const err = `can't linkStudentToPerson item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -120,11 +132,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkStudentToPerson({
-              context,
-              person,
-              student: result,
-            });
+            if (person) {
+              return linkStudentToPerson({
+                context,
+                person,
+                student: result,
+              });
+            } else {
+              const err = `can't linkStudentToPerson item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -138,11 +156,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkStudentFromGroup({
-              context,
-              group,
-              student: result,
-            });
+            if (group) {
+              return unlinkStudentFromGroup({
+                context,
+                group,
+                student: result,
+              });
+            } else {
+              const err = `can't unlinkStudentToGroup item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -157,11 +181,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkStudentToGroup({
-              context,
-              group,
-              student: result,
-            });
+            if (group) {
+              return linkStudentToGroup({
+                context,
+                group,
+                student: result,
+              });
+            } else {
+              const err = `can't linkStudentToGroup item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -176,11 +206,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkStudentToGroup({
-              context,
-              group,
-              student: result,
-            });
+            if (group) {
+              return linkStudentToGroup({
+                context,
+                group,
+                student: result,
+              });
+            } else {
+              const err = `can't linkStudentToGroup item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -199,11 +235,17 @@ export default new Mutation({
                 context,
                 create: false,
               });
-              return unlinkStudentFromMeetings({
-                context,
-                meetings,
-                student: result,
-              });
+              if (meetings) {
+                return unlinkStudentFromMeetings({
+                  context,
+                  meetings,
+                  student: result,
+                });
+              } else {
+                const err = `can't unlinkStudentToMeetings item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -224,11 +266,17 @@ export default new Mutation({
                 create: true,
               });
 
-              return linkStudentToMeetings({
-                context,
-                meetings,
-                student: result,
-              });
+              if (meetings) {
+                return linkStudentToMeetings({
+                  context,
+                  meetings,
+                  student: result,
+                });
+              } else {
+                const err = `can't linkStudentToMeetings item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -249,11 +297,17 @@ export default new Mutation({
                 create: false,
               });
 
-              return linkStudentToMeetings({
-                context,
-                meetings,
-                student: result,
-              });
+              if (meetings) {
+                return linkStudentToMeetings({
+                  context,
+                  meetings,
+                  student: result,
+                });
+              } else {
+                const err = `can't linkStudentToMeetings item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }

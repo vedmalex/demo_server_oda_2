@@ -87,11 +87,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkStudentAttendanceFromMeetingLink({
-              context,
-              meetingLink,
-              studentAttendance: result,
-            });
+            if (meetingLink) {
+              return unlinkStudentAttendanceFromMeetingLink({
+                context,
+                meetingLink,
+                studentAttendance: result,
+              });
+            } else {
+              const err = `can't unlinkStudentAttendanceToMeetingLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -106,11 +112,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkStudentAttendanceToMeetingLink({
-              context,
-              meetingLink,
-              studentAttendance: result,
-            });
+            if (meetingLink) {
+              return linkStudentAttendanceToMeetingLink({
+                context,
+                meetingLink,
+                studentAttendance: result,
+              });
+            } else {
+              const err = `can't linkStudentAttendanceToMeetingLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -125,11 +137,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkStudentAttendanceToMeetingLink({
-              context,
-              meetingLink,
-              studentAttendance: result,
-            });
+            if (meetingLink) {
+              return linkStudentAttendanceToMeetingLink({
+                context,
+                meetingLink,
+                studentAttendance: result,
+              });
+            } else {
+              const err = `can't linkStudentAttendanceToMeetingLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -143,11 +161,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkStudentAttendanceFromStudentLink({
-              context,
-              studentLink,
-              studentAttendance: result,
-            });
+            if (studentLink) {
+              return unlinkStudentAttendanceFromStudentLink({
+                context,
+                studentLink,
+                studentAttendance: result,
+              });
+            } else {
+              const err = `can't unlinkStudentAttendanceToStudentLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -162,11 +186,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkStudentAttendanceToStudentLink({
-              context,
-              studentLink,
-              studentAttendance: result,
-            });
+            if (studentLink) {
+              return linkStudentAttendanceToStudentLink({
+                context,
+                studentLink,
+                studentAttendance: result,
+              });
+            } else {
+              const err = `can't linkStudentAttendanceToStudentLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -181,11 +211,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkStudentAttendanceToStudentLink({
-              context,
-              studentLink,
-              studentAttendance: result,
-            });
+            if (studentLink) {
+              return linkStudentAttendanceToStudentLink({
+                context,
+                studentLink,
+                studentAttendance: result,
+              });
+            } else {
+              const err = `can't linkStudentAttendanceToStudentLink item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }

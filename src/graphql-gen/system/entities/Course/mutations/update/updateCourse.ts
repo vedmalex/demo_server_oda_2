@@ -89,11 +89,17 @@ export default new Mutation({
                 context,
                 create: false,
               });
-              return unlinkCourseFromSubjects({
-                context,
-                subjects,
-                course: result,
-              });
+              if (subjects) {
+                return unlinkCourseFromSubjects({
+                  context,
+                  subjects,
+                  course: result,
+                });
+              } else {
+                const err = `can't unlinkCourseToSubjects item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -114,11 +120,17 @@ export default new Mutation({
                 create: true,
               });
 
-              return linkCourseToSubjects({
-                context,
-                subjects,
-                course: result,
-              });
+              if (subjects) {
+                return linkCourseToSubjects({
+                  context,
+                  subjects,
+                  course: result,
+                });
+              } else {
+                const err = `can't linkCourseToSubjects item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -139,11 +151,17 @@ export default new Mutation({
                 create: false,
               });
 
-              return linkCourseToSubjects({
-                context,
-                subjects,
-                course: result,
-              });
+              if (subjects) {
+                return linkCourseToSubjects({
+                  context,
+                  subjects,
+                  course: result,
+                });
+              } else {
+                const err = `can't linkCourseToSubjects item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -163,11 +181,17 @@ export default new Mutation({
                 context,
                 create: false,
               });
-              return unlinkCourseFromGroups({
-                context,
-                groups,
-                course: result,
-              });
+              if (groups) {
+                return unlinkCourseFromGroups({
+                  context,
+                  groups,
+                  course: result,
+                });
+              } else {
+                const err = `can't unlinkCourseToGroups item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -188,11 +212,17 @@ export default new Mutation({
                 create: true,
               });
 
-              return linkCourseToGroups({
-                context,
-                groups,
-                course: result,
-              });
+              if (groups) {
+                return linkCourseToGroups({
+                  context,
+                  groups,
+                  course: result,
+                });
+              } else {
+                const err = `can't linkCourseToGroups item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -209,11 +239,17 @@ export default new Mutation({
                 create: false,
               });
 
-              return linkCourseToGroups({
-                context,
-                groups,
-                course: result,
-              });
+              if (groups) {
+                return linkCourseToGroups({
+                  context,
+                  groups,
+                  course: result,
+                });
+              } else {
+                const err = `can't linkCourseToGroups item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }

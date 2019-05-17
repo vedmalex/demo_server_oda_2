@@ -59,11 +59,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkCuratorToPerson({
-              context,
-              person,
-              curator: result,
-            });
+            if (person) {
+              return linkCuratorToPerson({
+                context,
+                person,
+                curator: result,
+              });
+            } else {
+              const err = `can't linkCuratorToPerson item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -77,11 +83,17 @@ export default new Mutation({
                 context,
                 create: true,
               });
-              return linkCuratorToGroups({
-                context,
-                groups,
-                curator: result,
-              });
+              if (groups) {
+                return linkCuratorToGroups({
+                  context,
+                  groups,
+                  curator: result,
+                });
+              } else {
+                const err = `can't linkCuratorToGroups item not created`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }

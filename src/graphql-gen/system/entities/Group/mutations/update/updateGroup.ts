@@ -90,11 +90,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkGroupFromCourse({
-              context,
-              course,
-              group: result,
-            });
+            if (course) {
+              return unlinkGroupFromCourse({
+                context,
+                course,
+                group: result,
+              });
+            } else {
+              const err = `can't unlinkGroupToCourse item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -109,11 +115,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkGroupToCourse({
-              context,
-              course,
-              group: result,
-            });
+            if (course) {
+              return linkGroupToCourse({
+                context,
+                course,
+                group: result,
+              });
+            } else {
+              const err = `can't linkGroupToCourse item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -128,11 +140,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkGroupToCourse({
-              context,
-              course,
-              group: result,
-            });
+            if (course) {
+              return linkGroupToCourse({
+                context,
+                course,
+                group: result,
+              });
+            } else {
+              const err = `can't linkGroupToCourse item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -151,11 +169,17 @@ export default new Mutation({
                 context,
                 create: false,
               });
-              return unlinkGroupFromStudents({
-                context,
-                students,
-                group: result,
-              });
+              if (students) {
+                return unlinkGroupFromStudents({
+                  context,
+                  students,
+                  group: result,
+                });
+              } else {
+                const err = `can't unlinkGroupToStudents item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -176,11 +200,17 @@ export default new Mutation({
                 create: true,
               });
 
-              return linkGroupToStudents({
-                context,
-                students,
-                group: result,
-              });
+              if (students) {
+                return linkGroupToStudents({
+                  context,
+                  students,
+                  group: result,
+                });
+              } else {
+                const err = `can't linkGroupToStudents item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -201,11 +231,17 @@ export default new Mutation({
                 create: false,
               });
 
-              return linkGroupToStudents({
-                context,
-                students,
-                group: result,
-              });
+              if (students) {
+                return linkGroupToStudents({
+                  context,
+                  students,
+                  group: result,
+                });
+              } else {
+                const err = `can't linkGroupToStudents item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -220,11 +256,17 @@ export default new Mutation({
               context,
               create: false,
             });
-            return unlinkGroupFromCurator({
-              context,
-              curator,
-              group: result,
-            });
+            if (curator) {
+              return unlinkGroupFromCurator({
+                context,
+                curator,
+                group: result,
+              });
+            } else {
+              const err = `can't unlinkGroupToCurator item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -239,11 +281,17 @@ export default new Mutation({
               create: true,
             });
 
-            return linkGroupToCurator({
-              context,
-              curator,
-              group: result,
-            });
+            if (curator) {
+              return linkGroupToCurator({
+                context,
+                curator,
+                group: result,
+              });
+            } else {
+              const err = `can't linkGroupToCurator item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -258,11 +306,17 @@ export default new Mutation({
               create: false,
             });
 
-            return linkGroupToCurator({
-              context,
-              curator,
-              group: result,
-            });
+            if (curator) {
+              return linkGroupToCurator({
+                context,
+                curator,
+                group: result,
+              });
+            } else {
+              const err = `can't linkGroupToCurator item not found`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }

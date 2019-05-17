@@ -66,11 +66,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkStudentAttendanceToMeetingLink({
-              context,
-              meetingLink,
-              studentAttendance: result,
-            });
+            if (meetingLink) {
+              return linkStudentAttendanceToMeetingLink({
+                context,
+                meetingLink,
+                studentAttendance: result,
+              });
+            } else {
+              const err = `can't linkStudentAttendanceToMeetingLink item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }
@@ -83,11 +89,17 @@ export default new Mutation({
               context,
               create: true,
             });
-            return linkStudentAttendanceToStudentLink({
-              context,
-              studentLink,
-              studentAttendance: result,
-            });
+            if (studentLink) {
+              return linkStudentAttendanceToStudentLink({
+                context,
+                studentLink,
+                studentAttendance: result,
+              });
+            } else {
+              const err = `can't linkStudentAttendanceToStudentLink item not created`;
+              logger.error(err);
+              throw new Error(err);
+            }
           });
         }
       }

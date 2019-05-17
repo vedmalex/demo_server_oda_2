@@ -83,11 +83,17 @@ export default new Mutation({
                 context,
                 create: false,
               });
-              return unlinkSubjectFromCourse({
-                context,
-                course,
-                subject: result,
-              });
+              if (course) {
+                return unlinkSubjectFromCourse({
+                  context,
+                  course,
+                  subject: result,
+                });
+              } else {
+                const err = `can't unlinkSubjectToCourse item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -108,13 +114,19 @@ export default new Mutation({
                 create: true,
               });
 
-              return linkSubjectToCourse({
-                context,
-                course,
-                subject: result,
-                hours: $item.hours,
-                level: $item.level,
-              });
+              if (course) {
+                return linkSubjectToCourse({
+                  context,
+                  course,
+                  subject: result,
+                  hours: $item.hours,
+                  level: $item.level,
+                });
+              } else {
+                const err = `can't linkSubjectToCourse item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
@@ -131,13 +143,19 @@ export default new Mutation({
                 create: false,
               });
 
-              return linkSubjectToCourse({
-                context,
-                course,
-                subject: result,
-                hours: $item.hours,
-                level: $item.level,
-              });
+              if (course) {
+                return linkSubjectToCourse({
+                  context,
+                  course,
+                  subject: result,
+                  hours: $item.hours,
+                  level: $item.level,
+                });
+              } else {
+                const err = `can't linkSubjectToCourse item not found`;
+                logger.error(err);
+                throw new Error(err);
+              }
             });
           }
         }
