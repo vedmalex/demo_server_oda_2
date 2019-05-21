@@ -22,7 +22,6 @@ export default new Mutation({
       context,
       info,
     ) => {
-      debugger;
       let result: {
         token?: string;
         role: string;

@@ -46,6 +46,7 @@ async function createContext(schema: object, resolvers: any) {
 async function runServer() {
 
   sys.build();
+  sys.applyHooks();
   
   const schema = makeExecutableSchema({
     typeDefs: sys.schema as any,
