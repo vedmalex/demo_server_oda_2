@@ -27,26 +27,14 @@ fragment ViewPersonFull on Person {
   user {
     ...EmbedUserWithId
   }
-  socialNetworks @_(get: "edges") {
-    edges @_(map: "node") {
-      node {
-        ...EmbedSocialNetworkWithId
-      }
-    }
+  socialNetworks {
+    ...EmbedSocialNetworkWithId
   }
-  phones @_(get: "edges") {
-    edges @_(map: "node") {
-      node {
-        ...EmbedPhoneWithId
-      }
-    }
+  phones {
+    ...EmbedPhoneWithId
   }
-  emails @_(get: "edges") {
-    edges @_(map: "node") {
-      node {
-        ...EmbedEmailWithId
-      }
-    }
+  emails {
+    ...EmbedEmailWithId
   }
   asStudents @_(get: "edges") {
     edges @_(map: "node") {
