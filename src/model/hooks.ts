@@ -61,7 +61,7 @@ export let defaultVisibility = {
 };
 
 export const accessFixEntities = {
-  name: 'Defatult Mutation access',
+  name: 'Default Mutation access',
   'entities.*.metadata.acl.create': [],
   'entities.*.fields.*.metadata.acl.create': [],
   'entities.*.metadata.acl.read': [],
@@ -73,12 +73,12 @@ export const accessFixEntities = {
 };
 
 export const accessFixMutations = {
-  name: 'Defatult Mutation access',
+  name: 'Default Mutation access',
   'mutations.*.metadata.acl.execute': [],
 };
 
 export let defaultMutationAccess = {
-  name: 'Defatult Mutation access',
+  name: 'Default Mutation access',
   'mutations.*.metadata.acl.execute': 'owner',
   'mutations.loginUser.metadata.acl.execute': 'public',
 };

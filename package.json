@@ -15,6 +15,7 @@
     "compile": "tsc --build tsconfig.json",
     "clean": "git clean -dfqX -- ./node_modules **/{dist,node_modules}/ ./packages/*/tsconfig*tsbuildinfo",
     "collector_old": "cd src/graphql-gen/system/dataQueries; graphql-document-collector '**/*.graphql' > ../../../../data/seed-queries.json; cd ../../../.. ; node dist/seeds/validate.js",
+    "validate_schema": "node dist/seeds/validate.js",
     "collector": "cd src/graphql-gen/system/dataQueries; graphql-document-collector '**/*.graphql' > ../../../../data/seed-queries.json; cd ../../../.. ",
     "initData": "node dist/seeds/restoreDirect.js data/dump.json",
     "restoreData": "node dist/seeds/restoreDirect.js data/dump_1.json",
@@ -50,7 +51,7 @@
     "@types/mongoose": "^5.2.7",
     "@types/node": "^10.9.2",
     "@types/passport": "^0.4.6",
-    "graphql-document-collector": "^0.2.1",
+    "graphql-document-collector": "^0.2.2",
     "typescript": "^3.4.5",
     "run-rs":"0.5.2"
   }
