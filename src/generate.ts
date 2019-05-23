@@ -5,7 +5,7 @@ import * as path from 'path';
 import { odaGen } from 'oda-gen-graphql';
 // import * as schema from './../compiledModel.json';
 import schema from './schema';
-// import acl from './model/acl';
+import acl from './model/acl';
 
 import * as hooks from './model/hooks';
 
@@ -29,7 +29,7 @@ odaGen.generate({
   ],
   schema,
   rootDir: path.join(__dirname, '../src', 'graphql-gen'),
-  // acl,
+  acl,
   context: {
     defaultAdapter: 'mongoose',
   },
