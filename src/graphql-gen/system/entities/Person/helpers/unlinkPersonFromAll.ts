@@ -34,27 +34,6 @@ export default async function unlinkPersonFromAll(
         userUnlink: user {
           id
         }
-        socialNetworksUnlink: socialNetworks @_(get: "edges") {
-          edges @_(map: "node") {
-            node {
-              id
-            }
-          }
-        }
-        phonesUnlink: phones @_(get: "edges") {
-          edges @_(map: "node") {
-            node {
-              id
-            }
-          }
-        }
-        emailsUnlink: emails @_(get: "edges") {
-          edges @_(map: "node") {
-            node {
-              id
-            }
-          }
-        }
         asStudentsUnlink: asStudents @_(get: "edges") {
           edges @_(map: "node") {
             node {

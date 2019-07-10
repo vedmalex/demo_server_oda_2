@@ -35,14 +35,8 @@ export default new Mutation({
         userUnlink?: object /*User*/;
         userCreate?: object /*User*/;
         socialNetworks?: object /*SocialNetwork*/[];
-        socialNetworksUnlink?: object /*SocialNetwork*/[];
-        socialNetworksCreate?: object /*SocialNetwork*/[];
         phones?: object /*Phone*/[];
-        phonesUnlink?: object /*Phone*/[];
-        phonesCreate?: object /*Phone*/[];
         emails?: object /*Email*/[];
-        emailsUnlink?: object /*Email*/[];
-        emailsCreate?: object /*Email*/[];
         asStudents?: object /*Student*/[];
         asStudentsUnlink?: object /*Student*/[];
         asStudentsCreate?: object /*Student*/[];

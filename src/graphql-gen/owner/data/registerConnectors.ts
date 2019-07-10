@@ -34,7 +34,7 @@ export default class RegisterConnectors extends RegisterConnectorsBase {
     let result = obj.payload;
     return result;
   }
-
+  // подумать как сделать расширение проще чем наследование
   constructor({
     user,
     owner,
