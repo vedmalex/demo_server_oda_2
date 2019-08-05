@@ -29,7 +29,7 @@ const apollo = ({ uri, token }) => {
 }
 
 export default (connection: { uri: string, token: string }) => ({
-  query: (arg: WatchQueryOptions) => apollo(connection).query(arg)
+  query: (arg) => apollo(connection).query(arg)
     .then(res => res.data ? {
       ...res,
       data: reshape(arg.query, res.data),

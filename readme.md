@@ -11,3 +11,7 @@ https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 mongodb://localhost:27017,localhost:27018,localhost:27019?replicaSet=rs
 
 http://thecodebarbarian.com/a-node-js-perspective-on-mongodb-4-transactions.html
+
+ставим nvm и устанвливаем node v10
+
+с ним все работает
